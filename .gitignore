@@ -1,0 +1,5 @@
+jungle8/
+venv/
+data.db
+__pycache__/
+*.db

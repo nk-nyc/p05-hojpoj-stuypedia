@@ -1,4 +1,4 @@
-# p05-hojpoj-stuypedia
+# Stuypedia by HojPoj
 
 ## Roles
 PM: Natalie Keiger \

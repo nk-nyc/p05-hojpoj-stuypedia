@@ -6,7 +6,7 @@ Michelle Chen: Devo
 # OVERVIEW
 blah blah
 
-# DATA COLLECTION & SECURITY
+# DATA COLLECTION, USAGE & SECURITY
 Part of our project is the collection and use of data. To ensure security for students’ accounts, we will hash passwords and store everything under an anonymous username tied to their true username (NYCDOE user).
 
 | key  | type |  notes    |
@@ -29,6 +29,7 @@ For each teacher's section of each class, we hope to collect:
 * Average difficulty (1-5)
 * Average enjoyment (1-5)
 * Average test difficulty (1-5)
+* Resources they found helpful (will be a list of options for them to check off)
 * Overall rating (1-5)
 
 These data will be displayed to students when they view each class section. Additionally, we will allow students to add to a collective **calendar**.
@@ -37,3 +38,10 @@ These data will be displayed to students when they view each class section. Addi
 
 The calendar will be student-managed. Students can select whether the day is an A or B day and which type as well as what time schedule the day has. In addition to that, students can create **events** in categories such as test, project due date, AP, and celebration. Students will be able to verify other users' events or report them if they are innacurate. All students will be able to view the collective calendar and filter it for which classes they want to view.
 
+# TASKS
+| task | name | due date | status |
+|-----|----|-----|----|
+| design.md | everyone | 5/11 | in progress |
+| | | | |
+| | | | |
+| | | | |

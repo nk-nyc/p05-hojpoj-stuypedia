@@ -1,5 +1,4 @@
 # TEAM Hojpoj
-## ROSTER
 Natalie Keiger: PM \
 Sophia Chi: Devo \
 Michelle Chen: Devo

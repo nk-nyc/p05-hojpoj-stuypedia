@@ -1,3 +1,6 @@
 05-01-26 Natalie: suffering trying to get my domain to work. hopefully its just a waiting game...?
 Michelle Chen -- 5/1/26 
   - Connected prior project ip to domain name styatlas.me
+
+Natalie Keiger -- 5/5/26
+  - Added design.md and began writing it. as of now, all three of our domains work!

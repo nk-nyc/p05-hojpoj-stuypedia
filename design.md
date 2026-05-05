@@ -1,4 +1,4 @@
-# TEAM Hojpoj
+# TEAM HOJPOJ: STUYPEDIA
 Natalie Keiger: PM \
 Sophia Chi: Devo \
 Michelle Chen: Devo
@@ -37,6 +37,10 @@ These data will be displayed to students when they view each class section. Addi
 ## CALENDAR
 
 The calendar will be student-managed. Students can select whether the day is an A or B day and which type as well as what time schedule the day has. In addition to that, students can create **events** in categories such as test, project due date, AP, and celebration. Students will be able to verify other users' events or report them if they are innacurate. All students will be able to view the collective calendar and filter it for which classes they want to view.
+
+## DATA STORAGE
+
+We will use MongoDB for its flexibility in data storage. Each class will be a collection of nested documents containing individual reviews.
 
 # TASKS
 | task | name | due date | status |

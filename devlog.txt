@@ -1,1 +1,3 @@
 05-01-26 Natalie: suffering trying to get my domain to work. hopefully its just a waiting game...?
+Michelle Chen -- 5/1/26 
+  - Connected prior project ip to domain name styatlas.me

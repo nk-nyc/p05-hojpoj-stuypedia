@@ -41,7 +41,7 @@ The calendar will be student-managed. Students can select whether the day is an 
 # TASKS
 | task | name | due date | status |
 |-----|----|-----|----|
-| design.md | everyone | 5/11 | in progress |
+| design.md | everyone | 5/11 | <span style="color:yellow">in progress</span> |
 | | | | |
 | | | | |
 | | | | |

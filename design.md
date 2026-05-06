@@ -40,7 +40,22 @@ The calendar will be student-managed. Students can select whether the day is an 
 
 ## DATA STORAGE
 
-We will use MongoDB for its flexibility in data storage. Each class will be a collection of nested documents containing individual reviews.
+We will use MongoDB for its flexibility in data storage. Each class will be a collection of nested documents containing individual reviews. Review documents will look like the following:
+```
+{
+  _id: '0239d987ash39287hsd',
+  class: 'AP Biology',
+  teacher: 'Maggio',
+  date_issued: 05-07-2026,
+  homework: 4,
+  difficulty: 5,
+  enjoyment: 4,
+  test_diff: 2,
+  resources: ['quizlet', 'amoeba sisters'],
+  overall: 4
+
+}
+```
 
 # TASKS
 | task | name | due date | status |

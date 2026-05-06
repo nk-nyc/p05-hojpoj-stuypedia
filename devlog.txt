@@ -4,3 +4,6 @@ Michelle Chen -- 5/1/26
 
 Natalie Keiger -- 5/5/26
   - Added design.md and began writing it. as of now, all three of our domains work!
+
+Natalie Keiger -- 5/6/26
+  - Added section on Mongo (despite much backlash by devos). It just makes much more sense ig

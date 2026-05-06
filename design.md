@@ -57,6 +57,8 @@ We will use MongoDB for its flexibility in data storage. Each class will be a co
 }
 ```
 
+These documents will be stored by class in collections. Students will be able to view trends in data for each class and teacher pair.
+
 # TASKS
 | task | name | due date | status |
 |-----|----|-----|----|

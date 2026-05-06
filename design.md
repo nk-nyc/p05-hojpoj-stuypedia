@@ -16,7 +16,7 @@ Part of our project is the collection and use of data. To ensure security for st
 | anon_user | TEXT  | anonymous username generated for users to be displayed |
 | id (PK) | INTEGER  | must be unique |
 
-In order to verify a user, we will have them submit an image of their Stuy ID. Admin users will be able to verify those images from their account. Once verified, a student is given an anonymous username (like on Piazza) but their login remains their NYCDOE user and chosen password.
+In order to verify a user, they must answer a series of stuy-related questions (for now, subject to change) Once verified, a student is given an anonymous username (like on Piazza) but their login remains their NYCDOE user and chosen password.
 
 ## ACQUISITION OF DATA
 

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Log in</title>
+        <link href="../static/css/login.css" rel="stylesheet"/>
+
+    </head>
+    <body>
+        <div>
+            <h2 style="color: red;">NOT WORKING NOW, STILL IN PROGRESS</h2>
+            <h2>Welcome to Stuypedia!</h2>
+            <p>In order to access the full features of our site, please log in below.</p>
+        </div>
+        <h1 id="login-title">Log in</h1>
+        <p>{{error}}</p>
+        <form method="post" action="/login">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            <br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <br>
+            <input type="submit" value="login">
+        </form>
+    </body>
+</html>

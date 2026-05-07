@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 from flask import session, request, redirect, url_for
-import data
+import .data
 import sqlite3
 import json
 
@@ -45,6 +45,7 @@ def register():
 
         execute_register = data.register_user(username, password)
         if execute_register == "success":
+            print(execute_register)
             session['username'] = username
             return redirect(url_for("home"))
         else:

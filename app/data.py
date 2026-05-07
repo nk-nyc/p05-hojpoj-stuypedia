@@ -11,6 +11,31 @@ def create_table(contents):
     db.commit()
     db.close()
 
+def register_user(username, password):
+
+    if user_exists(username):
+        #raise ValueError("Username already exists")
+        return "Username already exists"
+
+    if password == "":
+        #raise ValueError("You must enter a non-empty password")
+        return "Password cannot be empty"
+
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    # hash password here
+    password = password.encode('utf-8')
+    password = str(hashlib.sha256(password).hexdigest())
+
+    # use ? for unsafe/user provided variables
+    c.execute('INSERT INTO users VALUES (?, ?, "","","","no one","")', (username, password,))
+
+    db.commit()
+    db.close()
+
+    return "success"
+
 def create_users_table():
 
     contents =  """

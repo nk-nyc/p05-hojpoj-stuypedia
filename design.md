@@ -1,9 +1,9 @@
 # SYSTEM BLUEPRINT
 
-# TEAM HOJPOJ
-# STUYPEDIA
+## TEAM HOJPOJ
+## STUYPEDIA
 
-## TARGET SHIP DATE: 06/15/26
+### TARGET SHIP DATE: 06/15/26
 | name | email | primary role |
 | ----|----|---|
 | Natalie Keiger | nataliek54@nycstudents.net | PM, backend & data |

@@ -1,6 +1,10 @@
 from flask import Flask, render_template
 from flask import session, request, redirect, url_for
+<<<<<<< HEAD
 from .data import *
+=======
+import .data
+>>>>>>> e194456dd2b93cfa02aadd6ee39357b3166e6ee1
 import sqlite3
 import json
 
@@ -45,6 +49,7 @@ def register():
 
         execute_register = data.register_user(username, password)
         if execute_register == "success":
+            print(execute_register)
             session['username'] = username
             return redirect(url_for("home"))
         else:

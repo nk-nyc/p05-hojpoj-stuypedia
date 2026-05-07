@@ -44,7 +44,10 @@ These data will be displayed to students when they view each class section. Addi
 # TECHNOLOGY STACK 
 | layer | tools |
 | ---- | ----|
-| backend | sqlite3 |
+| Database | SQlite |
+| Frontend Framework | undecided |
+| Authentication | flask sessions |
+| backend | .... |
 
 ## CALENDAR
 

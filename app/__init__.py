@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 from flask import session, request, redirect, url_for
-import data
+from .data import *
 import sqlite3
 import json
 
@@ -25,7 +25,7 @@ def login(): #code from p02 cerulean
         password = request.form.get('password').strip()
 
         # check if password is correct, if not then reload page
-        if not data.auth(username, password):
+        if not auth(username, password):
             return render_template("login.html", error="Username or password is incorrect")
 
         # if password is correct redirect home

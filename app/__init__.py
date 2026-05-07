@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 from flask import session, request, redirect, url_for
-import .data
+import data
 import sqlite3
 import json
 

@@ -47,7 +47,7 @@ These data will be displayed to students when they view each class section. Addi
 | Database | SQlite |
 | Frontend Framework | undecided |
 | Authentication | flask sessions |
-| backend | .... |
+| Backend | .... |
 
 ## CALENDAR
 

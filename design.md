@@ -1,9 +1,16 @@
-# TEAM HOJPOJ: STUYPEDIA
-Natalie Keiger: PM \
-Sophia Chi: Devo \
-Michelle Chen: Devo
+# SYSTEM BLUEPRINT
 
-# OVERVIEW
+## TEAM HOJPOJ
+## STUYPEDIA
+
+### TARGET SHIP DATE: 06/15/26
+| name | email | primary role |
+| ----|----|---|
+| Natalie Keiger | nataliek54@nycstudents.net | PM, backend & data |
+| Sophia Chi | sophiac188@nycstudents.net | Devo, frontend |
+| Michelle Chen | michellec397@nycstudents.net | Devo, backend |
+
+# SUMMARY
 Stuypedia is a website specific for Stuyvesant students. Thie website allows students to view data about their classes and teachers. Data will be from previous students who had the class and filled out the google form survey. Students can also access a calendar with a task manager.
 
 # DATA COLLECTION, USAGE & SECURITY
@@ -33,6 +40,14 @@ For each teacher's section of each class, we hope to collect:
 * Overall rating (1-5)
 
 These data will be displayed to students when they view each class section. Additionally, we will allow students to add to a collective **calendar**.
+
+# TECHNOLOGY STACK 
+| layer | tools |
+| ---- | ----|
+| Database | SQlite |
+| Frontend Framework | undecided |
+| Authentication | flask sessions |
+| Backend | .... |
 
 ## CALENDAR
 

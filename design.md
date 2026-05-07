@@ -41,6 +41,11 @@ For each teacher's section of each class, we hope to collect:
 
 These data will be displayed to students when they view each class section. Additionally, we will allow students to add to a collective **calendar**.
 
+# TECHNOLOGY STACK 
+| layer | tools |
+| ---- | ----|
+| backend | sqlite3 |
+
 ## CALENDAR
 
 The calendar will be student-managed. Students can select whether the day is an A or B day and which type as well as what time schedule the day has. In addition to that, students can create **events** in categories such as test, project due date, AP, and celebration. Students will be able to verify other users' events or report them if they are innacurate. All students will be able to view the collective calendar and filter it for which classes they want to view.

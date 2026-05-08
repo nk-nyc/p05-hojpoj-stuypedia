@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 from flask import session, request, redirect, url_for
-import data
+from .data import *
 import sqlite3
 import json
 
@@ -41,7 +41,7 @@ def register():
 
         #now checking questions
         if not (request.form.get('q1').strip().lower() == 'five') or not (request.form.get('q2').strip().lower() == 'six'):
-            return render_template("register.html", error = "One of more answer is incorrect!")
+            return render_template("register.html", error = "One or more answer is incorrect!")
 
         execute_register = data.register_user(username, password)
         if execute_register == "success":

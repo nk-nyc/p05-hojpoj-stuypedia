@@ -1,15 +1,16 @@
 from flask import Flask, render_template
 from flask import session, request, redirect, url_for
-from .data import *
+from data import *
 import sqlite3
 import json
 
 app = Flask(__name__)
+app.secret_key = 'supersecret'
 
-data.create_users_table()
+create_users_table()
 
 @app.route("/")
-def home():
+def prep():
     if 'username' in session:
         return redirect(url_for('home'))
 
@@ -27,7 +28,7 @@ def register():
         if not username or not password:
             return render_template("register.html", error="No username or password inputted")
 
-        if data.auth(username, password): #check if already exists
+        if auth(username, password): #check if already exists
             return render_template("register.html", error="Account already created.")
 
         if not (password == verify_pass):
@@ -40,10 +41,10 @@ def register():
             return render_template("register.html", error="Passwords must be at least eight characters.")
 
         #now checking questions
-        if not (request.form.get('q1').strip().lower() == 'five') or not (request.form.get('q2').strip().lower() == 'six'):
+        if (not (request.form.get('q1').strip().lower() == 'five') or not (request.form.get('q2').strip().lower() == 'six')) or (not (request.form.get('q3').strip().lower() == 'three') or not (request.form.get('q4').strip().lower() == 'six')):
             return render_template("register.html", error = "One or more answer is incorrect!")
 
-        execute_register = data.register_user(username, password)
+        execute_register = register_user(username, password)
         if execute_register == "success":
             print(execute_register)
             session['username'] = username
@@ -73,6 +74,15 @@ def login(): #code from p02 cerulean
 
     else:
         return render_template("login.html")
+
+@app.route('/home', methods=['GET', 'POST'])
+def home():
+    return render_template('home.html')
+
+@app.route('/logout', methods=["GET", "POST"])
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080, debug=True)

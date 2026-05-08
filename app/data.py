@@ -1,6 +1,7 @@
 import sqlite3                      # enable control of an sqlite database
 import hashlib                      # for consistent hashes
 import secrets                      # to generate ids
+import random
 
 DB_FILE="data.db"
 
@@ -10,6 +11,16 @@ def create_table(contents):
     c.execute(contents)
     db.commit()
     db.close()
+
+def generate_anon():
+    animal_list = ["aardvark","albatross","alligator","alpaca","anaconda","angelfish","ant","anteater","antelope","ape","armadillo","auk","axolotl","baboon","badger","barracuda","bat","bear","beaver","bee","bison","blackbird","boar","bobcat","buffalo","butterfly","camel","capybara","caracal","caribou","cassowary","cat","caterpillar","catfish","cattle","chameleon","cheetah","chickadee","chicken","chimpanzee","chinchilla","chipmunk","cicada","clam","cobra","cod","coyote","crab","crane","crocodile","crow","cuckoo","deer","dingo","dog","dolphin","donkey","dormouse","dove","dragonfly","duck","dugong","eagle","earthworm","echidna","eel","elephant","elk","emu","falcon","ferret","finch","fish","flamingo","flea","fly","fox","frog","gaur","gazelle","gecko","gerbil","giraffe","gnat","gnu","goat","goldfish","goose","gorilla","grasshopper","guinea pig","gull","hamster","hare","hawk","hedgehog","heron","herring","hippopotamus","hornet","horse","hummingbird","hyena","ibex","iguana","impala","jackal","jaguar","jellyfish","kangaroo","kingfisher","koala","komodo dragon","kookaburra","kouprey","krill","ladybug","lemur","leopard","lion","llama","lobster","locust","lynx","macaw","magpie","mallard","manatee","mandrill","mantis","marlin","marmoset","marmot","mayfly","meerkat","mink","mole","mongoose","monkey","moose","mosquito","mouse","mule","narwhal","newt","nightingale","ocelot","octopus","opossum","orangutan","oryx","ostrich","otter","owl","ox","oyster","panther","parrot","partridge","peacock","pelican","penguin","pheasant","pig","pigeon","pony","porcupine","porpoise","quail","rabbit","raccoon","rat","raven","reindeer","rhinoceros","rook","salamander","salmon","sandpiper","sardine","scorpion","seahorse","seal","shark","sheep","shrew","shrimp","skunk","sloth","slug","snail","snake","sparrow","spider","squid","squirrel","starfish","stingray","stork","swallow","swan","tapir","tarsier","termite","tiger","toad","trout","tuna","turkey","turtle","viper","vulture","wallaby","walrus","wasp","weasel","whale","wolf","wombat","woodpecker","worm","wren","yak","zebra"]
+
+    adjective_list = ["adorable","adventurous","aggressive","agreeable","alert","alive","amused","angry","annoyed","anxious","arrogant","ashamed","attractive","average","awful","beautiful","better","bewildered","black","bloody","blue","blue-eyed","blushing","bored","brainy","brave","breakable","bright","busy","calm","careful","cautious","charming","cheerful","clean","clear","clever","cloudy","clumsy","colorful","combative","comfortable","concerned","condemned","confused","cooperative","courageous","crazy","creepy","crowded","cruel","curious","cute","dangerous","dark","dead","defeated","defiant","delightful","depressed","determined","different","difficult","disgusted","distinct","disturbed","dizzy","doubtful","drab","dull","eager","easy","elated","elegant","embarrassed","enchanting","encouraging","energetic","enthusiastic","envious","evil","excited","expensive","exuberant","fair","faithful","famous","fancy","fantastic","fierce","filthy","fine","foolish","fragile","frail","frantic","friendly","frightened","funny","gentle","gifted","glamorous","gleaming","glorious","good","gorgeous","graceful","grieving","grotesque","grumpy","handsome","happy","harsh","healthy","heavy","helpful","helpless","hilarious","homeless","homely","horrible","hungry","hurt","ill","important","impossible","inexpensive","innocent","inquisitive","itchy","jealous","jittery","jolly","joyous","kind","lazy","light","lively","lonely","long","lovely","lucky","magnificent","misty","modern","motionless","muddy","mushy","mysterious","nasty","naughty","nervous","nice","nutty","obedient","obnoxious","odd","old-fashioned","open","outrageous","outstanding","panicky","perfect","plain","pleasant","poised","poor","powerful","precious","prickly","proud","puzzled","quaint","real","relieved","repulsive","rich","scary","selfish","shiny","shy","silly","sleepy","smiling","smoggy","sore","sparkling","splendid","spotless","stormy","strange","stupid","successful","super","talented","tame","tasty","tender","tense","terrible","thankful","thoughtful","thoughtless","tired","tough","troubled","ugliest","ugly","uninterested","unsightly","unusual","upset","uptight","vast","victorious","vivacious","wandering","weary","wicked","wide","wild","witty","wonderful","worried","wretched","yellow","young","yummy","zany","zealous","zesty"]
+
+    animal = animal_list[random.randrange(99)]
+    adjective = adjective_list[random.randrange(99)]
+
+    return adjective + "_" + animal
 
 def register_user(username, password):
 
@@ -24,12 +35,15 @@ def register_user(username, password):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
 
+    anon = generate_anon()
+
     # hash password here
     password = password.encode('utf-8')
     password = str(hashlib.sha256(password).hexdigest())
+    id = len(get_all_users()) + 1
 
     # use ? for unsafe/user provided variables
-    c.execute('INSERT INTO users VALUES (?, ?, "","","","no one","")', (username, password,))
+    c.execute('INSERT INTO users VALUES (?, ?, ?, ?)', (username, password, id, anon))
 
     db.commit()
     db.close()
@@ -72,6 +86,18 @@ def get_all_users():
     c = db.cursor()
 
     data = c.execute('SELECT username FROM users').fetchall()
+
+    db.commit()
+    db.close()
+
+    return clean_list(data)
+
+def get_all_anons():
+
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    data = c.execute('SELECT anon_user FROM users').fetchall()
 
     db.commit()
     db.close()

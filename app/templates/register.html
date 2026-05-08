@@ -9,10 +9,10 @@
       <div>
         <div>
           <p>
-            Welcome to Stuypedia! To sign up, you <b> must be a Stuy student </p>. For authentication, enter your nycstudents email and answer the following questions. Once you sign up, you will be given an anonymous username so that you don't have to worry about anonimity.
+            Welcome to Stuypedia! To sign up, you <b> must be a Stuy student. </b> For authentication, enter your nycstudents email and answer the following questions. Once you sign up, you will be given an anonymous username so that you don't have to worry about anonimity.
           </p>
         </div>
-        <p> {{error}} </p>
+        <p style='color: red;'> {{error}} </p>
         <form method="post" action="/register">
           <label for="username">Email (nycstudents):</label>
           <input type="text" id="username" name="username" required>
@@ -21,7 +21,7 @@
           <input type="password" id="password" name="password" required>
           <br>
           <label for="password2"> Retype same password: </label>
-          <input type="password2" id="password2" name="password2" required>
+          <input type="password" id="password2" name="password2" required>
 
           <p> Now a series of questions to verify that you are a Stuy student: </p>
           <label for="q1">What floor is the cafeteria on? </label>
@@ -35,8 +35,30 @@
           </select>
           <br>
 
-          <label for="q1">What floor is the library on? </label>
+          <label for="q2">What floor is the library on? </label>
           <select name="q2" id="q2">
+            <option name="one"> One </option>
+            <option name="two"> Two </option>
+            <option name="three"> Three </option>
+            <option name="four"> Four </option>
+            <option name="five"> Five </option>
+            <option name="six"> Six </option>
+          </select>
+          <br>
+
+          <label for="q3">What floor is the junior atrium on? </label>
+          <select name="q3" id="q3">
+            <option name="one"> One </option>
+            <option name="two"> Two </option>
+            <option name="three"> Three </option>
+            <option name="four"> Four </option>
+            <option name="five"> Five </option>
+            <option name="six"> Six </option>
+          </select>
+          <br>
+
+          <label for="q4">What floor is the sophomore bar on? </label>
+          <select name="q4" id="q4">
             <option name="one"> One </option>
             <option name="two"> Two </option>
             <option name="three"> Three </option>

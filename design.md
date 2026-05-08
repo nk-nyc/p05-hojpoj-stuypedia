@@ -26,12 +26,15 @@ This project is important because students already have a hard life so we want t
 ## CORE FEATURES
 1. Register & Login
 2. Calendar & Task Manager
+3. Event & Test Adding
 4. View Teacher Ratings
    
 ## STRETCH FEATURES
+1. Study resource uploads
+2. Better authentication
 
 ## EXPLICIT NON-GOALS
-
+1. AI usage
 ---
 # TECHNOLOGY STACK
 
@@ -49,9 +52,9 @@ Our team is familiar with these tools and they are sufficient enough to get the 
 # TEAM OWNERSHIP PLAN
 | Team Member | Primary Ownership | Secondary Ownership | Specific Deliverables |
 |---|---|---|---|
-|Natalie | | | |
-|Sophia | | | |
-|Michelle | | | |
+|Natalie |  Back-end development | Data management | working calendar, collection of data |
+|Sophia | Front-end development | Data management | aesthetically pleasing pages |
+|Michelle | Back-end development | Front-end development | task adding/removal  |
 
 ---
 # COMPONENT MAP
@@ -83,6 +86,31 @@ Part of our project is the collection and use of data. To ensure security for st
 
 In order to verify a user, they must answer a series of stuy-related questions (for now, subject to change) Once verified, a student is given an anonymous username (like on Piazza) but their login remains their NYCDOE user and chosen password.
 
+Reviews for classes will be stored by review ID.
+
+| key | type | notes |
+|----|-------|------|
+| id | INTEGER | PK, unique |
+| class | TEXT | |
+| teacher | TEXT | |
+| user | TEXT | original username of user |
+| homework | INTEGER | 1-5 rating of how long homework took |
+| test | INTEGER | 1-5 rating of test difficulty |
+| workload | INTEGER | 1-5 rating of workload |
+| enjoyment | INTEGER | 1-5 rating of class enjoyment |
+
+Events will be stored as such:
+
+| key | type | notes |
+|----|------|----|
+| id | INTEGER | PK, unique |
+| name | TEXT | |
+| date | TEXT | stored as DD-MM-YYYY HH-MM-SS |
+| description | TEXT | | 
+| class | INTEGER | 0 if no associated class |
+| teacher | INTEGER | 0 if no associated teacher |
+| type | TEXT | "test", "project", "meeting", etc. |
+
 
 # TESTING PLAN
 We will test the register and login component by crating an account and logging on. We will test the calendar feature by creating, detailing, viewing, moving, and deleting tasks. We will test the teacher profile feature by viewing if the teachers have all the correct information on their page. 
@@ -98,7 +126,6 @@ We will test the register and login component by crating an account and logging 
 -Record video demoing the product on May 29
 
 
-
 # Completion Criteria (_a.k.a._ "Definition of 'Done'")
 Project is considered complete when all of the following are true:
 1. User can create accounts and login
@@ -106,7 +133,8 @@ Project is considered complete when all of the following are true:
 1. User can view the gallery of teachers and their profiles with all the class information on them
 
 # Open Questions
-{Delineate anything undecided here}
+* How do we more thoroughly authenticate users?
+* Do we have admin? If not, how do we ensure appropriate behavior by students?
 
 # Appendix
 {Any relevant info that is useful but would have interrupted narrative flow above, or cluttered the information portrayed}

@@ -1,5 +1,3 @@
-# SYSTEM BLUEPRINT
-
 ## TEAM HOJPOJ
 ## STUYPEDIA
 
@@ -12,6 +10,20 @@
 
 # SUMMARY
 Stuypedia is a website specific for Stuyvesant students. Thie website allows students to view data about their classes and teachers. Data will be from previous students who had the class and filled out the google form survey. Students can also access a calendar with a task manager.
+
+## PROBLEM BEING SOLVED
+
+## TARGET USERS
+
+## WHY THIS PROJECT MATTERS
+
+# MVP SCOPE
+
+## MVP FEATURES
+
+## STRETCH FEATURES
+
+## EXPLICIT NON-GOALS
 
 # DATA COLLECTION, USAGE & SECURITY
 Part of our project is the collection and use of data. To ensure security for students’ accounts, we will hash passwords and store everything under an anonymous username tied to their true username (NYCDOE user).

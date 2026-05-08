@@ -64,7 +64,7 @@ def login(): #code from p02 cerulean
         password = request.form.get('password').strip()
 
         # check if password is correct, if not then reload page
-        if not data.auth(username, password):
+        if not auth(username, password):
             return render_template("login.html", error="Username or password is incorrect")
 
         # if password is correct redirect home

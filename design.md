@@ -78,8 +78,8 @@ As a __________, I want to __________ so that...
 ### eg1
 As a __________, I want to __________ so that...
 
-### eg2
-As a __________, I want to __________ so that...
+### Sophia
+As a Stuy student, I want to create a platform so that students can conveniently access all the materials they need in one place.  
 
 
 # DATA DESIGN

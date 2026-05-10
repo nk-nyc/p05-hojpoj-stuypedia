@@ -71,7 +71,7 @@ Dashboard
            └── Teacher Ratings
        └── Student Input Data Page
    ├── Resources Link
-   └── 
+   └── Profile
 ```
 
 # KEY USER STORIES

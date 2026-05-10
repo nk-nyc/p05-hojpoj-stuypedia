@@ -66,7 +66,10 @@ Login / Register
    ↓
 Dashboard
    ├── Calender
-   ├── Rate my Teacher
+   ├── Find your Class
+       └── Specific Class Rating
+           └── Teacher Ratings
+       └── Student Input Data Page
    ├── Resources Link
    └── 
 ```

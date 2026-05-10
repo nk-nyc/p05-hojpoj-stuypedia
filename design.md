@@ -81,8 +81,8 @@ Dashboard
 ### eg0
 As a __________, I want to __________ so that...
 
-### eg1
-As a __________, I want to __________ so that...
+### Michelle
+As a soon-to-be former student, I want to send some words of wisdom and caution to future students so that they can have a better experience than me and so that rverythnng I learned doesn't go to waste.
 
 ### Sophia
 As a Stuy student, I want to create a platform so that students can conveniently access all the materials they need in one place.  

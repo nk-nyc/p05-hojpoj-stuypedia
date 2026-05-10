@@ -61,7 +61,15 @@ Our team is familiar with these tools and they are sufficient enough to get the 
 MERMAID
 
 # SITE MAP
-MERMAID
+'''
+Login / Register
+   ↓
+Dashboard
+   ├── Calender
+   ├── Rate my Teacher
+   ├── Resources Link
+   └── 
+'''
 
 # KEY USER STORIES
 ### eg0

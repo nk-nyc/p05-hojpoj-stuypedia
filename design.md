@@ -61,7 +61,7 @@ Our team is familiar with these tools and they are sufficient enough to get the 
 MERMAID
 
 # SITE MAP
-'''
+```
 Login / Register
    ↓
 Dashboard
@@ -69,7 +69,7 @@ Dashboard
    ├── Rate my Teacher
    ├── Resources Link
    └── 
-'''
+```
 
 # KEY USER STORIES
 ### eg0

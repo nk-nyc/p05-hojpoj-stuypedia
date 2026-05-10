@@ -1,3 +1,4 @@
+# System Blueprint *(a.k.a. "Design Doc")*
 ## TEAM HOJPOJ
 ## STUYPEDIA
 

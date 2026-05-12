@@ -21,3 +21,12 @@ Natalie Keiger -- 5/7/26 11:43
 Michelle Chen -- 5/12/26 11:45 am
   -Revised design.md
   -Added calendar.html page
+
+Sophia C -- 5/12/26 11:45 am
+  -Edited login page 
+  -Updated css
+
+Natalie -- 5/12/26
+  -Modifed the database to have classes
+  -Updated html templates 
+  -Revised design.md

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Stuypedia</title>
+        <link href="../static/css/modify.css" rel="stylesheet"/>
+    </head>
+
+    <body>
+      <h1> Select the classes you wish to save: </h1>
+      <form>
+        {% for class in your_classes %}
+        <input type="checkbox" id={{class}} value={{class}}>
+        <label for={{class}}>{{class}} </label>
+        <br>
+        {% endfor %}
+
+        <!-- need to add "add class" option here w/ search bar. help -->
+      </form>
+    </body>
+
+  </html>

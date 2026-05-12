@@ -61,7 +61,17 @@ Our team is familiar with these tools and they are sufficient enough to get the 
 
 ---
 # COMPONENT MAP
-MERMAID
+```mermaid
+flowchart TD
+    B(HTML templates)
+    A(CSS templates)
+    A --> |Display information| C 
+    B --> |Display information| C{Flask app}
+    C <-->|Modify/Request data| D[users db]
+    C <-->|Modify/Request data| E[events db]
+    C <-->|Modify/Request data| F[classes db]
+  
+```
 
 # SITE MAP
 ```

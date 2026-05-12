@@ -25,6 +25,7 @@ Talos, Jupiter, Gmails, Facebook Groups, Rate My teacher, Google Classroom, it's
 This project is important because students already have a hard life so we want to make the inconvient and downright annoying part of their life easier. 
 
 # MVP SCOPE
+-Ability to create account and login, view data and submit data, and add and delete tasks.
 
 ## CORE FEATURES
 1. Register & Login

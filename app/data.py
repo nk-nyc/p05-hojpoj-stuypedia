@@ -43,7 +43,7 @@ def register_user(username, password):
     id = len(get_all_users()) + 1
 
     # use ? for unsafe/user provided variables
-    c.execute('INSERT INTO users VALUES (?, ?, ?, ?)', (username, password, id, anon))
+    c.execute('INSERT INTO users VALUES (?, ?, ?, ?, ?)', (username, password, id, anon, ""))
 
     db.commit()
     db.close()
@@ -57,7 +57,8 @@ def create_users_table():
                     username        TEXT    NOT NULL UNIQUE,
                     password        TEXT    NOT NULL,
                     id              INTEGER NOT NULL    PRIMARY KEY,
-                    anon_user       TEXT    NOT NULL
+                    anon_user       TEXT    NOT NULL,
+                    classes         TEXT
                 )"""
     create_table(contents)
 
@@ -91,6 +92,17 @@ def get_all_users():
     db.close()
 
     return clean_list(data)
+
+def get_user_classes(username):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    data = c.execute('SELECT classes FROM users WHERE username = ?', (username,)).fetchall()
+
+    db.commit()
+    db.close()
+
+    return data[0].split()
 
 def get_all_anons():
 

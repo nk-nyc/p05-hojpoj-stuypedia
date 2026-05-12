@@ -14,3 +14,10 @@ sophiaC -- 2026-05-06 11:13
 
 Natalie Keiger -- 5/6/26 19:30
   - Added a login page. droplet is up to date, no register yet tho so it doesn't do anything
+
+Natalie Keiger -- 5/7/26 11:43
+  - Fixed login and register. Currently not a fan of auth methods but whatever. Also added function to generate ids and anonymous usernames using adjectives and animals. I'll have to fix that later when we hope to get more users bc the current max number is 9999.
+
+Michelle Chen -- 5/12/26 11:45 am
+  -Revised design.md
+  -Added calendar.html page

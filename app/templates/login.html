@@ -3,6 +3,39 @@
     <head>
         <title>Log in</title>
         <link href="../static/css/login.css" rel="stylesheet"/>
+    <style>
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+                  width: 100%;
+                  padding: 12px 15px;
+                  border: 2px solid;
+                  border-radius: 20px;
+                  font-size: 16px;
+                  text-align: center;
+			      box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #333;
+            color: white;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 13px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #555;
+        }
+    </style>
 
     </head>
     <body style = "  
@@ -14,28 +47,37 @@
     ">
 
     <div style="
-      max-width: 600px;
+      max-width: 500px;
       width: 100%;
       padding: 50px;
       border-radius: 15px;
       box-shadow: 0 10px 25px #f4c3e9;
       border: 2px solid #fca87b;
+      text-align: center;
     ">
-        <div>
+     <div>
             <h2 style="color: red;">NOT WORKING NOW, STILL IN PROGRESS</h2>
+            
             <h2>Welcome to Stuypedia!</h2>
             <p>In order to access the full features of our site, please log in below.</p>
         </div>
-        <h1 id="login-title">Log in</h1>
+        <h1 id="login-title"> LOG IN </h1>
         <p>{{error}}</p>
         <form method="post" action="/login">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
+
+          <!-- <label for="username">Username:</label> -->
+
+            <input type="text" id="username" name="username" placeholder= "USERNAME" required>
             <br>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+          <!--  <label for="password">Password:</label> -->
+
+            <input type="password" id="password" name="password"  placeholder= "PASSWORD" required>
             <br>
-            <input type="submit" value="login">
+            <input type="submit" value="LOGIN">
         </form>
+
+            <p> Don't have an account? <a href="/register" style="color: #333; text-decoration: underline;"> Sign up</a></p>
+
+
     </body>
 </html>

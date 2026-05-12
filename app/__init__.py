@@ -77,12 +77,24 @@ def login(): #code from p02 cerulean
 
 @app.route('/home', methods=['GET', 'POST'])
 def home():
+    print(session['username'])
     return render_template('home.html')
 
 @app.route('/logout', methods=["GET", "POST"])
 def logout():
     session.clear()
     return redirect(url_for('login'))
+
+@app.route('/modify', methods=['GET', 'POST'])
+def modify():
+    # need to get class list here from user
+    if 'username' not in session:
+        return(url_for('login'))
+    else:
+        # get Classes from username
+        print(session['username'])
+        class_list = get_user_classes(session['username'][0])
+    return render_template('modify.html', your_classes=class_list)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080, debug=True)

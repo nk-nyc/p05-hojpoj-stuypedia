@@ -18,11 +18,15 @@
 
         <div id="classlist">
           <h3> Your Classes </h3>
+          {% if your_classes %}
           <ul>
-            {% for class in classes %}
+            {% for class in your_classes %}
             <li> {{class}} </li>
             {% endfor %}
           </ul>
+          {% else %}
+          <p> No classes to display. </p>
+          {% endif %}
 
           <p> <a href='/modify'> Modify Classes </a> </p>
           <!-- will be a link to allow them to select classes -->

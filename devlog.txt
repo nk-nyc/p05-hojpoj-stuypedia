@@ -38,3 +38,10 @@ Natalie -- 5/12/26
   - JS style guide:
     - Compounding functions into one line is super helpful, we should definitely add that.
     - Pretty sure we also had multiple functions do the same thing last project...gotta fix that one.
+
+Michelle -- 5/13/26
+  - Made requirements.txt and began work on calendar system
+
+Natalie -- 5/13/26
+  - Fixed database error and began class modification/saving functions
+  - We definitely finished our goals for the day!

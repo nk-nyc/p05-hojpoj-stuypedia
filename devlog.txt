@@ -21,3 +21,20 @@ Natalie Keiger -- 5/7/26 11:43
 Michelle Chen -- 5/12/26 11:45 am
   -Revised design.md
   -Added calendar.html page
+
+Sophia C -- 5/12/26 11:45 am
+  -Edited login page 
+  -Updated css
+
+Natalie -- 5/12/26
+  -Modifed the database to have classes
+  -Updated html templates 
+  -Revised design.md
+
+Natalie -- 5/12/26
+  - Python style guide:
+    - We definitely need to fix our imports. They're often on the same line.
+    - It would also be helpful for us to expand our lists to multiple lines as they're often annoying to read
+  - JS style guide:
+    - Compounding functions into one line is super helpful, we should definitely add that.
+    - Pretty sure we also had multiple functions do the same thing last project...gotta fix that one.

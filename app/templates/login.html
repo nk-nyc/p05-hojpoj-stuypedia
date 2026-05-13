@@ -4,25 +4,26 @@
         <title>Log in</title>
         <link href="../static/css/login.css" rel="stylesheet"/>
     <style>
-        form {
+       form {
             display: flex;
             flex-direction: column;
             gap: 1rem;
+            border: #e6a6fc;
         }
 
         input[type="text"],
         input[type="password"] {
                   width: 100%;
                   padding: 12px 15px;
-                  border: 2px solid;
-                  border-radius: 20px;
+                  border: 2px solid #86c1d6;
+                  border-radius: 10px;
                   font-size: 16px;
-                  text-align: center;
 			      box-sizing: border-box;
+                    
         }
 
         input[type="submit"] {
-            background-color: #333;
+            background-color: #135596;
             color: white;
             padding: 0.75rem;
             border: none;
@@ -33,7 +34,7 @@
         }
 
         input[type="submit"]:hover {
-            background-color: #555;
+            background-color: #01186d;
         }
     </style>
 
@@ -44,6 +45,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: Helvetica
     ">
 
     <div style="
@@ -51,27 +53,22 @@
       width: 100%;
       padding: 50px;
       border-radius: 15px;
-      box-shadow: 0 10px 25px #f4c3e9;
-      border: 2px solid #fca87b;
+      box-shadow: 0 10px 25px #86c1d6;
+      border: 2px solid #86c1d6;
       text-align: center;
     ">
-     <div>
-            <h2 style="color: red;">NOT WORKING NOW, STILL IN PROGRESS</h2>
-            
-            <h2>Welcome to Stuypedia!</h2>
-            <p>In order to access the full features of our site, please log in below.</p>
-        </div>
-        <h1 id="login-title"> LOG IN </h1>
+        <h1> LOG IN </h1>
+        <p>   </p>
         <p>{{error}}</p>
         <form method="post" action="/login">
 
           <!-- <label for="username">Username:</label> -->
 
-            <input type="text" id="username" name="username" placeholder= "USERNAME" required>
+            <input type="text" id="username" name="username" placeholder= "Username" required>
             <br>
           <!--  <label for="password">Password:</label> -->
 
-            <input type="password" id="password" name="password"  placeholder= "PASSWORD" required>
+            <input type="password" id="password" name="password"  placeholder= "Password" required>
             <br>
             <input type="submit" value="LOGIN">
         </form>

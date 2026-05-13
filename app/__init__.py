@@ -96,5 +96,9 @@ def modify():
         class_list = get_user_classes(session['username'][0])
     return render_template('modify.html', your_classes=class_list)
 
+@app.route('/calendar', methods=['GET', 'POST'])
+def calendar():
+    return render_template('calendar.html')
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080, debug=True)

@@ -2,18 +2,21 @@
 <html lang="en">
     <head>
         <title>Stuypedia</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="../static/css/calendar.css" rel="stylesheet"/>
     </head>
     <body>
         <h1>Stuypedia</h1>
         <p>Task Manager & Calendar </p>
-        <div id="calendar">
-          <div id="calendar-header">
-            <span id="month-prev" class="change-month"></span>
-            <h1 id="month">May 2026</h1>
-            <span id="month-next" class="change-month"></span>
+        <div class="ui container">
+          <div class="ui grid">
+            <div class="ui sixteen column">
+              <div id="calendar"></div>
+            </div>
           </div>
-
+        </div>
     </body>
     <p> <a href='/logout'> log out </a> </p>
+    <script src='../static/js/calendar.js'></script>
 </html>

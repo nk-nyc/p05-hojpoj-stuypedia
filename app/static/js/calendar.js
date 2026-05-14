@@ -1,23 +1,29 @@
-const today = new Date();
-let currentMonth = today.getMonth();
-let currentYear = today.getFullYear();
-
-const monthNames= ["January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"
-];
-
-$(document).ready(function(){
-
+$(document).ready(function () {
   $('#calendar').fullCalendar({
-    header: {
-      left: 'prev,next today',
-      center: 'title',
-      right: 'month,basicWeek, basicDay'
+    customButtons: {
+      addEventButton: {
+        text: '+',
+        click: function () {
+          const title = prompt('Event name:');
+          if (title) {
+            $('#calendar').fullCalendar('renderEvent', {
+              title: title,
+              start: new Date(),  
+              allDay: true
+            }, true); 
+          }
+        }
+      }
     },
-    defaultDate: '2026-12-12',
+    header: {
+      left: 'prev,next today addEventButton', 
+      center: 'title',
+      right: 'month,basicWeek,basicDay'
+    },
     navLinks: true,
     editable: true,
     eventLimit: true,
+    nowIndicator: true,
     events: []
   });
 });

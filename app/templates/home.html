@@ -7,32 +7,7 @@
     <body>
         <h1>Stuypedia</h1>
         <p>Welcome to Stuypedia!</p>
-
-        <div id="calendar">
-
-        </div>
-
-        <div id="upcoming">
-<!-- upcoming tasks/events/tests will go here -->
-        </div>
-
-        <div id="classlist">
-          <h3> Your Classes </h3>
-          {% if your_classes %}
-          <ul>
-            {% for class in your_classes %}
-            <li> {{class}} </li>
-            {% endfor %}
-          </ul>
-          {% else %}
-          <p> No classes to display. </p>
-          {% endif %}
-
-          <p> <a href='/modify'> Modify Classes </a> </p>
-          <!-- will be a link to allow them to select classes -->
-        </div>
-
-
     </body>
+      <a href='/calendar'>Calendar</a>
     <p> <a href='/logout'> log out </a> </p>
 </html>

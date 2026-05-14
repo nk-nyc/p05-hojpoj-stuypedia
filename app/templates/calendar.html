@@ -2,21 +2,24 @@
 <html lang="en">
     <head>
         <title>Stuypedia</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css"/>
         <link href="../static/css/calendar.css" rel="stylesheet"/>
     </head>
     <body>
         <h1>Stuypedia</h1>
         <p>Task Manager & Calendar </p>
-        <div id="calendar">
-          <div id="calendar-header">
-            <span id="month-prev" class="change-month"></span>
-            <h1 id="month">May 2026</h1>
-            <span id="month-next" class="change-month"></span>
+        <div class="ui container">
+          <div class="ui grid">
+            <div class="ui sixteen column">
+              <div id="calendar"></div>
+            </div>
           </div>
-
-    </body>
-    <p> <a href='/logout'> log out </a> </p>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+    <script src='../static/js/calendar.js'></script>
+  </body>
 </html>
-
-<!-- Inspiration: https://codepen.io/nijin39/pen/JbQBXM --!>
-<!-- Card flip animation: https://codepen.io/gabrielcolombo/pen/LGzNwq --!>

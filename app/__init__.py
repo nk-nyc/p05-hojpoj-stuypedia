@@ -112,5 +112,9 @@ def modify():
             return render_template('modify.html')
 
 
+@app.route('/calendar', methods=['GET', 'POST'])
+def calendar():
+    return render_template('calendar.html')
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080, debug=True)

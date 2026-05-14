@@ -16,14 +16,14 @@
                   width: 100%;
                   padding: 12px 15px;
                   border: 2px solid #86c1d6;
-                  border-radius: 10px;
+                  border-radius: 15px;
                   font-size: 16px;
 			      box-sizing: border-box;
                     
         }
 
         input[type="submit"] {
-            background-color: #135596;
+            background-color: #673273;
             color: white;
             padding: 0.75rem;
             border: none;
@@ -34,7 +34,7 @@
         }
 
         input[type="submit"]:hover {
-            background-color: #01186d;
+            background-color: #311438;
         }
     </style>
 
@@ -45,20 +45,31 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: Helvetica
+    font-family: Helvetica;
+	 background-image: url('../static/images/login.png');
+    background-size: cover;
+    background-position: center;
     ">
 
     <div style="
-      max-width: 500px;
+      max-width: 400px;
       width: 100%;
       padding: 50px;
-      border-radius: 15px;
-      box-shadow: 0 10px 25px #86c1d6;
-      border: 2px solid #86c1d6;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px #eac3f7;
+      border: 2px solid #eac3f7;
       text-align: center;
+    	backdrop-filter: blur(10px);
+   	background: rgba(255, 255, 255, 0.35);
+   	margin-left: auto;
+   	margin-right: 50px; 
+		min-height: 450px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     ">
+
         <h1> LOG IN </h1>
-        <p>   </p>
         <p>{{error}}</p>
         <form method="post" action="/login">
 

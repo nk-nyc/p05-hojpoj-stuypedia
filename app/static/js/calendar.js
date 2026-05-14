@@ -5,18 +5,20 @@ $(document).ready(function () {
         text: '+',
         click: function () {
           const title = prompt('Event name:');
+          var dateStr = prompt('Enter date of event');
+          var date = new Date(dateStr + 'T00:00:00');
           if (title) {
             $('#calendar').fullCalendar('renderEvent', {
               title: title,
-              start: new Date(),  
+              start: date,
               allDay: true
-            }, true); 
+            }, true);
           }
         }
       }
     },
     header: {
-      left: 'prev,next today addEventButton', 
+      left: 'prev,next today addEventButton',
       center: 'title',
       right: 'month,basicWeek,basicDay'
     },

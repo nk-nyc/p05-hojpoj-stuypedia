@@ -62,6 +62,39 @@ def create_users_table():
                 )"""
     create_table(contents)
 
+def create_classes_table():
+
+    contents = """
+            CREATE TABLE IF NOT EXISTS classes (
+                id          INTEGER     NOT NULL UNIQUE,
+                name        TEXT        NOT NULL UNIQUE,
+                teachers    TEXT        NOT NULL,
+                grades      INTEGER     NOT NULL,
+                subject     TEXT        NOT NULL
+            )"""
+    create_table(contents)
+
+def get_all_classes():
+
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    data = c.execute('SELECT * FROM classes').fetchall()
+
+    db.commit()
+    db.close()
+
+    return clean_list(data)
+
+
+def get_searched_classes(search):
+    all_classes = get_all_classes()
+    searched_classes = []
+    while i < len(all_classes):
+        if search in all_classes[i][1]: #if search matches class name
+            searched_classes.append(all_classes[i][1])
+
+    return searched_classes
 
 def clean_list(raw_output):
 
@@ -98,11 +131,16 @@ def get_user_classes(username):
     c = db.cursor()
 
     data = c.execute('SELECT classes FROM users WHERE username = ?', (username,)).fetchall()
-
+    print(data)
     db.commit()
     db.close()
 
-    return data[0].split()
+    if data:
+        return data[0].split()
+    else:
+        return None
+
+
 
 def get_all_anons():
 

@@ -8,6 +8,7 @@ app = Flask(__name__)
 app.secret_key = 'supersecret'
 
 create_users_table()
+create_classes_table()
 
 @app.route("/")
 def prep():
@@ -78,7 +79,12 @@ def login(): #code from p02 cerulean
 @app.route('/home', methods=['GET', 'POST'])
 def home():
     print(session['username'])
-    return render_template('home.html')
+    class_list = get_user_classes(session['username'][0])
+    if class_list:
+        print(class_list)
+        return render_template('home.html', your_classes=class_list)
+    else:
+        return render_template('home.html')
 
 @app.route('/logout', methods=["GET", "POST"])
 def logout():
@@ -91,10 +97,20 @@ def modify():
     if 'username' not in session:
         return(url_for('login'))
     else:
-        # get Classes from username
-        print(session['username'])
         class_list = get_user_classes(session['username'][0])
-    return render_template('modify.html', your_classes=class_list)
+        # get searched classes
+        if 'search' in request.form:
+            # gotta write search
+            searched_classes = get_searched_classes(request.form.get('search'))
+            if class_list:
+                return render_template('modify.html', your_classes=class_list, searched=searched_classes)
+            else:
+                return render_template('modify.html', searched=searched_classes)
+        if class_list:
+            return render_template('modify.html', your_classes=class_list)
+        else:
+            return render_template('modify.html')
+
 
 @app.route('/calendar', methods=['GET', 'POST'])
 def calendar():

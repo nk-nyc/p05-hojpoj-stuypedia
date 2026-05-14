@@ -6,13 +6,27 @@
     </head>
 
     <body>
-      <h1> Select the classes you wish to save: </h1>
+      <h2> Your current classes: </h2>
       <form>
+        {% if your_classes %}
         {% for class in your_classes %}
-        <input type="checkbox" id={{class}} value={{class}}>
-        <label for={{class}}>{{class}} </label>
+        <p> {{class}} </p>
         <br>
         {% endfor %}
+        {% else %}
+          <p> No classes to display. </p>
+        {% endif %}
+
+        <h2> Search for a new class to add: </h2>
+
+        <input type="text" name="search" placeholder="Search for a class...">
+        <button type="submit" class="btn btn-primary w-100"> Search </button>
+
+        {% if searched %}
+          {% for s in searched %}
+          <li> {{s}} </li>
+          {% endfor %}
+        {% endif %}
 
         <!-- need to add "add class" option here w/ search bar. help -->
       </form>

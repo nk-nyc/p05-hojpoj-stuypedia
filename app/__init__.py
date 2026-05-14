@@ -116,5 +116,13 @@ def modify():
 def calendar():
     return render_template('calendar.html')
 
+@app.route('/findclass', methods=['GET', 'POST'])
+def findclass():
+    return render_template('findclass.html')
+
+@app.route('/addclass', methods=['GET', 'POST'])
+def addclass():
+    return render_template('addclass.html')
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080, debug=True)

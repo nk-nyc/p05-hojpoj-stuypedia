@@ -7,3 +7,23 @@
 h2 {
     font-family: 'monospace', 'monaco';
 }
+
+#navbar {
+  display: inline;
+  list-style-type: none;
+}
+
+ul li {
+  float: left;
+  padding: 10px;
+  background-color: black;
+  color: white;
+}
+
+ul li a {
+  color: white;
+}
+
+ul li a:hover {
+  background-color: blue;
+}

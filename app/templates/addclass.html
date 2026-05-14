@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Stuypedia</title>
+        <link href="../static/css/modify.css" rel="stylesheet"/>
+    </head>
+
+    <body>
+
+      <nav id="navbar">
+        <ul id="navbar">
+        <li> <a href='/home'> Home </a> </li>
+        <li> <a href='/calendar'> Calendar </a> </li>
+        <li> <a href='/modify'> Modify Classes </a> </li>
+        <li> <a href='/findclass'> Find a class </a> </li>
+        <li> <a href='/logout'> Log out </a> </li>
+        </ul>
+      </nav>
+
+      <h1> Add a class </h1>
+
+      <p> Before doing this, make sure your class doesn't already exist! </p>
+
+      <form>
+        <label for="name"> Enter the name of the class: </label>
+        <input type="text" name="name" placeholder="Class name">
+        <br>
+        <label for="subject"> What subject is this class? </label>
+          <select name="subject" id="subject">
+            <option name="English"> English </option>
+            <option name="Languages"> Languages </option>
+            <option name="Social Studies"> Social Studies </option>
+            <option name="Math"> Math </option>
+            <option name="Science"> Science </option>
+            <option name="Tech"> Tech </option>
+            <option name="Art"> Art </option>
+            <option name="Other"> Other </option>
+          </select>
+          <br>
+          <p> Which grades can take this class? </p>
+          <input type="checkbox" id="nine" name="nine" value="nine">
+          <label for="nine">9</label><br>
+          <input type="checkbox" id="ten" name="ten" value="ten">
+          <label for="ten">10</label><br>
+          <input type="checkbox" id="eleven" name="eleven" value="eleven">
+          <label for="eleven">11</label><br>
+          <input type="checkbox" id="twelve" name="twelve" value="twelve">
+          <label for="twelve">12</label><br>
+          <br>
+
+          <label for="teachers"> List out the teachers that teach this class. Separate each last name by commas. </label>
+          <br>
+          <input type="text" name="teachers" placeholder="List teachers...">
+          <br>
+          <br>
+          <button type="submit"> Submit </button>
+      </form>
+
+    </body>
+  </html>

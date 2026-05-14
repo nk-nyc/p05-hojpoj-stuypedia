@@ -45,3 +45,7 @@ Michelle -- 5/13/26
 Natalie -- 5/13/26
   - Fixed database error and began class modification/saving functions
   - We definitely finished our goals for the day!
+
+Michelle -- 5/13/26
+  - finished calendar
+  - Added button to add events

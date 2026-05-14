@@ -49,3 +49,7 @@ Natalie -- 5/13/26
 Michelle -- 5/13/26
   - finished calendar
   - Added button to add events
+
+sophiaC -- 2026-05-14
+  - website brand design
+  - finished login

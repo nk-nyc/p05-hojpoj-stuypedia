@@ -9,6 +9,7 @@ app.secret_key = 'supersecret'
 
 create_users_table()
 create_classes_table()
+create_teachers_table()
 
 @app.route("/")
 def prep():
@@ -114,14 +115,23 @@ def modify():
 
 @app.route('/calendar', methods=['GET', 'POST'])
 def calendar():
+    if 'username' not in session:
+        return(url_for('login'))
     return render_template('calendar.html')
 
 @app.route('/findclass', methods=['GET', 'POST'])
 def findclass():
+    if 'username' not in session:
+        return(url_for('login'))
+    if 'search' in request.form:
+        # gotta write search
+        searched_classes = get_searched_classes(request.form.get('search'))
     return render_template('findclass.html')
 
 @app.route('/addclass', methods=['GET', 'POST'])
 def addclass():
+    if 'username' not in session:
+        return(url_for('login'))
     return render_template('addclass.html')
 
 if __name__ == "__main__":

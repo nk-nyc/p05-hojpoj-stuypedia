@@ -74,6 +74,17 @@ def create_classes_table():
             )"""
     create_table(contents)
 
+def create_teachers_table():
+
+    contents = """
+            CREATE TABLE IF NOT EXISTS teachers (
+                id          INTEGER     NOT NULL UNIQUE,
+                first       TEXT        NOT NULL,
+                last        TEXT        NOT NULL,
+                classes     TEXT        NOT NULL,
+                subject     TEXT        NOT NULL
+            )"""
+
 def get_all_classes():
 
     db = sqlite3.connect(DB_FILE)

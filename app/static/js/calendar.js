@@ -1,3 +1,5 @@
+var checkbox = document.getElementById('drop-remove');
+
 $(document).ready(function () {
   $('#calendar').fullCalendar({
     customButtons: {
@@ -24,8 +26,31 @@ $(document).ready(function () {
     },
     navLinks: true,
     editable: true,
+    droppable: true,
+    drop: function(date, jsEvent, ui){
+      if (checkbox.checked){
+        $(this).remove();
+      }
+    },
     eventLimit: true,
     nowIndicator: true,
     events: []
+  });
+});
+
+document.addEventListener('DOMContentLoaded', function()
+{
+  var containerEl = document.getElementById('external-events');
+
+  $('#external-events .fc-event').each(function () {
+    $(this).data('event', {
+      title: $(this).text(),
+      stick: true
+    });
+    $(this).draggable({
+      zIndex: 999,
+      revert: true,
+      revertDuration: 0
+    });
   });
 });

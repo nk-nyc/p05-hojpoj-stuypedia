@@ -9,14 +9,26 @@
     </head>
     <body>
         <h1>Stuypedia</h1>
+        <nav id="navbar">
+          <ul id="navbar">
+          <li> <a href='/home'> Home </a> </li>
+          <li> <a href='/calendar'> Calendar </a> </li>
+          <li> <a href='/modify'> Modify Classes </a> </li>
+          <li> <a href='/findclass'> Find a class </a> </li>
+          <li> <a href='/logout'> Log out </a> </li>
+          </ul>
+        </nav>
+        <br><br>
         <p>Task Manager & Calendar </p>
         <div id='external-events'>
           <p>
             <strong>Draggable Events</strong>
           </p>
-
-          <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
-          </div>
+          <div class='fc-event'>My Event</div>
+          <div class='fc-event'>2nd Event</div>
+          <label>
+            <input type='checkbox' id='drop-remove'>Remove</label>
+        </div>
         <div class="ui container">
           <div class="ui grid">
             <div class="ui sixteen column">
@@ -26,6 +38,7 @@
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
     <script src='../static/js/calendar.js'></script>
   </body>

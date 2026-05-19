@@ -87,10 +87,8 @@ def login(): #code from p02 cerulean
 def home():
     print(session['username'])
     class_list = get_user_classes(session['username'][0])
-<<<<<<< HEAD
     if session['username'] == 'stuypedia_admin':
         return render_template('admin_home.html')
-=======
     all_events = get_events(session['username'])
     today = datetime.date.today()
 
@@ -98,7 +96,6 @@ def home():
         [e for e in all_events if e['start'] >= str(today)],
         key=lambda e: e['start']
     )[:5]
->>>>>>> 98bcf06291ee078925f7aa25b443e1ede0d71fcd
     if class_list:
         print(class_list)
         return render_template('home.html', your_classes=class_list, upcoming=upcoming)

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Stuypedia</title>
+        <link href="../static/css/home.css" rel="stylesheet"/>
+    </head>
+    <body>
+      <nav id="navbar">
+        <ul id="navbar">
+        <li> <a href='/home'> Home </a> </li>
+        <li> <a href='/classlist'> Full Class List </a> </li>
+        <li> <a href='/logout'> Log out </a> </li>
+        </ul>
+      </nav>
+        <h1>Approve classes created by students:</h1>
+        <!-- classes recommended by students -->
+        <table>
+          <tr>
+            <th> Class name </th>
+            <th> Teachers </th>
+            <th> Grades </th>
+            <th> Subject </th>
+          </tr>
+          <form>
+          {% for class in rec_classes %}
+            <tr>
+              <td> {{class[0]}} </td>
+              <td> {{class[1]}} </td>
+              <td> {{class[2]}} </td>
+              <td> {{class[3]}} </td>
+              <td> <button name={{class[0]}} value="approve"> </td>
+              <td> <button name={{class[0]}} value="delete"> </td>
+            </tr>
+          {% endfor %}
+          </form>
+        </table>
+        <!-- option for admin to create classes on their own -->
+        <form method='POST'>
+          <h1> Add a new class here: </h1>
+          <h2> {{error}} </h2>
+          <label for='name'> Class name: </label>
+          <input type="text" name="name" placeholder="Class name" required>
+
+          <br>
+          <label for="subject"> What subject is this class? </label>
+            <select name="subject" id="subject" required>
+              <option name="English"> English </option>
+              <option name="Languages"> Languages </option>
+              <option name="Social Studies"> Social Studies </option>
+              <option name="Math"> Math </option>
+              <option name="Science"> Science </option>
+              <option name="Tech"> Tech </option>
+              <option name="Art"> Art </option>
+              <option name="Other"> Other </option>
+            </select>
+            <br>
+            <p> Which grades can take this class? </p>
+            <input type="checkbox" id="nine" name="grade" value="nine" >
+            <label for="nine">9</label><br>
+            <input type="checkbox" id="ten" name="grade" value="ten">
+            <label for="ten">10</label><br>
+            <input type="checkbox" id="eleven" name="grade" value="eleven">
+            <label for="eleven">11</label><br>
+            <input type="checkbox" id="twelve" name="grade" value="twelve">
+            <label for="twelve">12</label><br>
+            <br>
+
+            <label for="teachers"> List out the teachers that teach this class. Separate each last name by comma. </label>
+            <br>
+            <input type="text" name="teachers" placeholder="List teachers..." required>
+            <br>
+            <br>
+            <button type="submit"> Create class </button>
+        </form>
+    </body>
+</html>

@@ -66,6 +66,10 @@ def login(): #code from p02 cerulean
         username = request.form.get('username').strip().lower()
         password = request.form.get('password').strip()
 
+        if username == 'stuypedia_admin' and auth(username, password):
+            session["username"] = "stuypedia_admin"
+            return redirect(url_for('home'))
+
         # check if password is correct, if not then reload page
         if not auth(username, password):
             return render_template("login.html", error="Username or password is incorrect")
@@ -81,6 +85,8 @@ def login(): #code from p02 cerulean
 def home():
     print(session['username'])
     class_list = get_user_classes(session['username'][0])
+    if session['username'] == 'stuypedia_admin':
+        return render_template('admin_home.html')
     if class_list:
         print(class_list)
         return render_template('home.html', your_classes=class_list)
@@ -91,6 +97,34 @@ def home():
 def logout():
     session.clear()
     return redirect(url_for('login'))
+
+@app.route('/classlist', methods=['GET', 'POST'])
+def classlist():
+    if not session['username'] == 'stuypedia_admin':
+        return redirect(url_for(home))
+    classlist = get_all_classes()
+    for i in range(len(classlist)):
+        classlist[i] = list(classlist[i])
+        print(fix_grade_format(classlist[i][3]))
+        classlist[i][3] = fix_grade_format(classlist[i][3])
+    return render_template('classlist.html', classes=classlist)
+
+@app.route('/createclass', methods=["GET", "POST"])
+def create_class():
+    if not session['username'] == 'stuypedia_admin':
+        return redirect(url_for(home))
+    if len(request.form.getlist('grade')) == 0:
+        return render_template('createclass.html', error='Please select at least one grade.')
+    # create class
+    if 'name' in request.form:
+        name = request.form.get('name')
+        teachers = request.form.get('teachers')
+        grade = request.form.getlist('grade')
+        subject = request.form.get('subject')
+        if not check_class_for_uniqueness(name):
+            return render_template('createclass.html', error='Class name already exists.')
+        create(name, teachers, grade, subject)
+    return render_template('createclass.html')
 
 @app.route('/modify', methods=['GET', 'POST'])
 def modify():

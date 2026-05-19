@@ -61,6 +61,7 @@ def create_users_table():
                     classes         TEXT
                 )"""
     create_table(contents)
+    register_user("stuypedia_admin", "SuperSecurePassword")
 
 def create_classes_table():
 
@@ -74,6 +75,21 @@ def create_classes_table():
             )"""
     create_table(contents)
 
+def check_class_for_uniqueness(name):
+    classes = get_all_classes()
+    print(classes)
+    for i in range(len(classes)):
+        if classes[i][1] == name:
+            return False
+    return True
+
+def fix_grade_format(grades):
+    final_str = ""
+    for i in range(len(grades)):
+        if (not grades[i] == '[' and not grades[i] == ']') and (not grades[i] == ',' and not grades[i] == r"'"):
+            final_str += grades[i]
+    return final_str
+
 def create_teachers_table():
 
     contents = """
@@ -85,6 +101,19 @@ def create_teachers_table():
                 subject     TEXT        NOT NULL
             )"""
 
+def create(name, subject, grades, teachers):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    id = len(get_all_classes()) + 1
+
+    data = c.execute('INSERT INTO classes VALUES (?, ?, ?, ?, ?)', (id, name, teachers, str(grades), subject))
+
+    db.commit()
+    db.close()
+
+    return data
+
+
 def get_all_classes():
 
     db = sqlite3.connect(DB_FILE)
@@ -95,7 +124,7 @@ def get_all_classes():
     db.commit()
     db.close()
 
-    return clean_list(data)
+    return data
 
 
 def get_searched_classes(search):

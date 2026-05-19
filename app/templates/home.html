@@ -16,5 +16,21 @@
       </nav>
         <h1>Stuypedia</h1>
         <p>Welcome to Stuypedia!</p>
+        
+        <div id="upcoming-events">
+        <h2>Upcoming Events</h2>
+        {% if upcoming %}
+          <ul>
+            {% for event in upcoming %}
+              <li>
+                <span class="event-date">{{ event.start }}</span>
+                <span class="event-title" style="color: {{ event.color }}">{{ event.title }}</span>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>No upcoming events. <a href="/calendar">Add one →</a></p>
+        {% endif %}
+      </div>
     </body>
 </html>

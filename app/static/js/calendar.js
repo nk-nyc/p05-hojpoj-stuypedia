@@ -1,3 +1,4 @@
+
 var checkbox = document.getElementById('drop-remove');
 var modal = document.getElementById('event-modal');
 
@@ -25,6 +26,12 @@ function makeDraggable(el){
 }
 
 $(document).ready(function () {
+  fetch('/events')
+    .then(r => r.json())
+    .then(events => {
+        events.forEach(e => $('#calendar').fullCalendar('renderEvent', e, true));
+    });
+
   $('#calendar').fullCalendar({
     customButtons: {
       addEventButton: {
@@ -68,10 +75,16 @@ $(document).ready(function () {
       allDay: allDay,
       color: color
     }, true);
-    closeModal;
+
+      fetch('/events', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, start, color, allDay })
+      });
+    closeModal();
 });
 
-document.getElementById('modal-cancel').addEventListener('click', closeModal);
+document.getElementById('modal-cancel').addEventListener('click', closeModal());
 modal.addEventListener('click', function (e) {
   if (e.target === modal ) closeModal();
 });
@@ -89,7 +102,7 @@ function addDraggableEvent(){
   var $el = $('<div class="fc-event"></div>').text(name);
   $el.insertBefore('#external-events label');
   makeDraggable($el[0]);
-  
+
   input.value = '';
   input.focus();
 }

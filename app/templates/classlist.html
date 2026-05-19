@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Admin: Stuypedia</title>
+        <link href="../static/css/home.css" rel="stylesheet"/>
+    </head>
+    <body>
+      <nav id="navbar">
+        <ul id="navbar">
+        <li> <a href='/home'> Home </a> </li>
+        <li> <a href='/classlist'> Full Class List </a> </li>
+        <li> <a href='/logout'> Log out </a> </li>
+        </ul>
+      </nav>
+        <h1>Class List: </h1>
+        <table>
+          <tr>
+            <th> ID </th>
+            <th> Name </th>
+            <th> Subject </th>
+            <th> Grades </th>
+            <th> Teachers </th>
+          </tr>
+        {% for class in classes %}
+          <tr>
+            <td> {{class[0]}} </td>
+            <td> {{class[1]}} </td>
+            <td> {{class[2]}} </td>
+            <td> {{class[3]}} </td>
+            <td> {{class[4]}} </td>
+          </tr>
+        {% endfor %}
+    </body>
+</html>

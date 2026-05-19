@@ -42,10 +42,11 @@ $(document).ready(function () {
     header: {
       left: 'prev,next today addEventButton',
       center: 'title',
-      right: 'month,basicWeek,basicDay'
+      right: 'month,timeGridWeek,timeGridDay'
     },
     navLinks: true,
     editable: true,
+    dayMaxEvents: true,
     droppable: true,
     drop: function(){
       if (checkbox.checked){
@@ -66,7 +67,7 @@ $(document).ready(function () {
     if (!title) {alert('Please enter an event name.'); return; }
     if(!dateStr) {alert('Please select a date.'); return; }
 
-    var start = timeStr? dateStr + 'T' + timeStr: dateStr; 
+    var start = timeStr? dateStr + 'T' + timeStr: dateStr;
     var allDay = !timeStr;
 
     $('#calendar').fullCalendar('renderEvent', {
@@ -81,6 +82,7 @@ $(document).ready(function () {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title, start, color, allDay })
       });
+
     closeModal();
 });
 
@@ -93,6 +95,7 @@ document.getElementById('add-draggable-btn').addEventListener('click', addDragga
 document.getElementById('draggable-input').addEventListener('keydown', function (e) {
   if (e.key === 'Enter') addDraggableEvent();
 });
+
 
 function addDraggableEvent(){
   var input = document.getElementById('draggable-input');

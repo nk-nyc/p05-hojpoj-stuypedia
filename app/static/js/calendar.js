@@ -42,7 +42,7 @@ $(document).ready(function () {
     header: {
       left: 'prev,next today addEventButton',
       center: 'title',
-      right: 'month,timeGridWeek,timeGridDay'
+      right: 'month,BasicWeek,BasicDay,timeGridDay'
     },
     navLinks: true,
     editable: true,

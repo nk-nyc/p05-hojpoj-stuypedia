@@ -57,3 +57,9 @@ sophiaC -- 2026-05-14
 Michelle -- 5/15/26
 - Added draggable events to calendar
 - Added nav bar to calendar.html
+
+Michelle -- 5/18/26
+- Updated draggable events feature
+- Made a popup for adding events
+- MAde an events database
+- Made upcoming events display on home page

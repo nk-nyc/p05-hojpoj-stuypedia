@@ -5,13 +5,25 @@
         <link href="../static/css/register.css" rel="stylesheet"/>
 
     </head>
-    <body>
-      <div>
-        <div>
-          <p>
-            Welcome to Stuypedia! To sign up, you <b> must be a Stuy student. </b> For authentication, enter your nycstudents email and answer the following questions. Once you sign up, you will be given an anonymous username so that you don't have to worry about anonimity.
-          </p>
-        </div>
+    <body  style="
+    background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    ">
+
+
+    <div style="
+        background-color: white;
+        width: 500px;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    ">
+
         <p style='color: red;'> {{error}} </p>
         <form method="post" action="/register">
           <label for="username">Email (nycstudents):</label>
@@ -67,9 +79,13 @@
             <option name="six"> Six </option>
           </select>
           <br>
+          <p>
+           ☐ I testify that I am a Stuyvesant student and understand that only Stuyvesant students may sign up.
+          </p>
 
           <input type="submit" value="submit">
         </form>
-      </div>
+
+       </div>
     </body>
   </html>

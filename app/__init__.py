@@ -3,6 +3,7 @@ from flask import session, request, redirect, url_for
 from .data import *
 import sqlite3
 import json
+import datetime
 
 app = Flask(__name__)
 app.secret_key = 'supersecret'
@@ -10,6 +11,7 @@ app.secret_key = 'supersecret'
 create_users_table()
 create_classes_table()
 create_teachers_table()
+create_events_table()
 
 @app.route("/")
 def prep():
@@ -81,11 +83,18 @@ def login(): #code from p02 cerulean
 def home():
     print(session['username'])
     class_list = get_user_classes(session['username'][0])
+    all_events = get_events(session['username'])
+    today = datetime.date.today()
+
+    upcoming = sorted(
+        [e for e in all_events if e['start'] >= str(today)],
+        key=lambda e: e['start']
+    )[:5]
     if class_list:
         print(class_list)
-        return render_template('home.html', your_classes=class_list)
+        return render_template('home.html', your_classes=class_list, upcoming=upcoming)
     else:
-        return render_template('home.html')
+        return render_template('home.html', upcoming=upcoming)
 
 @app.route('/logout', methods=["GET", "POST"])
 def logout():
@@ -118,6 +127,17 @@ def calendar():
     if 'username' not in session:
         return(url_for('login'))
     return render_template('calendar.html')
+
+@app.route('/events', methods=['GET'])
+def get_calendar_events():
+    events = get_events(session['username'])
+    return json.dumps(events)
+
+@app.route('/events', methods=['POST'])
+def add_calendar_event():
+    data = request.get_json()
+    save_event(session['username'], data['title'], data['start'], data['color'], data['allDay'])
+    return json.dumps({"status": "ok"})
 
 @app.route('/findclass', methods=['GET', 'POST'])
 def findclass():

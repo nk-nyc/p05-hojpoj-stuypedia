@@ -21,14 +21,16 @@
         <br><br>
         <p>Task Manager & Calendar </p>
         <div id='external-events'>
-          <p>
-            <strong>Draggable Events</strong>
-          </p>
-          <div class='fc-event'>My Event</div>
-          <div class='fc-event'>2nd Event</div>
-          <label>
-            <input type='checkbox' id='drop-remove'>Remove</label>
-        </div>
+          <p><strong>Draggable Events</strong></p>
+          <label style="margin-top:8px; display:block;">
+            <input type='checkbox' id='drop-remove'> Remove on drop
+          </label>
+        <div class="add-draggable">
+          <input type="text" id="draggable-input" placeholder="Event name…">
+          <button id="add-draggable-btn">+</button>
+      </div>
+    </div>
+
         <div class="ui container">
           <div class="ui grid">
             <div class="ui sixteen column">
@@ -36,7 +38,40 @@
             </div>
           </div>
         </div>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <div id="event-modal">
+      <div class="modal-box">
+        <h2>Add Event</h2>
+        <div>
+          <label for="modal-title">Event Name</label>
+          <input type="text" id="modal-title" placeholder="e.g. Team Meeting">
+        </div>
+        <div>
+          <label for="modal-date">Date</label>
+          <input type="date" id="modal-date">
+        </div>
+        <div>
+          <label for="modal-time">Time <small style="font-weight:normal;">(optional)</small></label>
+          <input type="time" id="modal-time">
+        </div>
+        <div>
+          <label for="modal-color">Color</label>
+          <select id="modal-color">
+            <option value="#3a87d3">Blue</option>
+            <option value="#e74c3c">Red</option>
+            <option value="#2ecc71">Green</option>
+            <option value="#f39c12">Orange</option>
+            <option value="#9b59b6">Purple</option>
+          </select>
+        </div>
+        <div class="modal-actions">
+          <button id="modal-cancel">Cancel</button>
+          <button id="modal-submit">Add Event</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>

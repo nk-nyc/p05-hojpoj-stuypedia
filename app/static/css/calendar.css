@@ -17,3 +17,20 @@ ul li a {
 ul li a:hover {
   background-color: blue;
 }
+
+#event-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+}
+
+#event-modal.open {
+  display: flex;
+}
+
+#modal-submit { background: #3a87d3; color: #fff; }
+#modal-cancel  { background: #eee;    color: #333; }

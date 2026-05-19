@@ -221,3 +221,33 @@ def auth(username, password):
         return False
 
     return True
+
+def create_events_table():
+    contents = """
+        CREATE TABLE IF NOT EXISTS events (
+        id          INTEGER         NOT NULL PRIMARY KEY AUTOINCREMENT,
+        username    TEXT            NOT NULL,
+        title       TEXT            NOT NULL,
+        start       TEXT            NOT NULL,
+        color       TEXT,
+        all_day     INTEGER
+        )"""
+    create_table(contents)
+
+def save_event(username, title, start, color, all_day):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    c.execute('INSERT INTO events VALUES (NULL, ?, ?, ?, ?, ?)',
+              (username, title, start, color, int(all_day)))
+    db.commit()
+    db.close()
+
+def get_events(username):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    data = c.execute('SELECT title, start, color, all_day FROM events WHERE username = ?',
+                     (username,)).fetchall()
+    db.commit()
+    db.close()
+    return [{"title": r[0], "start": r[1], "color": r[2], "allDay": bool(r[3])} for r in data]
+

@@ -39,10 +39,11 @@ $(document).ready(function () {
         click: openModal
       }
     },
+    defaultView: 'agendaWeek',
     header: {
       left: 'prev,next today addEventButton',
       center: 'title',
-      right: 'month,BasicWeek,BasicDay,timeGridDay'
+      right: 'month,agendaWeek,agendaDay'
     },
     navLinks: true,
     editable: true,

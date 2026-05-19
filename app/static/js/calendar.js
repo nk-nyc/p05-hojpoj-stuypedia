@@ -50,7 +50,7 @@ $(document).ready(function () {
     selectable: true,
     unselectCancel: true,
     allDaySlot: true,
-    allDayText: true,
+    allDayText: 'All Day',
     slotEventOverlap: true,
     nowIndicator: true,
     eventDurationEditable: true,

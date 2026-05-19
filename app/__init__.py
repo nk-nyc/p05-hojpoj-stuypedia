@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 from flask import session, request, redirect, url_for
-from data import *
+from .data import *
 import sqlite3
 import json
 
@@ -87,6 +87,13 @@ def home():
     class_list = get_user_classes(session['username'][0])
     if session['username'] == 'stuypedia_admin':
         return render_template('admin_home.html')
+    all_events = get_events(session['username'])
+    today = datetime.date.today()
+
+    upcoming = sorted(
+        [e for e in all_events if e['start'] >= str(today)],
+        key=lambda e: e['start']
+    )[:5]
     if class_list:
         print(class_list)
         return render_template('home.html', your_classes=class_list)

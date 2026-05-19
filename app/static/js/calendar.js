@@ -47,6 +47,13 @@ $(document).ready(function () {
     },
     navLinks: true,
     editable: true,
+    selectable: true,
+    unselectCancel: true,
+    allDaySlot: true,
+    allDayText: true,
+    slotEventOverlap: true,
+    nowIndicator: true,
+    eventDurationEditable: true,
     dayMaxEvents: true,
     droppable: true,
     drop: function(){

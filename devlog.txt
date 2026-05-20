@@ -63,3 +63,6 @@ Michelle -- 5/18/26
 - Made a popup for adding events
 - MAde an events database
 - Made upcoming events display on home page
+
+sophiaC -- 2026-05-13
+- edits on register page

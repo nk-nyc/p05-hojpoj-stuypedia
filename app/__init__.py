@@ -26,7 +26,7 @@ def register():
         return redirect(url_for('home'))
     if 'username' in request.form:
         username = request.form.get('username').strip().lower()
-        password = request.form.get('password').strip()
+        password = rem .data import quest.form.get('password').strip()
         verify_pass = request.form.get('password2').strip()
 
         if not username or not password:

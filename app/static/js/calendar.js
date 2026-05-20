@@ -63,8 +63,33 @@ $(document).ready(function () {
     },
     eventLimit: true,
     nowIndicator: true,
+    loading: function(bool){
+      $('#loading').toggle(bool);
+    },
+    eventRender: function(event, el){
+      if(event.start.hasZone()){
+        el.find('.fc-title').after(
+          $('<div class="tzo"/>').text(event.start.format('Z'))
+        );
+      }
+    }
     events: []
   });
+  $.getJSON('https://fullcalendar.io/api/demo-feeds/timezones.json', function(timezones) {
+   $.each(timezones, function(i, timezone) {
+     if (timezone != 'UTC') { // UTC is already in the list
+       $('#timezone-selector').append(
+         $("<option/>").text(timezone).attr('value', timezone)
+       );
+     }
+   });
+ });
+
+ // when the timezone selector changes, dynamically change the calendar option
+ $('#timezone-selector').on('change', function() {
+   $('#calendar').fullCalendar('option', 'timezone', this.value || false);
+ });
+});
 
   document.getElementById('modal-submit').addEventListener('click', function() {
     var title = document.getElementById('modal-title').value.trim();

@@ -20,6 +20,26 @@
         </nav>
         <br><br>
         <p>Task Manager & Calendar </p>
+        <div id='top'>
+
+          <div style='float:left'>
+            Timezone:
+            <select id='timezone-selector'>
+                <option value='' selected>none</option>
+                <option value='local'>local</option>
+                <option value='UTC'>UTC</option>
+              </select>
+            </div>
+
+  <div style='float:right'>
+    <span id='loading'>loading...</span>
+
+  </div>
+
+  <div style='clear:both'></div>
+</div>
+
+<div id='calendar'></div>
         <div id='external-events'>
           <p><strong>Draggable Events</strong></p>
           <label style="margin-top:8px; display:block;">

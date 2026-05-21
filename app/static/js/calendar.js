@@ -57,7 +57,7 @@ $(document).ready(function () {
     header: {
       left: 'prev,next today addEventButton',
       center: 'title',
-      right: 'month,agendaWeek,agendaDay'
+      right: 'month,BasicWeek,agendaWeek,agendaDay'
     },
     navLinks: true,
     editable: true,

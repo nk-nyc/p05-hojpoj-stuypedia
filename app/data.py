@@ -229,7 +229,7 @@ def create_events_table():
         username    TEXT            NOT NULL,
         title       TEXT            NOT NULL,
         start       TEXT            NOT NULL,
-        end         TEXT           
+        end         TEXT,           
         color       TEXT,
         all_day     INTEGER
         )"""

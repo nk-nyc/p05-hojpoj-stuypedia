@@ -10,7 +10,7 @@
     <body>
         <h1>Stuypedia</h1>
         <nav id="navbar">
-          <ul id="navbar">
+          <ul>
           <li> <a href='/home'> Home </a> </li>
           <li> <a href='/calendar'> Calendar </a> </li>
           <li> <a href='/modify'> Modify Classes </a> </li>
@@ -20,44 +20,19 @@
         </nav>
         <br><br>
         <p>Task Manager & Calendar </p>
-        <div id='top'>
-
-          <div style='float:left'>
-            Timezone:
-            <select id='timezone-selector'>
-                <option value='' selected>none</option>
-                <option value='local'>local</option>
-                <option value='UTC'>UTC</option>
-              </select>
-            </div>
-
-  <div style='float:right'>
-    <span id='loading'>loading...</span>
-
-  </div>
-
-  <div style='clear:both'></div>
-</div>
-
-<div id='calendar'></div>
-        <div id='external-events'>
-          <p><strong>Draggable Events</strong></p>
-          <label style="margin-top:8px; display:block;">
-            <input type='checkbox' id='drop-remove'> Remove on drop
-          </label>
-        <div class="add-draggable">
-          <input type="text" id="draggable-input" placeholder="Event name…">
-          <button id="add-draggable-btn">+</button>
+    <div id='external-events'>
+      <p><strong>Draggable Events</strong></p>
+      <label>
+        <input type='checkbox' id='drop-remove'> Remove on drop
+      </label>
+      <div class="add-draggable">
+        <input type="text" id="draggable-input" placeholder="Event name…">
+        <button id="add-draggable-btn">+</button>
       </div>
     </div>
 
-        <div class="ui container">
-          <div class="ui grid">
-            <div class="ui sixteen column">
-              <div id="calendar"></div>
-            </div>
-          </div>
-        </div>
+    <div id="calendar"></div>
+
 
     <div id="event-modal">
       <div class="modal-box">
@@ -67,12 +42,20 @@
           <input type="text" id="modal-title" placeholder="e.g. Team Meeting">
         </div>
         <div>
-          <label for="modal-date">Date</label>
-          <input type="date" id="modal-date">
+          <label for="modal-start-date">Start Date</label>
+          <input type="date" id="modal-start-date">
         </div>
         <div>
-          <label for="modal-time">Time <small style="font-weight:normal;">(optional)</small></label>
-          <input type="time" id="modal-time">
+          <label for="modal-start-time">Start Time <small>(optional)</small></label>
+          <input type="time" id="modal-start-time">
+        </div>
+        <div>
+          <label for="modal-end-date">End Date <small>(optional)</small></label>
+          <input type="date" id="modal-end-date">
+        </div>
+        <div>
+          <label for="modal-end-time">End Time <small>(optional)</small></label>
+          <input type="time" id="modal-end-time">
         </div>
         <div>
           <label for="modal-color">Color</label>
@@ -90,6 +73,18 @@
         </div>
       </div>
     </div>
+
+    <div id="info-modal">
+      <div class="modal-box">
+        <h2 id="info-title"></h2>
+        <p><strong>Start:</strong> <span id="info-start"></span></p>
+        <p><strong>End:</strong> <span id="info-end"></span></p>
+        <div class="info-color-bar" id="info-color-bar"></div>
+        <div class="modal-actions">
+          <button id="info-delete">Delete</button>
+          <button id="info-close">Close</button>
+        </div>
+      </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>

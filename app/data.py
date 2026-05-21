@@ -229,25 +229,33 @@ def create_events_table():
         username    TEXT            NOT NULL,
         title       TEXT            NOT NULL,
         start       TEXT            NOT NULL,
+        end         TEXT           
         color       TEXT,
         all_day     INTEGER
         )"""
     create_table(contents)
 
-def save_event(username, title, start, color, all_day):
+def save_event(username, title, start, end, color, all_day):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    c.execute('INSERT INTO events VALUES (NULL, ?, ?, ?, ?, ?)',
-              (username, title, start, color, int(all_day)))
+    c.execute('INSERT INTO events VALUES (NULL, ?, ?, ?, ?, ?, ?)',
+              (username, title, start, end, color, int(all_day)))
     db.commit()
     db.close()
 
 def get_events(username):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    data = c.execute('SELECT title, start, color, all_day FROM events WHERE username = ?',
+    data = c.execute('SELECT id, title, start, end, color, all_day FROM events WHERE username = ?',
                      (username,)).fetchall()
     db.commit()
     db.close()
-    return [{"title": r[0], "start": r[1], "color": r[2], "allDay": bool(r[3])} for r in data]
+    return [{"id": r[0], "title": r[1], "start": r[2], "end": r[3],
+             "color": r[4], "allDay": bool(r[5])} for r in data]
 
+def delete_event(event_id, username):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    c.execute('DELETE FROM events WHERE id = ? AND username = ?', (event_id, username))
+    db.commit()
+    db.close()

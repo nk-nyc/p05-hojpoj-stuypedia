@@ -170,7 +170,13 @@ def get_calendar_events():
 @app.route('/events', methods=['POST'])
 def add_calendar_event():
     data = request.get_json()
-    save_event(session['username'], data['title'], data['start'], data['color'], data['allDay'])
+    save_event(session['username'], data['title'], data['start'],
+               data.get('end'), data['color'], data['allDay'])
+    return json.dumps({"status": "ok"})
+
+@app.route('/events/<int:event_id>', methods=['DELETE'])
+def remove_calendar_event(event_id):
+    delete_event(event_id, session['username'])
     return json.dumps({"status": "ok"})
 
 @app.route('/findclass', methods=['GET', 'POST'])

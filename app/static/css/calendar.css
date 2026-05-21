@@ -34,3 +34,14 @@ ul li a:hover {
 
 #modal-submit { background: #3a87d3; color: #fff; }
 #modal-cancel  { background: #eee;    color: #333; }
+
+#info-delete {
+  background: #e74c3c;
+  color: #fff;
+}
+
+.info-color-bar {
+  height: 8px;
+  border-radius: 4px;
+  margin: 4px 0 8px;
+}

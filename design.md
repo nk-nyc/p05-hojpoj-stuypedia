@@ -136,6 +136,16 @@ Events will be stored as such:
 | teacher | INTEGER | 0 if no associated teacher |
 | type | TEXT | "test", "project", "meeting", etc. |
 
+Personal Events will be stored as such: 
+| key | type | notes |
+|----|------|----|
+| id | INTEGER | PK, unique |
+| username | TEXT | |
+| title | TEXT |  |
+| start | TEXT | | 
+| end | TEXT | Optional|
+| color | TEXT | Default is blue |
+| all_day | INTEGER |  |
 
 # TESTING PLAN
 We will test the register and login component by crating an account and logging on. We will test the calendar feature by creating, detailing, viewing, moving, and deleting tasks. We will test the teacher profile feature by viewing if the teachers have all the correct information on their page. 

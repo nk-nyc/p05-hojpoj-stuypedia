@@ -222,6 +222,13 @@ def auth(username, password):
 
     return True
 
+def delete_classid(class_id):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    c.execute('DELETE FROM classes WHERE id = ?', (class_id,))
+    db.commit()
+    db.close()
+
 def create_events_table():
     contents = """
         CREATE TABLE IF NOT EXISTS events (

@@ -107,6 +107,11 @@ def logout():
     session.clear()
     return redirect(url_for('login'))
 
+@app.route('/delete_class/<int:class_id>', methods=['DELETE'])
+def delete_class(class_id):
+    delete_classid(class_id)
+    return json.dumps({"status": "ok"})
+
 @app.route('/classlist', methods=['GET', 'POST'])
 def classlist():
     if not session['username'] == 'stuypedia_admin':

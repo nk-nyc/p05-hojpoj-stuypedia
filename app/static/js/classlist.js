@@ -1,0 +1,16 @@
+function deleteClass(classId) {
+    fetch(`/delete_class/${classId}`, {
+        method: 'DELETE'
+    })
+    .then(response => {
+        if (response.ok) {
+            location.reload();
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error deleting class.');
+    });
+}
+
+

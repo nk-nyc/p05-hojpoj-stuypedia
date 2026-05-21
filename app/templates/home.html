@@ -17,20 +17,27 @@
         <h1>Stuypedia</h1>
         <p>Welcome to Stuypedia!</p>
         
-        <div id="upcoming-events">
-        <h2>Upcoming Events</h2>
-        {% if upcoming %}
-          <ul>
-            {% for event in upcoming %}
-              <li>
-                <span class="event-date">{{ event.start }}</span>
-                <span class="event-title" style="color: {{ event.color }}">{{ event.title }}</span>
-              </li>
-            {% endfor %}
-          </ul>
-        {% else %}
-          <p>No upcoming events. <a href="/calendar">Add one →</a></p>
-        {% endif %}
+  <div id="upcoming-events">
+    <h2>Upcoming Events</h2>
+    {% if upcoming %}
+      <div class="event-list">
+        {% for event in upcoming %}
+        <div class="event-card" style="border-left: 4px solid {{ event.color or '#3a87d3' }}">
+          <div class="event-card-date">
+            <span class="event-month">{{ event.start[:7] | replace('-', '/') }}</span>
+            <span class="event-day">{{ event.start[8:10] }}</span>
+          </div>
+          <div class="event-card-info">
+            <span class="event-card-title">{{ event.title }}</span>
+            <span class="event-card-time">{{ event.start[11:16] if 'T' in event.start else 'All day' }}</span>
+            </div>
+          </div>
+        {% endfor %}
       </div>
+    {% else %}
+    <p class="no-events">No upcoming events. <a href="/calendar">Add one →</a></p>
+    {% endif %}
+      </div>
+      
     </body>
 </html>

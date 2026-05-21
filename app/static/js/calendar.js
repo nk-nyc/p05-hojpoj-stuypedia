@@ -108,6 +108,11 @@ $(document).ready(function () {
     var end    = endDate   ? (endTime  ? endDate + 'T' + endTime : endDate) : null;
     var allDay = !startTime;
 
+    if(allDay && end) {
+      var endMoment = moment(end).add(1, "days");
+      end = endMoment.format('YYYY-MM-DD');
+    }
+
     $('#calendar').fullCalendar('renderEvent', {
       title: title,
       start: start,

@@ -20,13 +20,18 @@
           <button type="submit" class="btn btn-primary w-100"> Search </button>
         </form>
           {% if searched %}
+          <table>
             {% for s in searched %}
-            <li> <a href='/classpage/{{s[0]}}'> {{s[1]}} </a> </li>
+            <tr>
+              <td><a href='/classpage/{{s[0]}}'> {{s[1]}} </a></td>
+              <td> <button type="button" class="btn btn-secondary" onclick="addClass({{s[0]}})"> Save class </button> </td>
+            </tr>
             {% endfor %}
+          </table>
           {% endif %}
           
           <p> Can't find a class? Click <a href='/addclass'>here</a> to add one. </p>
 
-
+        <script src='../static/js/findclass.js'></script>
     </body>
 </html>

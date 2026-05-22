@@ -160,19 +160,23 @@ def modify():
     if 'username' not in session:
         return(url_for('login'))
     else:
-        class_list = get_user_classes(session['username'][0])
+        class_list = get_user_classes(session['username'])
         # get searched classes
         if 'search' in request.form:
             # gotta write search
             searched_classes = get_searched_classes(request.form.get('search'))
+
             if class_list:
+                for i in range(len(class_list)):
+                    class_list[i] = get_class_name_from_id(class_list[i])
                 return render_template('modify.html', your_classes=class_list, searched=searched_classes)
             else:
                 return render_template('modify.html', searched=searched_classes)
         if class_list:
-            return render_template('modify.html', your_classes=class_list)
-        else:
-            return render_template('modify.html')
+                for i in range(len(class_list)):
+                    class_list[i] = get_class_name_from_id(class_list[i])
+                return render_template('modify.html', your_classes=class_list)    
+        return render_template('modify.html', your_classes=class_list)
 
 
 @app.route('/calendar', methods=['GET', 'POST'])
@@ -209,6 +213,12 @@ def findclass():
         return render_template('findclass.html', searched=searched_classes)
     return render_template('findclass.html')
 
+@app.route('/addclass/<int:class_id>', methods=['POST', 'GET'])
+def addClass(class_id):
+    add_user_class(session['username'], class_id)
+    print(get_user_classes(session['username'][0]))
+    return json.dumps({"status": "ok"})
+
 @app.route('/addclass', methods=['GET', 'POST'])
 def addclass():
     if 'username' not in session:
@@ -227,8 +237,24 @@ def addclass():
 def classpage(class_id):
     if 'username' not in session:
         return(url_for('login'))
+    saved = False
+    if class_saved_by_user(class_id, session['username']):
+        saved = True
+    if review_already_made(class_id, user_id_from_username(session['username'])):
+        return render_template('classpage.html', class_info=get_class_info(class_id), error='already_complete', saved=saved)
+    if request.method == 'POST':
+        teacher = request.form.get('teacher')
+        difficulty = request.form.get('difficulty')
+        enjoyment = request.form.get('enjoyment')
+        workload = request.form.get('workload')
+        hours = request.form.get('hours')
+        teaching_quality = request.form.get('teaching_quality')
+        resources = request.form.get('resources')
+        # Save the review to the database
+        save_class_review(class_id, user_id_from_username(session['username']), teacher, difficulty, enjoyment, workload, hours, teaching_quality, resources)
+    saved = class_saved_by_user(class_id, session['username'])
     class_info = get_class_info(class_id)
-    return render_template('classpage.html', class_info=class_info)
+    return render_template('classpage.html', class_info=class_info, saved=saved)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080, debug=True)

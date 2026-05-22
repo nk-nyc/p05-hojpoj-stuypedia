@@ -56,7 +56,7 @@ def register_user(username, password):
 def create_class_data_table():
     contents = """
         CREATE TABLE IF NOT EXISTS class_data (
-            id          INTEGER     NOT NULL UNIQUE,
+            id          INTEGER     PRIMARY KEY AUTOINCREMENT,
             class_id    INTEGER     NOT NULL UNIQUE,
             user_id    INTEGER     NOT NULL,
             teacher     TEXT        NOT NULL,
@@ -87,7 +87,7 @@ def create_classes_table():
 
     contents = """
             CREATE TABLE IF NOT EXISTS classes (
-                id          INTEGER     NOT NULL UNIQUE,
+                id          INTEGER     PRIMARY KEY AUTOINCREMENT,
                 name        TEXT        NOT NULL UNIQUE,
                 teachers    TEXT        NOT NULL,
                 grades      INTEGER     NOT NULL,
@@ -110,11 +110,65 @@ def fix_grade_format(grades):
             final_str += grades[i]
     return final_str
 
+def add_user_class(username, class_id):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    classes = c.execute('SELECT classes FROM users WHERE username = ?', (username,)).fetchone()[0]
+    if classes:
+        if str(class_id) in classes.split():
+            return False  # Class is already added
+        else:
+            new_classes = classes + " " + str(class_id)
+    else:
+        new_classes = str(class_id)
+    c.execute('UPDATE users SET classes = ? WHERE username = ?', (new_classes, username))
+    print("new_classes: " + new_classes)
+    db.commit()
+    db.close()
+
+def user_id_from_username(username):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    data = c.execute('SELECT id FROM users WHERE username = ?', (username,)).fetchone()
+    db.commit()
+    db.close()
+
+    if data:
+        return data[0]
+    else:
+        return None
+    
+def save_class_review(class_id, user_id, teacher, difficulty, enjoyment, workload, hours, teaching_quality, resources):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    # use ? for unsafe/user provided variables
+    data = c.execute('INSERT INTO class_data VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', (None, class_id, user_id, teacher, difficulty, enjoyment, workload, hours, teaching_quality, resources))
+
+    db.commit()
+    db.close()
+
+    return data
+
+def review_already_made(class_id, user_id):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    data = c.execute('SELECT * FROM class_data WHERE class_id = ? AND user_id = ?', (class_id, user_id)).fetchone()
+    db.commit()
+    db.close()
+
+    if data:
+        return True
+    else:
+        return False
+
 def create_teachers_table():
 
     contents = """
             CREATE TABLE IF NOT EXISTS teachers (
-                id          INTEGER     NOT NULL UNIQUE,
+                id          INTEGER     PRIMARY KEY AUTOINCREMENT,
                 first       TEXT        NOT NULL,
                 last        TEXT        NOT NULL,
                 classes     TEXT        NOT NULL,
@@ -124,9 +178,9 @@ def create_teachers_table():
 def create(name, subject, grades, teachers):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    id = len(get_all_classes()) + 1
 
-    data = c.execute('INSERT INTO classes VALUES (?, ?, ?, ?, ?)', (id, name, teachers, str(grades), subject))
+    # use ? for unsafe/user provided variables
+    data = c.execute('INSERT INTO classes VALUES (?, ?, ?, ?, ?)', (None, name, teachers, str(grades), subject))
 
     db.commit()
     db.close()
@@ -146,6 +200,11 @@ def get_all_classes():
 
     return data
 
+def class_saved_by_user(class_id, username):
+    user_classes = get_user_classes(username)
+    if user_classes:
+        return str(class_id) in user_classes
+    return False
 
 def get_searched_classes(search):
     all_classes = get_all_classes()
@@ -192,16 +251,27 @@ def get_user_classes(username):
     c = db.cursor()
 
     data = c.execute('SELECT classes FROM users WHERE username = ?', (username,)).fetchall()
-    print(data)
     db.commit()
     db.close()
 
     if data:
-        return data[0].split()
+        return data[0][0].split()  # Return list of class IDs
     else:
         return None
 
 
+def get_class_name_from_id(class_id):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    data = c.execute('SELECT name FROM classes WHERE id = ?', (class_id,)).fetchone()
+    db.commit()
+    db.close()
+
+    if data:
+        return data[0]
+    else:
+        return None
 
 def get_all_anons():
 
@@ -261,7 +331,7 @@ def approve_classid(class_id):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
     class_info = c.execute('SELECT name, teachers, grades, subject FROM student_classes WHERE id = ?', (class_id,)).fetchone()
-    c.execute('INSERT INTO classes VALUES (?, ?, ?, ?, ?)', (len(get_all_classes()) + 1, class_info[0], class_info[1], class_info[2], class_info[3]))
+    c.execute('INSERT INTO classes VALUES (?, ?, ?, ?, ?)', (None, class_info[0], class_info[1], class_info[2], class_info[3]))
     c.execute('DELETE FROM student_classes WHERE id = ?', (class_id,))
     db.commit()
     db.close()
@@ -280,9 +350,8 @@ def get_all_student_classes():
 def create_student_class(name, teachers, grade, subject):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    id = len(get_all_student_classes()) + 1
-
-    data = c.execute('INSERT INTO student_classes VALUES (?, ?, ?, ?, ?)', (id, name, teachers, str(grade), subject))
+    # use ? for unsafe/user provided variables
+    data = c.execute('INSERT INTO student_classes VALUES (?, ?, ?, ?, ?)', (None, name, teachers, str(grade), subject))
 
     db.commit()
     db.close()
@@ -291,7 +360,7 @@ def create_student_class(name, teachers, grade, subject):
 def create_student_classes_table():
     contents = """
             CREATE TABLE IF NOT EXISTS student_classes (
-                id          INTEGER     NOT NULL UNIQUE,
+                id          INTEGER     PRIMARY KEY AUTOINCREMENT,
                 name        TEXT        NOT NULL UNIQUE,
                 teachers    TEXT        NOT NULL,
                 grades      INTEGER     NOT NULL,
@@ -302,7 +371,7 @@ def create_student_classes_table():
 def create_events_table():
     contents = """
         CREATE TABLE IF NOT EXISTS events (
-        id          INTEGER         NOT NULL PRIMARY KEY AUTOINCREMENT,
+        id          INTEGER         PRIMARY KEY AUTOINCREMENT,
         username    TEXT            NOT NULL,
         title       TEXT            NOT NULL,
         start       TEXT            NOT NULL,

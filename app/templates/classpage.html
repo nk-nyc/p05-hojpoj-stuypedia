@@ -14,7 +14,9 @@
         <li> <a href='/logout'> Log out </a> </li>
         </ul>
       </nav>
-        <h1> {{class_info[0]}} </h1>
+        <h1> {{class_info[0]}} 
+            {% if saved %}⭐{% endif %}
+        </h1>
         <p> Grades: {{class_info[2][2:-2]}} </p>
         <p> Subject: {{class_info[3]}} </p>
         <p> Teachers: {{class_info[1]}} </p>  
@@ -22,6 +24,7 @@
         <h2>Class Data</h2>
         <p> Class data will go here </p>
         <h2>Add a review</h2>
+        {% if not error %}
         <p> All data is collected anonymously. Your feedback will help other students when they use Stuypedia!</p>
         <form method="POST">
             <label for="teacher"> Teacher you had: </label>
@@ -86,6 +89,10 @@
             </select>
             <br>
             <button type="submit" class="btn btn-primary w-100"> Submit </button>
+            {% endif %}
+            {% if error %}
+                <p> You have already reviewed this class. </p>
+            {% endif %}
         </form>
     </body>
 </html>

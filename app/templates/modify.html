@@ -16,7 +16,7 @@
         </ul>
       </nav>
       <h2> Your current classes: </h2>
-      <form>
+      <form method="POST">
         {% if your_classes %}
         {% for class in your_classes %}
         <p> {{class}} </p>
@@ -28,19 +28,24 @@
 
         <h2> Search for a new class to add: </h2>
 
-        <input type="text" name="search" placeholder="Search for a class...">
-        <button type="submit" class="btn btn-primary w-100"> Search </button>
+          <input type="text" name="search" placeholder="Search for a class...">
+          <button type="submit" class="btn btn-primary w-100"> Search </button>
+        </form>
 
         {% if searched %}
+        <table>
           {% for s in searched %}
-          <li> {{s}} </li>
+          <tr>
+            <td>{{s[1]}}</td>
+            <td> <button type="button" onclick="addClass({{s[0]}})">Add</button> </td>
+          </tr>
           {% endfor %}
+        </table>
+
         {% endif %}
 
         <p> Can't find a class? Click <a href='/addclass'>here</a> to add one. </p>
-
-        <!-- need to add "add class" option here w/ search bar. help -->
-      </form>
+        <script src='../static/js/findclass.js'></script>
     </body>
 
   </html>

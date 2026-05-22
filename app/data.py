@@ -134,7 +134,7 @@ def get_searched_classes(search):
     i = 0
     while i < len(all_classes):
         if search in all_classes[i][1]: #if search matches class name
-            searched_classes.append(all_classes[i][1])
+            searched_classes.append(all_classes[i])
         i += 1
     return searched_classes
 
@@ -317,3 +317,12 @@ def delete_event(event_id, username):
     c.execute('DELETE FROM events WHERE id = ? AND username = ?', (event_id, username))
     db.commit()
     db.close()
+
+def get_class_info(class_id):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    data = c.execute('SELECT name, teachers, grades, subject FROM classes WHERE id = ?', (class_id,)).fetchone()
+    db.commit()
+    db.close()
+
+    return data

@@ -21,7 +21,7 @@
         </form>
           {% if searched %}
             {% for s in searched %}
-            <li> {{s}} </li>
+            <li> <a href='/classpage/{{s[0]}}'> {{s[1]}} </a> </li>
             {% endfor %}
           {% endif %}
           

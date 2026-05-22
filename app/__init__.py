@@ -13,6 +13,7 @@ create_classes_table()
 create_teachers_table()
 create_events_table()
 create_student_classes_table()
+create_class_data_table()
 
 @app.route("/")
 def prep():
@@ -222,7 +223,7 @@ def addclass():
         print('e')
     return render_template('addclass.html')
 
-@app.route('/classpage/<int:class_id>', methods=['GET'])
+@app.route('/classpage/<int:class_id>', methods=['GET', 'POST'])
 def classpage(class_id):
     if 'username' not in session:
         return(url_for('login'))

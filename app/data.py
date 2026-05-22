@@ -51,6 +51,25 @@ def register_user(username, password):
 
     return "success"
 
+#data collected: difficulty, enjoyment, workload, hours per night, teaching quality, resources
+
+def create_class_data_table():
+    contents = """
+        CREATE TABLE IF NOT EXISTS class_data (
+            id          INTEGER     NOT NULL UNIQUE,
+            class_id    INTEGER     NOT NULL UNIQUE,
+            user_id    INTEGER     NOT NULL,
+            teacher     TEXT        NOT NULL,
+            difficulty  INTEGER     NOT NULL,
+            enjoyment   INTEGER     NOT NULL,
+            workload    INTEGER     NOT NULL,
+            hours       INTEGER     NOT NULL,
+            teaching_quality INTEGER     NOT NULL,
+            resources    TEXT     
+        )"""
+    create_table(contents)
+
+
 def create_users_table():
 
     contents =  """

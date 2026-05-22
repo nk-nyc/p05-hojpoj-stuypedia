@@ -2,6 +2,7 @@ import sqlite3                      # enable control of an sqlite database
 import hashlib                      # for consistent hashes
 import secrets                      # to generate ids
 import random
+from flask import request
 
 DB_FILE="data.db"
 
@@ -130,10 +131,11 @@ def get_all_classes():
 def get_searched_classes(search):
     all_classes = get_all_classes()
     searched_classes = []
+    i = 0
     while i < len(all_classes):
         if search in all_classes[i][1]: #if search matches class name
             searched_classes.append(all_classes[i][1])
-
+        i += 1
     return searched_classes
 
 def clean_list(raw_output):
@@ -228,6 +230,55 @@ def delete_classid(class_id):
     c.execute('DELETE FROM classes WHERE id = ?', (class_id,))
     db.commit()
     db.close()
+
+def delete_student_classid(class_id):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    c.execute('DELETE FROM student_classes WHERE id = ?', (class_id,))
+    db.commit()
+    db.close()
+
+def approve_classid(class_id):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    class_info = c.execute('SELECT name, teachers, grades, subject FROM student_classes WHERE id = ?', (class_id,)).fetchone()
+    c.execute('INSERT INTO classes VALUES (?, ?, ?, ?, ?)', (len(get_all_classes()) + 1, class_info[0], class_info[1], class_info[2], class_info[3]))
+    c.execute('DELETE FROM student_classes WHERE id = ?', (class_id,))
+    db.commit()
+    db.close()
+
+def get_all_student_classes():
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    data = c.execute('SELECT * FROM student_classes').fetchall()
+
+    db.commit()
+    db.close()
+
+    return data
+ 
+def create_student_class(name, teachers, grade, subject):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    id = len(get_all_student_classes()) + 1
+
+    data = c.execute('INSERT INTO student_classes VALUES (?, ?, ?, ?, ?)', (id, name, teachers, str(grade), subject))
+
+    db.commit()
+    db.close()
+
+    return data
+def create_student_classes_table():
+    contents = """
+            CREATE TABLE IF NOT EXISTS student_classes (
+                id          INTEGER     NOT NULL UNIQUE,
+                name        TEXT        NOT NULL UNIQUE,
+                teachers    TEXT        NOT NULL,
+                grades      INTEGER     NOT NULL,
+                subject     TEXT        NOT NULL
+            )"""
+    create_table(contents)
 
 def create_events_table():
     contents = """

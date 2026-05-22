@@ -15,10 +15,10 @@
         </ul>
       </nav>
         <h1>Find a class:</h1>
-        <form>
+        <form method="POST">
           <input type="text" name="search" placeholder="Search for a class...">
           <button type="submit" class="btn btn-primary w-100"> Search </button>
-
+        </form>
           {% if searched %}
             {% for s in searched %}
             <li> {{s}} </li>
@@ -27,6 +27,6 @@
           
           <p> Can't find a class? Click <a href='/addclass'>here</a> to add one. </p>
 
-        </form>
+
     </body>
 </html>

@@ -14,5 +14,29 @@
       </nav>
         <h1>Welcome, Admin</h1>
         <p> Create a new class <a href='/createclass'> here</a>.</p>
+        <h2> Approve classes recommended by students: </h2>
+        <table>
+          <tr>
+            <th> ID </th>
+            <th> Name </th>
+            <th> Subject </th>
+            <th> Grades </th>
+            <th> Teachers </th>
+            <th> Delete </th>
+            <th> Approve </th>
+          </tr>
+        {% for class in classes %}
+          <tr>
+            <td> {{class[0]}} </td>
+            <td> {{class[1]}} </td>
+            <td> {{class[2]}} </td>
+            <td> {{class[3]}} </td>
+            <td> {{class[4]}} </td>
+            <td> <button onclick="deleteStudentClass({{class[0]}})">Delete class</button> </td>
+            <td> <button onclick="approveClass({{class[0]}})">Approve class</button> </td>
+          </tr>
+        {% endfor %}
+        </table>
+      <script src='../static/js/classlist.js'></script>
     </body>
 </html>

@@ -12,6 +12,7 @@ create_users_table()
 create_classes_table()
 create_teachers_table()
 create_events_table()
+create_student_classes_table()
 
 @app.route("/")
 def prep():
@@ -88,7 +89,9 @@ def home():
     print(session['username'])
     class_list = get_user_classes(session['username'][0])
     if session['username'] == 'stuypedia_admin':
-        return render_template('admin_home.html')
+        class_list = get_all_student_classes()
+        print(class_list)
+        return render_template('admin_home.html', classes=class_list)
     all_events = get_events(session['username'])
     today = datetime.date.today()
 
@@ -110,6 +113,16 @@ def logout():
 @app.route('/delete_class/<int:class_id>', methods=['DELETE'])
 def delete_class(class_id):
     delete_classid(class_id)
+    return json.dumps({"status": "ok"})
+
+@app.route('/delete_student_class/<int:class_id>', methods=['DELETE'])
+def delete_student_class(class_id):
+    delete_student_classid(class_id)
+    return json.dumps({"status": "ok"})
+
+@app.route('/approve_class/<int:class_id>', methods=['POST'])
+def approve_class(class_id):
+    approve_classid(class_id)
     return json.dumps({"status": "ok"})
 
 @app.route('/classlist', methods=['GET', 'POST'])
@@ -191,12 +204,22 @@ def findclass():
     if 'search' in request.form:
         # gotta write search
         searched_classes = get_searched_classes(request.form.get('search'))
+        print(searched_classes)
+        return render_template('findclass.html', searched=searched_classes)
     return render_template('findclass.html')
 
 @app.route('/addclass', methods=['GET', 'POST'])
 def addclass():
     if 'username' not in session:
         return(url_for('login'))
+    if 'name' in request.form:
+        name = request.form.get('name')
+        teachers = request.form.get('teachers')
+        grade = request.form.getlist('grade')
+        subject = request.form.get('subject')
+        create_student_class(name, teachers, grade, subject)
+        print(get_all_student_classes())
+        print('e')
     return render_template('addclass.html')
 
 if __name__ == "__main__":

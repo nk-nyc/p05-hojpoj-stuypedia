@@ -45,14 +45,23 @@ function makeDraggable(el){
   });
 }
 
+function saveEventToServer(title, start, end, color, allDay) {
+  return fetch('/events', {
+    method: 'POST',
+    headers: { "Content-Type": 'application/json'},
+    body: JSON.stringify({ title: title, start:start, end: end, color: color, allDay: allDay})
+  }).then(function(r) { return r.json(); });
+}
+
 $(document).ready(function () {
   $('#calendar').fullCalendar({
     customButtons: {
       addEventButton: {
-        text: '+',
+        text: '+ Add',
         click: openModal
       }
     },
+    timezone: 'local',
     defaultView: 'agendaWeek',
     header: {
       left: 'prev,next today addEventButton',
@@ -71,6 +80,20 @@ $(document).ready(function () {
     droppable: true,
     eventClick: function (event) {
       openInfoModal(event);
+    },
+    eventReceive: function (event) {
+      var start = event.start.format();
+      var allDay = event.allDay;
+      saveEventToServer(event.title, start, null, '#3a87d3', allDay)
+        .then(function(data) {
+          event.id = data.id;
+          $('#calendar').fullCalendar('updateEvent', event);
+        });
+      if (checkbox.checked) {
+        $('#externa-events .fc-event').filter(function(){
+          return $(this).text().trim() === event.title;
+        }).first().remove();
+      }
     },
     drop: function(){
       if (checkbox.checked){

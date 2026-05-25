@@ -12,13 +12,92 @@ ul li {
 
 ul li a {
   color: white;
+  text-decoration: none;
 }
 
 ul li a:hover {
   background-color: blue;
 }
 
-#event-modal {
+
+body {
+  font-family: sans-serif;
+  padding: 20px;
+}
+
+h1 {
+  margin-top: 0;
+}
+
+p {
+  clear: both;
+  margin: 12px 0;
+}
+
+#page-body {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  margin-top: 16px;
+}
+
+
+#external-events {
+  width: 160px;
+  flex-shrink: 0;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #fafafa;
+}
+
+#external-events p {
+  margin: 0 0 8px;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+#external-events .fc-event {
+  padding: 5px 8px;
+  margin-bottom: 6px;
+  border-radius: 4px;
+  background: #3a87d3;
+  color: #fff;
+  font-size: 0.85rem;
+  cursor: grab;
+}
+
+.add-draggable {
+  display: flex;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.add-draggable input {
+  flex: 1;
+  padding: 5px 7px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.8rem;
+}
+
+.add-draggable button {
+  padding: 5px 9px;
+  background: #3a87d3;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+
+#calendar {
+  flex: 1;
+}
+
+#event-modal,
+#info-modal {
   display: none;
   position: fixed;
   inset: 0;
@@ -28,17 +107,63 @@ ul li a:hover {
   justify-content: center;
 }
 
-#event-modal.open {
+#event-modal.open,
+#info-modal.open {
   display: flex;
+}
+
+.modal-box {
+  background: #fff;
+  border-radius: 8px;
+  padding: 24px 28px;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.modal-box h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.modal-box label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.modal-box input,
+.modal-box select {
+  width: 100%;
+  padding: 7px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  box-sizing: border-box;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 4px;
+}
+
+.modal-actions button {
+  padding: 7px 18px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
 }
 
 #modal-submit { background: #3a87d3; color: #fff; }
 #modal-cancel  { background: #eee;    color: #333; }
-
-#info-delete {
-  background: #e74c3c;
-  color: #fff;
-}
+#info-close    { background: #eee;    color: #333; }
+#info-delete   { background: #e74c3c; color: #fff; }
 
 .info-color-bar {
   height: 8px;

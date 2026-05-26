@@ -1,8 +1,11 @@
+from operator import ge
 import sqlite3                      # enable control of an sqlite database
 import hashlib                      # for consistent hashes
 import secrets                      # to generate ids
 import random
 from flask import request
+import math
+import re
 
 DB_FILE="data.db"
 
@@ -97,7 +100,6 @@ def create_classes_table():
 
 def check_class_for_uniqueness(name):
     classes = get_all_classes()
-    print(classes)
     for i in range(len(classes)):
         if classes[i][1] == name:
             return False
@@ -122,7 +124,6 @@ def add_user_class(username, class_id):
     else:
         new_classes = str(class_id)
     c.execute('UPDATE users SET classes = ? WHERE username = ?', (new_classes, username))
-    print("new_classes: " + new_classes)
     db.commit()
     db.close()
 
@@ -142,7 +143,6 @@ def user_id_from_username(username):
 def save_class_review(class_id, user_id, teacher, difficulty, enjoyment, workload, hours, teaching_quality, resources):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-
     # use ? for unsafe/user provided variables
     data = c.execute('INSERT INTO class_data VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', (None, class_id, user_id, teacher, difficulty, enjoyment, workload, hours, teaching_quality, resources))
 
@@ -187,6 +187,148 @@ def create(name, subject, grades, teachers):
 
     return data
 
+
+def get_all_class_data():
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    data = c.execute('SELECT * FROM class_data').fetchall()
+
+    db.commit()
+    db.close()
+
+    return data
+
+def get_class_data(class_id):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    data = c.execute('SELECT * FROM class_data WHERE class_id = ?', (class_id,)).fetchall()
+
+    db.commit()
+    db.close()
+
+    return data
+
+def get_from_class_data(class_id, request):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    data = c.execute('SELECT ? FROM class_data WHERE class_id = ?', (request, class_id,)).fetchall()
+
+    db.commit()
+    db.close()
+
+    return data    
+
+def prettify_class_data(class_id):
+    prettified_data = [] #2d array with each row being a category
+    
+    # Get all the data for the class
+    all_data = get_class_data(class_id)
+    
+    # Calculate mean and median for each column
+    for i in range(4, 9):
+        column_data = [row[i] for row in all_data]
+        if column_data:
+            mean = sum(column_data) / len(column_data)
+            sorted_data = sorted(column_data)
+            n = len(sorted_data)
+            if n % 2 == 0:
+                median = (sorted_data[n//2 - 1] + sorted_data[n//2]) / 2
+            else:
+                median = sorted_data[n//2]
+            prettified_data.append(['', mean, median])
+    responders = len(all_data)
+    prettified_data[0][0] = 'Difficulty'
+    prettified_data[1][0] = 'Enjoymnet'
+    prettified_data[2][0] = 'Workload'
+    prettified_data[3][0] = 'Hours'
+    prettified_data[4][0] = 'Teaching Quality'
+
+    #count best resources
+    resource_count = {}
+    for row in all_data:
+        resources = row[9]  
+        if resources:
+            for resource in resources.split(','):
+                resource = resource.strip()
+                resource_count[resource] = resource_count.get(resource, 0) + 1
+    
+    #num of students who recommend each resource
+
+    return (prettified_data, responders, resource_count)
+
+def fix_resource_names(resource_count):
+    fixed_count = {}
+    for resource, count in resource_count.items():
+        if resource == 'teacher_given':
+            fixed_count['Teacher-provided resources'] = count
+        elif resource == 'teacher_practice_problems':
+            fixed_count['Teacher-provided practice problems'] = count
+        elif resource == 'heimler_history':
+            fixed_count['Heimler\'s History'] = count
+        elif resource == 'khan_academy':
+            fixed_count['Khan Academy'] = count
+        elif resource == 'quizlet':
+            fixed_count['Quizlet'] = count
+        elif resource == 'crash_course':
+            fixed_count['Crash Course'] = count
+        elif resource == 'organic_chemistry':
+            fixed_count['Organic Chemistry Tutor'] = count
+        else:
+            fixed_count[resource] = count
+    return fixed_count
+
+def get_class_data_by_teacher(class_id, teacher):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    #gotta see if teacher IN the tuple, not sure how to do that
+
+    data = c.execute('SELECT * FROM class_data WHERE class_id = ? AND teacher LIKE "%{}%"'.format(teacher), (class_id,)).fetchall()
+
+    db.commit()
+    db.close()
+
+    return data      
+        
+def prettify_class_data_by_teacher(class_id, teacher):
+    data = get_class_data_by_teacher(class_id, teacher)
+    if not data:
+        return None
+    
+    # Process the data to calculate mean and median for each column
+    prettified_data = []
+    for i in range(4, 9):
+        column_data = [row[i] for row in data]
+        if column_data:
+            mean = sum(column_data) / len(column_data)
+            sorted_data = sorted(column_data)
+            n = len(sorted_data)
+            if n % 2 == 0:
+                median = (sorted_data[n//2 - 1] + sorted_data[n//2]) / 2
+            else:
+                median = sorted_data[n//2]
+            prettified_data.append(['', mean, median])
+    responders = len(data)
+    prettified_data[0][0] = 'Difficulty'
+    prettified_data[1][0] = 'Enjoymnet'
+    prettified_data[2][0] = 'Workload'
+    prettified_data[3][0] = 'Hours'
+    prettified_data[4][0] = 'Teaching Quality'
+    return prettified_data
+
+def get_teachers_for_class(class_id):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    data = c.execute('SELECT subject FROM classes WHERE id = ?', (class_id,)).fetchall()
+
+    db.commit()
+    db.close()
+    data = clean_list(re.split('[^a-zA-Z]', str(data[0])))
+    print(data)
+    return data    
 
 def get_all_classes():
 

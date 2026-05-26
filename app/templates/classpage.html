@@ -18,18 +18,68 @@
             {% if saved %}⭐{% endif %}
         </h1>
         <p> Grades: {{class_info[2][2:-2]}} </p>
-        <p> Subject: {{class_info[3]}} </p>
-        <p> Teachers: {{class_info[1]}} </p>  
+        <p> Subject: {{class_info[1]}} </p>
+        <p> Teachers: {{class_info[3]}} </p>  
 
-        <h2>Class Data</h2>
-        <p> Class data will go here </p>
+        <h2>Overall Class Data</h2>
+        <p>Here's the data collected from other students on {{class_info[0]}}.</p>
+        <p>{{responders}} students responded.</p>
+
+        <table>
+            <tr>
+                <th>Category </th>
+                <th>Mean</th>
+                <th>Median</th>
+            </tr>
+            {% for data in class_data %}
+            <tr>
+                <td>{{data[0]}}</td>
+                <td>{{data[1]}}</td>
+                <td>{{data[2]}}</td>
+            </tr>
+            {% endfor %}
+     
+        </table>
+
+        {% for resource in resources %}
+        <p> {{resource}} is recommended by {{resources[resource]}} students. </p>
+        {% endfor %}
+
+        <h2> Class Data by Teacher</h2>
+        {% for teacher in teacher_data %}
+            <details>
+                <summary> {{teacher}} </summary>
+                <table>
+                    <tr>
+                        <th>Category </th>
+                        <th>Mean</th>
+                        <th>Median</th>
+                    </tr>
+                    {% if teacher_data[teacher] %}
+                    {% for t in teacher_data[teacher] %}
+                        <tr>
+                            <td>{{t[0]}}</td>
+                            <td>{{t[1]}}</td>
+                            <td>{{t[2]}}</td>
+                        </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="3">No data available for this teacher.</td>
+                    </tr>
+                    {% endif %}
+                </table>
+            </details>
+            <br>
+        {% endfor %}
+
         <h2>Add a review</h2>
         {% if not error %}
         <p> All data is collected anonymously. Your feedback will help other students when they use Stuypedia!</p>
         <form method="POST">
             <label for="teacher"> Teacher you had: </label>
             <select name="teacher">
-                {% for teacher in class_info[1].split(',') %}
+                {% for teacher in class_info[3].split(',') %}
                     <option value="{{teacher}}">{{teacher}}</option>
                 {% endfor %}
             </select>

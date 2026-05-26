@@ -241,7 +241,16 @@ def classpage(class_id):
     if class_saved_by_user(class_id, session['username']):
         saved = True
     if review_already_made(class_id, user_id_from_username(session['username'])):
-        return render_template('classpage.html', class_info=get_class_info(class_id), error='already_complete', saved=saved)
+        prettified_data, responders, resources = prettify_class_data(class_id)
+        #data by teacher
+        teacher_data = {}
+        teachers = get_teachers_for_class(class_id)
+
+        for teacher in teachers:
+            teacher_data[teacher[0]] = prettify_class_data_by_teacher(class_id, teacher[0])
+            print(teacher_data[teacher[0]])
+        return render_template('classpage.html', teacher_data = teacher_data, class_info=get_class_info(class_id), error='already_complete', saved=saved, class_data=prettified_data, responders=responders, resources=fix_resource_names(resources))
+    
     if request.method == 'POST':
         teacher = request.form.get('teacher')
         difficulty = request.form.get('difficulty')
@@ -254,6 +263,8 @@ def classpage(class_id):
         save_class_review(class_id, user_id_from_username(session['username']), teacher, difficulty, enjoyment, workload, hours, teaching_quality, resources)
     saved = class_saved_by_user(class_id, session['username'])
     class_info = get_class_info(class_id)
+
+    #gotta render class data
     return render_template('classpage.html', class_info=class_info, saved=saved)
 
 if __name__ == "__main__":

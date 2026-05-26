@@ -147,6 +147,7 @@ def user_id_from_username(username):
     else:
         return None
 
+<<<<<<< HEAD
 def clean_string(string):
     clean = ""
     for i in range(len(string)):
@@ -154,6 +155,8 @@ def clean_string(string):
             clean += string[i]
     return clean
 
+=======
+>>>>>>> 5c1cc4bc4a77c5af6421f6790ad0d83429373ceb
 def save_class_review(class_id, user_id, teacher, difficulty, enjoyment, workload, hours, teaching_quality, resources):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
@@ -267,7 +270,11 @@ def prettify_class_data(class_id):
         if resources:
             for resource in resources.split(','):
                 resource = resource.strip()
+<<<<<<< HEAD
                 resource_count[clean_string(resource)] = resource_count.get(resource, 0) + 1
+=======
+                resource_count[resource] = resource_count.get(resource, 0) + 1
+>>>>>>> 5c1cc4bc4a77c5af6421f6790ad0d83429373ceb
 
     #num of students who recommend each resource
 
@@ -414,7 +421,7 @@ def get_user_classes(username):
         return data[0][0].split()  # Return list of class IDs
     else:
         return None
-
+object
 
 def get_class_name_from_id(class_id):
     db = sqlite3.connect(DB_FILE)
@@ -533,27 +540,28 @@ def create_events_table():
         start       TEXT            NOT NULL,
         end         TEXT,
         color       TEXT,
+        class       TEXT,
         all_day     INTEGER
         )"""
     create_table(contents)
 
-def save_event(username, title, start, end, color, all_day):
+def save_event(username, title, start, end, color, class, all_day):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    c.execute('INSERT INTO events VALUES (NULL, ?, ?, ?, ?, ?, ?)',
-              (username, title, start, end, color, int(all_day)))
+    c.execute('INSERT INTO events VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)',
+              (username, title, start, end, color, class, int(all_day)))
     db.commit()
     db.close()
 
 def get_events(username):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    data = c.execute('SELECT id, title, start, end, color, all_day FROM events WHERE username = ?',
+    data = c.execute('SELECT id, title, start, end, color, class, all_day FROM events WHERE username = ?',
                      (username,)).fetchall()
     db.commit()
     db.close()
     return [{"id": r[0], "title": r[1], "start": r[2], "end": r[3],
-             "color": r[4], "allDay": bool(r[5])} for r in data]
+             "color": r[4], "color": r[5], "allDay": bool(r[6])} for r in data]
 
 def delete_event(event_id, username):
     db = sqlite3.connect(DB_FILE)

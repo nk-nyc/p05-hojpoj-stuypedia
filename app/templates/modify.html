@@ -1,51 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Stuypedia</title>
-        <link href="../static/css/modify.css" rel="stylesheet"/>
-    </head>
+<head>
+    <title>Stuypedia</title>
+    <!-- Foundation CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.8.1/dist/css/foundation.min.css">
+    <!-- Foundation Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.min.css">
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Foundation JS -->
+    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.8.1/dist/js/foundation.min.js"></script>
+    <!-- Your custom CSS -->
+    <link href="../static/css/modify.css" rel="stylesheet"/>
+</head>
+<body>
 
-    <body>
-      <nav id="navbar">
-        <ul id="navbar">
-        <li> <a href='/home'> Home </a> </li>
-        <li> <a href='/calendar'> Calendar </a> </li>
-        <li> <a href='/modify'> Modify Classes </a> </li>
-        <li> <a href='/findclass'> Find a class </a> </li>
-        <li> <a href='/logout'> Log out </a> </li>
-        </ul>
-      </nav>
-      <h2> Your current classes: </h2>
-      <form method="POST">
+<div class="nav-bar">
+  <div class="nav-bar-left">
+    <ul class="dropdown menu" data-dropdown-menu>
+      <li><a href='/home' title="Home"><i class="fi-home"></i> Home</a></li>
+      <li><a href='/calendar' title="Calendar"><i class="fi-calendar"></i> Calendar</a></li>
+      <li><a href='/modify' title="Modify Classes"><i class="fi-pencil"></i> Modify Classes</a></li>
+      <li><a href='/findclass' title="Find a Class"><i class="fi-magnifying-glass"></i> Find a Class</a></li>
+      <li><a href='/logout' title="Log out"><i class="fi-power"></i> Log out</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="grid-container">
+  <div class="grid-x grid-margin-x">
+    <!-- Left column: Current classes -->
+    <div class="cell medium-6">
+      <div class="classes-section">
+        <h2>Your current classes:</h2>
         {% if your_classes %}
-        {% for class in your_classes %}
-        <p> {{class}} </p>
-        <br>
-        {% endfor %}
+          {% for class in your_classes %}
+            <p>{{ class }}</p>
+            <br>
+          {% endfor %}
         {% else %}
-          <p> No classes to display. </p>
+          <p>No classes to display.</p>
         {% endif %}
+      </div>
+    </div>
 
-        <h2> Search for a new class to add: </h2>
-
+    <!-- Right column: Search section -->
+    <div class="cell medium-6">
+      <div class="search-box">
+        <h2>Search for a new class to add:</h2>
+        <form method="POST">
           <input type="text" name="search" placeholder="Search for a class...">
-          <button type="submit" class="btn btn-primary w-100"> Search </button>
+          <button type="submit">Search</button>
         </form>
+      </div>
 
-        {% if searched %}
+      {% if searched %}
         <table>
           {% for s in searched %}
-          <tr>
-            <td>{{s[1]}}</td>
-            <td> <button type="button" onclick="addClass({{s[0]}})">Add</button> </td>
-          </tr>
+            <tr>
+              <td>{{ s[1] }}<\/td>
+              <td><button type="button" onclick="addClass({{ s[0] }})">Add</button><\/td>
+            </tr>
           {% endfor %}
         </table>
+      {% endif %}
 
-        {% endif %}
+      <p style="margin-top: 30px; margin-left: 20px;" >Can't find a class? Click <a href='/addclass'>here</a> to suggest one.</p>
+    </div>
+  </div>
+</div>
 
-        <p> Can't find a class? Click <a href='/addclass'>here</a> to suggest one. </p>
-        <script src='../static/js/findclass.js'></script>
-    </body>
-
-  </html>
+<script src='../static/js/findclass.js'></script>
+			
+</body>
+</html>

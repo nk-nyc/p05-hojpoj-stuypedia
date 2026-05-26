@@ -1,19 +1,169 @@
-#navbar {
-  display: inline;
-  list-style-type: none;
+.nav-bar {
+  position: fixed;
+  left: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 70px;
+  border-radius: 50px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  border: none;
+  background: black;
+  z-index: 9999;
 }
 
-ul li {
+.nav-bar-left {
+  width: 100%;
+}
+
+.nav-bar .menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  margin: 0;
+  padding: 20px 0;
+  background: transparent;
+}
+
+.nav-bar .menu li {
+  width: 100%;
+  text-align: center;
+  list-style: none;
+  background: transparent;
+  position: relative;
+}
+
+.nav-bar .menu li a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 0;
+  font-size: 0;
+  color: white;
+  text-decoration: none;
+  position: relative;
+}
+
+.nav-bar .menu li a i {
+  font-size: 24px;
+  margin-bottom: 5px;
+  color: white;
+}
+
+.nav-bar .menu li a:hover::after {
+  content: attr(title);
+  position: absolute;
+  left: 75px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.8);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.grid-container {
+  max-width: 1500px;
+  margin-left: 120px;
+}
+
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  padding-top: 100px;
+  padding-left: 30px;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+p {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.search-box {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 20px;
+  background: #f9f9f9;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  margin-left: 20px;
+}
+
+.search-box h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+input[name="search"] {
+  width: 250px;
   float: left;
+  margin-right: 10px;
   padding: 10px;
-  background-color: black;
-  color: white;
+  border: 1px solid #ccc;
+  border-radius: 25px;
 }
 
-ul li a {
+button[type="submit"] {
+  float: left;
+  background: black;
   color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
 }
 
-ul li a:hover {
-  background-color: blue;
+form::after {
+  content: "";
+  display: table;
+  clear: both;
 }
+
+.classes-section {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 20px;
+  background: #f9f9f9;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.classes-section h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+button {
+  background: black;
+  color: white;
+  padding: 5px 15px;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #333;
+}
+
+a {
+  color: #673273;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+

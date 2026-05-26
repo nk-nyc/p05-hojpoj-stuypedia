@@ -2,16 +2,23 @@
 <html lang="en">
     <head>
         <title>Stuypedia</title>
+
+    <!-- Foundation Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.min.css">
+
         <link href="../static/css/home.css" rel="stylesheet"/>
     </head>
     <body>
-      <nav id="navbar">
-        <ul id="navbar">
-        <li> <a href='/home'> Home </a> </li>
-        <li> <a href='/classlist'> Full Class List </a> </li>
-        <li> <a href='/logout'> Log out </a> </li>
-        </ul>
-      </nav>
+
+<div class="nav-bar">
+  <div class="nav-bar-left">
+    <ul class="dropdown menu" data-dropdown-menu>
+      <li><a href='/home' title="Home"><i class="fi-home"></i> Home</a></li>
+      <li><a href='/classlist' title="Class List"><i class="fi-magnifying-glass"></i> Find a Class</a></li>
+      <li><a href='/logout' title="Log out"><i class="fi-power"></i> Log out</a></li>
+    </ul>
+  </div>
+</div>
         <h1>Approve classes created by students:</h1>
         <!-- classes recommended by students -->
         <table>

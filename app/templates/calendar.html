@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css"/>
         <link href="../static/css/calendar.css" rel="stylesheet"/>
-		
+
 		 <!-- Foundation CSS -->
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.8.1/dist/css/foundation.min.css">
 		<!-- Foundation Icons -->
@@ -18,7 +18,7 @@
 		    </head>
     <body>
 		 <h1 style="margin-top: 50px;">Stuypedia</h1>
-			 
+
 	<div class="nav-bar">
 	  <div class="nav-bar-left">
 	    <ul class="dropdown menu" data-dropdown-menu>
@@ -83,6 +83,12 @@
             <option value="#9b59b6">Purple</option>
           </select>
         </div>
+        <div>
+          <label for="modal-class">Class</label>
+          <select id="modal-class">
+            <option value=""></option>
+          </select>
+        </div>
         <div class="modal-actions">
           <button id="modal-cancel">Cancel</button>
           <button id="modal-submit">Add Event</button>
@@ -96,6 +102,7 @@
         <p><strong>Start:</strong> <span id="info-start"></span></p>
         <p><strong>End:</strong> <span id="info-end"></span></p>
         <div class="info-color-bar" id="info-color-bar"></div>
+        <div class="info-class" id="info-class"></div>
         <div class="modal-actions">
           <button id="info-delete">Delete</button>
           <button id="info-close">Close</button>

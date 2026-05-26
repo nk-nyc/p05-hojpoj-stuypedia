@@ -71,3 +71,9 @@ Michelle -- 5/20/26
 - Added end date component & updated database
 - Updated css to make event display in home.html look better
 - Made it so it saves events
+
+Natalie -- 5/22/2026 and 5/21/2026
+- Added class pages
+- Allowed for class creation, approval, and deletion by admin
+- Fixed search bars
+- Still an error with class recommendation by students, could be a db issue

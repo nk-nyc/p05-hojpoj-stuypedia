@@ -140,6 +140,11 @@
 
 
 body {
+  background-image: url('../images/home.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   padding-left: 0px;
   padding-top: 100px;
   max-width: 1200px;

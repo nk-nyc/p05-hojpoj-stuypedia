@@ -1,32 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Stuypedia</title>
-        <link href="../static/css/home.css" rel="stylesheet"/>
-    </head>
-    <body>
-      <nav id="navbar">
-        <ul id="navbar">
-        <li> <a href='/home'> Home </a> </li>
-        <li> <a href='/calendar'> Calendar </a> </li>
-        <li> <a href='/modify'> Modify Classes </a> </li>
-        <li> <a href='/findclass'> Find a class </a> </li>
-        <li> <a href='/logout'> Log out </a> </li>
-        </ul>
-      </nav>
-        <h1>Find a class:</h1>
-        <form>
-          <input type="text" name="search" placeholder="Search for a class...">
-          <button type="submit" class="btn btn-primary w-100"> Search </button>
+<head>
+    <title>Stuypedia</title>
+    <!-- Foundation CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.8.1/dist/css/foundation.min.css">
+    <!-- Foundation Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.min.css">
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Foundation JS -->
+    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.8.1/dist/js/foundation.min.js"></script>
+    <!-- Your custom CSS -->
+    <link href="../static/css/findclass.css" rel="stylesheet"/>
+</head>
+<body>
 
-          {% if searched %}
-            {% for s in searched %}
-            <li> {{s}} </li>
-            {% endfor %}
-          {% endif %}
-          
-          <p> Can't find a class? Click <a href='/addclass'>here</a> to add one. </p>
+<div class="nav-bar">
+  <div class="nav-bar-left">
+    <ul class="dropdown menu" data-dropdown-menu>
+      <li><a href='/home' title="Home"><i class="fi-home"></i> Home</a></li>
+      <li><a href='/calendar' title="Calendar"><i class="fi-calendar"></i> Calendar</a></li>
+      <li><a href='/modify' title="Modify Classes"><i class="fi-pencil"></i> Modify Classes</a></li>
+      <li><a href='/findclass' title="Find a Class"><i class="fi-magnifying-glass"></i> Find a Class</a></li>
+      <li><a href='/logout' title="Log out"><i class="fi-power"></i> Log out</a></li>
+    </ul>
+  </div>
+</div>
 
+<div class="grid-container">
+  <div class="grid-x grid-margin-x">
+    <div class="cell">
+      <h1>Find a class:</h1>
+      
+      <div class="search-box">
+        <form method="POST">
+          <div class="search-wrapper">
+            <input type="text" name="search" placeholder="Search for a class...">
+            <button type="submit">Search</button>
+          </div>
         </form>
-    </body>
+      </div>
+
+      {% if searched %}
+        <table>
+          {% for s in searched %}
+            <tr>
+              <td><a href='/classpage/{{ s[0] }}'>{{ s[1] }}</a></td>
+              <td><button type="button" onclick="addClass({{ s[0] }})">Save class</button></td>
+            </tr>
+          {% endfor %}
+        </table>
+      {% endif %}
+
+      <p class="suggest-link">Can't find a class? Click <a href='/addclass'>here</a> to suggest one.</p>
+    </div>
+  </div>
+</div>
+
+<script src='../static/js/findclass.js'></script>
+</body>
 </html>

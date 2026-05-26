@@ -1,24 +1,150 @@
-#navbar {
-  display: inline;
-  list-style-type: none;
+.nav-bar {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  left: auto;
+  transform: none;
+  width: auto;
+  border-radius: 50px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  border: none;
+  background: black;
+  z-index: 1000; 
 }
 
-ul li {
-  float: left;
-  padding: 10px;
-  background-color: black;
+.nav-bar .menu {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 8px 20px;
+  background: transparent;
+}
+
+.nav-bar .menu li {
+  display: inline-block;
+  text-align: center;
+  list-style: none;
+  background: transparent;
+  position: relative;
+}
+
+.nav-bar .menu li a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0;
+  color: white;
+  text-decoration: none;
+  position: relative;
+}
+
+.nav-bar .menu li a:hover::after {
+  content: attr(title);
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.8);
+  color: white;
+  padding: 5px 2px;
+  border-radius: 5px;
+  font-size: 12px;
+  white-space: nowrap;
+  margin-top: 5px;
+}
+
+
+.nav-bar .menu li a i {
+  font-size: 20px;
+  margin-right: 0;
   color: white;
 }
 
-ul li a {
-  color: white;
+body {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding-left: 2000px;
+  padding-right: 20px;
+  padding-top: 80px;
 }
 
-ul li a:hover {
-  background-color: blue;
+
+p {
+  clear: both;
+  margin: 12px 0;
 }
 
-#event-modal {
+#page-body {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  margin-top: 16px;
+  margin-left: 50px;
+}
+
+body > *:not(.nav-bar) {
+  margin-left: 50px;
+}
+
+
+#external-events {
+  width: 160px;
+  flex-shrink: 0;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #fafafa;
+}
+
+#external-events p {
+  margin: 0 0 8px;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+#external-events .fc-event {
+  padding: 5px 8px;
+  margin-bottom: 6px;
+  border-radius: 4px;
+  background: #3a87d3;
+  color: #fff;
+  font-size: 0.85rem;
+  cursor: grab;
+}
+
+.add-draggable {
+  display: flex;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.add-draggable input {
+  flex: 1;
+  padding: 5px 7px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.8rem;
+}
+
+.add-draggable button {
+  padding: 5px 9px;
+  background: #3a87d3;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+
+#calendar {
+  flex: 1;
+}
+
+#event-modal,
+#info-modal {
   display: none;
   position: fixed;
   inset: 0;
@@ -28,9 +154,66 @@ ul li a:hover {
   justify-content: center;
 }
 
-#event-modal.open {
+#event-modal.open,
+#info-modal.open {
   display: flex;
+}
+
+.modal-box {
+  background: #fff;
+  border-radius: 8px;
+  padding: 24px 28px;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.modal-box h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.modal-box label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.modal-box input,
+.modal-box select {
+  width: 100%;
+  padding: 7px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  box-sizing: border-box;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 4px;
+}
+
+.modal-actions button {
+  padding: 7px 18px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
 }
 
 #modal-submit { background: #3a87d3; color: #fff; }
 #modal-cancel  { background: #eee;    color: #333; }
+#info-close    { background: #eee;    color: #333; }
+#info-delete   { background: #e74c3c; color: #fff; }
+
+.info-color-bar {
+  height: 8px;
+  border-radius: 4px;
+  margin: 4px 0 8px;
+}

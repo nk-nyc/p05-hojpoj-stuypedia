@@ -66,104 +66,98 @@
 }
 
 .grid-container {
-  max-width: 1500px;
-  margin-left: 120px;
+  max-width: 500px;
+  margin: 0 auto;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 40px;
+  float: none;
 }
 
 body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 16px;
-  padding-top: 100px;
-  padding-left: 30px;
+  padding-top: 40px;
+  background: #f0f0f0;
 }
 
-h2 {
-  font-size: 24px;
-  font-weight: 600;
+h1 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
 }
 
 p {
-  font-size: 16px;
-  line-height: 1.5;
+  color: #666;
+  margin-bottom: 20px;
 }
 
-.search-box {
-  border: 1px solid #ddd;
+/* Form box - styled like register container */
+.form-box {
+  background: white;
   border-radius: 12px;
-  padding: 20px;
-  background: #f9f9f9;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  margin-left: 20px;
+  padding: 30px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-.search-box h2 {
-  margin-top: 0;
-  margin-bottom: 15px;
+label {
+  font-weight: 600;
+  color: #555;
+  display: block;
+  margin-top: 15px;
+  margin-bottom: 5px;
 }
 
-input[name="search"] {
-  width: 250px;
-  float: left;
-  margin-right: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 25px;
+input[type="text"], select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: border 0.3s;
+}
+
+input[type="text"]:focus, select:focus {
+  border-color: #673273;
+  outline: none;
+}
+
+.checkbox-group {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin: 10px 0;
+  flex-wrap: wrap;
+}
+
+.checkbox-group input {
+  width: auto;
+  margin-right: 5px;
+}
+
+.checkbox-group label {
+  display: inline;
+  font-weight: normal;
+  margin: 0;
+  color: #555;
 }
 
 button[type="submit"] {
-  float: left;
-  background: black;
+  background: #673273;
   color: white;
-  padding: 10px 20px;
+  padding: 12px 25px;
   border: none;
-  border-radius: 25px;
+  border-radius: 8px;
   cursor: pointer;
-}
-
-form::after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-.classes-section {
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  padding: 20px;
-  background: #f9f9f9;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-
-.classes-section h2 {
-  margin-top: 0;
-  margin-bottom: 15px;
-}
-
-table {
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 25px;
   width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
+  transition: background 0.3s;
 }
 
-button {
-  background: black;
-  color: white;
-  padding: 5px 15px;
-  border: none;
-  border-radius: 15px;
-  cursor: pointer;
+button[type="submit"]:hover {
+  background: #311438;
 }
-
-button:hover {
-  background: #333;
-}
-
-a {
-  color: #673273;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-

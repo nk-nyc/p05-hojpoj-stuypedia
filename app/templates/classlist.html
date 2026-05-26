@@ -20,15 +20,20 @@
             <th> Subject </th>
             <th> Grades </th>
             <th> Teachers </th>
+            <th> Delete </th>
           </tr>
         {% for class in classes %}
           <tr>
             <td> {{class[0]}} </td>
-            <td> {{class[1]}} </td>
+            <td> <a href='/classpage/{{class[0]}}'> {{class[1]}} </a> </td>
             <td> {{class[2]}} </td>
             <td> {{class[3]}} </td>
             <td> {{class[4]}} </td>
+            <td> <button onclick="deleteClass({{class[0]}})">Delete class</button> </td>
           </tr>
         {% endfor %}
+        </table>
+
+        <script src='../static/js/classlist.js'></script>
     </body>
 </html>

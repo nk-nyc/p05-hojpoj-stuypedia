@@ -56,9 +56,9 @@ Our team is familiar with these tools and they are sufficient enough to get the 
 # TEAM OWNERSHIP PLAN
 | Team Member | Primary Ownership | Secondary Ownership | Specific Deliverables |
 |---|---|---|---|
-|Natalie |  Back-end development | Data management | working calendar, collection of data |
-|Sophia | Front-end development | Data management | aesthetically pleasing pages |
-|Michelle | Back-end development | Front-end development | task adding/removal  |
+|Natalie |  Back-end development | Data management | teacher profiles and classes, collection of data |
+|Sophia | Front-end development | Data management | aesthetically pleasing pages, login & register |
+|Michelle | Back-end development | Front-end development | task adding/removal, working calendar  |
 
 ---
 # COMPONENT MAP
@@ -136,6 +136,16 @@ Events will be stored as such:
 | teacher | INTEGER | 0 if no associated teacher |
 | type | TEXT | "test", "project", "meeting", etc. |
 
+Personal Events will be stored as such: 
+| key | type | notes |
+|----|------|----|
+| id | INTEGER | PK, unique |
+| username | TEXT | |
+| title | TEXT |  |
+| start | TEXT | | 
+| end | TEXT | Optional|
+| color | TEXT | Default is blue |
+| all_day | INTEGER |  |
 
 # TESTING PLAN
 We will test the register and login component by crating an account and logging on. We will test the calendar feature by creating, detailing, viewing, moving, and deleting tasks. We will test the teacher profile feature by viewing if the teachers have all the correct information on their page. 
@@ -185,4 +195,4 @@ These data will be displayed to students when they view each class section. Addi
 
 ## CALENDAR
 
-The calendar will be student-managed. Students can select whether the day is an A or B day and which type as well as what time schedule the day has. In addition to that, students can create **events** in categories such as test, project due date, AP, and celebration. Students will be able to verify other users' events or report them if they are innacurate. All students will be able to view the collective calendar and filter it for which classes they want to view.
+The calendar will be student-managed. Students can select whether the day is an A or B day and which type as well as what time schedule the day has. In addition to that, students can create **events** in categories such as test, project due date, AP, and celebration. Students will be able to verify other users' events or report them if they are innacurate. All students will be able to view the collective calendar and filter it for which classes they want to view. Calendars are created with FullCalendar v3, a Javascript calendar library.

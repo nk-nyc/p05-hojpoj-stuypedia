@@ -63,3 +63,29 @@ Michelle -- 5/18/26
 - Made a popup for adding events
 - MAde an events database
 - Made upcoming events display on home page
+
+sophiaC -- 2026-05-13
+- edits on register page
+
+Michelle -- 5/20/26
+- Added end date component & updated database
+- Updated css to make event display in home.html look better
+- Made it so it saves events
+
+Natalie -- 5/22/2026 and 5/21/2026
+- Added class pages
+- Allowed for class creation, approval, and deletion by admin
+- Fixed search bars
+- Still an error with class recommendation by students, could be a db issue
+
+Natalie -- 5/25/26
+- Committed what I wrote on the plane :)
+- Finished class creation, suggestion, and feedback forms
+- Want to do:
+  - Fix __ students added
+  - Add ability to disable classes (ones that aren't currently being taught)
+  - Add "edit class" for admin
+  - MAYBE add comments/q&a
+  - CSS/styling
+  - Add events to certain classes
+  - Filter by subject/grade/teacher

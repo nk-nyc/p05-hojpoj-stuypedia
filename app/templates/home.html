@@ -1,36 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
+	
     <head>
-        <title>Stuypedia</title>
-        <link href="../static/css/home.css" rel="stylesheet"/>
-    </head>
-    <body>
-      <nav id="navbar">
-        <ul id="navbar">
-        <li> <a href='/home'> Home </a> </li>
-        <li> <a href='/calendar'> Calendar </a> </li>
-        <li> <a href='/modify'> Modify Classes </a> </li>
-        <li> <a href='/findclass'> Find a class </a> </li>
-        <li> <a href='/logout'> Log out </a> </li>
-        </ul>
-      </nav>
-        <h1>Stuypedia</h1>
-        <p>Welcome to Stuypedia!</p>
+    <title>Stuypedia</title>
+    <!-- Foundation CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.8.1/dist/css/foundation.min.css">
+    <!-- Foundation Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.min.css">
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Foundation JS -->
+    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.8.1/dist/js/foundation.min.js"></script>
+    <!-- Your custom overrides (keep gradient, event card styles) -->
+		 
+    <link href="../static/css/home.css" rel="stylesheet"/>
+	</head>
         
-        <div id="upcoming-events">
-        <h2>Upcoming Events</h2>
-        {% if upcoming %}
-          <ul>
-            {% for event in upcoming %}
-              <li>
-                <span class="event-date">{{ event.start }}</span>
-                <span class="event-title" style="color: {{ event.color }}">{{ event.title }}</span>
-              </li>
-            {% endfor %}
-          </ul>
-        {% else %}
-          <p>No upcoming events. <a href="/calendar">Add one →</a></p>
-        {% endif %}
-      </div>
+    <body>
+		 
+<div class="nav-bar">
+  <div class="nav-bar-left">
+    <ul class="dropdown menu" data-dropdown-menu>
+      <li><a href='/home' title="Home"><i class="fi-home"></i> Home</a></li>
+      <li><a href='/calendar' title="Calendar"><i class="fi-calendar"></i> Calendar</a></li>
+      <li><a href='/modify' title="Modify Classes"><i class="fi-pencil"></i> Modify Classes</a></li>
+      <li><a href='/findclass' title="Find a Class"><i class="fi-magnifying-glass"></i> Find a Class</a></li>
+      <li><a href='/logout' title="Log out"><i class="fi-power"></i> Log out</a></li>
+    </ul>
+  </div>
+</div>
+      
+<div class="grid-x grid-margin-x">
+  <!-- Left column -->
+  <div class="cell medium-6">
+	 <h1 style="font-weight: bold;">Stuypedia</h1>
+    <p>Welcome to Stuypedia!</p>
+    <p>To save your classes, navigate to "Modify Classes", search for a class, and click the "Add" button next to the class you want to save. Saved classes will have a ⭐ next to their name on their class page.</p>
+    <p>Data collected from students like you will be displayed on each class page. There, you can see what others students thought of the class and different teachers, as well as recommended resources.</p>
+  </div>
+
+  <div class="cell medium-6">
+    <div id="upcoming-events">
+      <h2>Upcoming Events</h2>
+      {% if upcoming %}
+        <div class="event-list">
+          {% for event in upcoming %}
+          <div class="event-card" style="border-left: 4px solid {{ event.color or '#3a87d3' }}">
+            <div class="event-card-date">
+              <span class="event-month">{{ event.start[:7] | replace('-', '/') }}</span>
+              <span class="event-day">{{ event.start[8:10] }}</span>
+            </div>
+            <div class="event-card-info">
+              <span class="event-card-title">{{ event.title }}</span>
+              <span class="event-card-time">{{ event.start[11:16] if 'T' in event.start else 'All day' }}</span>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="no-events">No upcoming events. <a href="/calendar">Add one →</a></p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+      
     </body>
 </html>

@@ -1,7 +1,11 @@
+from operator import ge
 import sqlite3                      # enable control of an sqlite database
 import hashlib                      # for consistent hashes
 import secrets                      # to generate ids
 import random
+from flask import request
+import math
+import re
 
 DB_FILE="data.db"
 
@@ -50,6 +54,25 @@ def register_user(username, password):
 
     return "success"
 
+#data collected: difficulty, enjoyment, workload, hours per night, teaching quality, resources
+
+def create_class_data_table():
+    contents = """
+        CREATE TABLE IF NOT EXISTS class_data (
+            id          INTEGER     PRIMARY KEY AUTOINCREMENT,
+            class_id    INTEGER     NOT NULL UNIQUE,
+            user_id    INTEGER     NOT NULL,
+            teacher     TEXT        NOT NULL,
+            difficulty  INTEGER     NOT NULL,
+            enjoyment   INTEGER     NOT NULL,
+            workload    INTEGER     NOT NULL,
+            hours       INTEGER     NOT NULL,
+            teaching_quality INTEGER     NOT NULL,
+            resources    TEXT     
+        )"""
+    create_table(contents)
+
+
 def create_users_table():
 
     contents =  """
@@ -67,7 +90,7 @@ def create_classes_table():
 
     contents = """
             CREATE TABLE IF NOT EXISTS classes (
-                id          INTEGER     NOT NULL UNIQUE,
+                id          INTEGER     PRIMARY KEY AUTOINCREMENT,
                 name        TEXT        NOT NULL UNIQUE,
                 teachers    TEXT        NOT NULL,
                 grades      INTEGER     NOT NULL,
@@ -77,7 +100,6 @@ def create_classes_table():
 
 def check_class_for_uniqueness(name):
     classes = get_all_classes()
-    print(classes)
     for i in range(len(classes)):
         if classes[i][1] == name:
             return False
@@ -90,11 +112,63 @@ def fix_grade_format(grades):
             final_str += grades[i]
     return final_str
 
+def add_user_class(username, class_id):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    classes = c.execute('SELECT classes FROM users WHERE username = ?', (username,)).fetchone()[0]
+    if classes:
+        if str(class_id) in classes.split():
+            return False  # Class is already added
+        else:
+            new_classes = classes + " " + str(class_id)
+    else:
+        new_classes = str(class_id)
+    c.execute('UPDATE users SET classes = ? WHERE username = ?', (new_classes, username))
+    db.commit()
+    db.close()
+
+def user_id_from_username(username):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    data = c.execute('SELECT id FROM users WHERE username = ?', (username,)).fetchone()
+    db.commit()
+    db.close()
+
+    if data:
+        return data[0]
+    else:
+        return None
+    
+def save_class_review(class_id, user_id, teacher, difficulty, enjoyment, workload, hours, teaching_quality, resources):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    # use ? for unsafe/user provided variables
+    data = c.execute('INSERT INTO class_data VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', (None, class_id, user_id, teacher, difficulty, enjoyment, workload, hours, teaching_quality, resources))
+
+    db.commit()
+    db.close()
+
+    return data
+
+def review_already_made(class_id, user_id):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    data = c.execute('SELECT * FROM class_data WHERE class_id = ? AND user_id = ?', (class_id, user_id)).fetchone()
+    db.commit()
+    db.close()
+
+    if data:
+        return True
+    else:
+        return False
+
 def create_teachers_table():
 
     contents = """
             CREATE TABLE IF NOT EXISTS teachers (
-                id          INTEGER     NOT NULL UNIQUE,
+                id          INTEGER     PRIMARY KEY AUTOINCREMENT,
                 first       TEXT        NOT NULL,
                 last        TEXT        NOT NULL,
                 classes     TEXT        NOT NULL,
@@ -104,15 +178,157 @@ def create_teachers_table():
 def create(name, subject, grades, teachers):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    id = len(get_all_classes()) + 1
 
-    data = c.execute('INSERT INTO classes VALUES (?, ?, ?, ?, ?)', (id, name, teachers, str(grades), subject))
+    # use ? for unsafe/user provided variables
+    data = c.execute('INSERT INTO classes VALUES (?, ?, ?, ?, ?)', (None, name, teachers, str(grades), subject))
 
     db.commit()
     db.close()
 
     return data
 
+
+def get_all_class_data():
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    data = c.execute('SELECT * FROM class_data').fetchall()
+
+    db.commit()
+    db.close()
+
+    return data
+
+def get_class_data(class_id):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    data = c.execute('SELECT * FROM class_data WHERE class_id = ?', (class_id,)).fetchall()
+
+    db.commit()
+    db.close()
+
+    return data
+
+def get_from_class_data(class_id, request):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    data = c.execute('SELECT ? FROM class_data WHERE class_id = ?', (request, class_id,)).fetchall()
+
+    db.commit()
+    db.close()
+
+    return data    
+
+def prettify_class_data(class_id):
+    prettified_data = [] #2d array with each row being a category
+    
+    # Get all the data for the class
+    all_data = get_class_data(class_id)
+    
+    # Calculate mean and median for each column
+    for i in range(4, 9):
+        column_data = [row[i] for row in all_data]
+        if column_data:
+            mean = sum(column_data) / len(column_data)
+            sorted_data = sorted(column_data)
+            n = len(sorted_data)
+            if n % 2 == 0:
+                median = (sorted_data[n//2 - 1] + sorted_data[n//2]) / 2
+            else:
+                median = sorted_data[n//2]
+            prettified_data.append(['', mean, median])
+    responders = len(all_data)
+    prettified_data[0][0] = 'Difficulty'
+    prettified_data[1][0] = 'Enjoymnet'
+    prettified_data[2][0] = 'Workload'
+    prettified_data[3][0] = 'Hours'
+    prettified_data[4][0] = 'Teaching Quality'
+
+    #count best resources
+    resource_count = {}
+    for row in all_data:
+        resources = row[9]  
+        if resources:
+            for resource in resources.split(','):
+                resource = resource.strip()
+                resource_count[resource] = resource_count.get(resource, 0) + 1
+    
+    #num of students who recommend each resource
+
+    return (prettified_data, responders, resource_count)
+
+def fix_resource_names(resource_count):
+    fixed_count = {}
+    for resource, count in resource_count.items():
+        if resource == 'teacher_given':
+            fixed_count['Teacher-provided resources'] = count
+        elif resource == 'teacher_practice_problems':
+            fixed_count['Teacher-provided practice problems'] = count
+        elif resource == 'heimler_history':
+            fixed_count['Heimler\'s History'] = count
+        elif resource == 'khan_academy':
+            fixed_count['Khan Academy'] = count
+        elif resource == 'quizlet':
+            fixed_count['Quizlet'] = count
+        elif resource == 'crash_course':
+            fixed_count['Crash Course'] = count
+        elif resource == 'organic_chemistry':
+            fixed_count['Organic Chemistry Tutor'] = count
+        else:
+            fixed_count[resource] = count
+    return fixed_count
+
+def get_class_data_by_teacher(class_id, teacher):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    #gotta see if teacher IN the tuple, not sure how to do that
+
+    data = c.execute('SELECT * FROM class_data WHERE class_id = ? AND teacher LIKE "%{}%"'.format(teacher), (class_id,)).fetchall()
+
+    db.commit()
+    db.close()
+
+    return data      
+        
+def prettify_class_data_by_teacher(class_id, teacher):
+    data = get_class_data_by_teacher(class_id, teacher)
+    if not data:
+        return None
+    
+    # Process the data to calculate mean and median for each column
+    prettified_data = []
+    for i in range(4, 9):
+        column_data = [row[i] for row in data]
+        if column_data:
+            mean = sum(column_data) / len(column_data)
+            sorted_data = sorted(column_data)
+            n = len(sorted_data)
+            if n % 2 == 0:
+                median = (sorted_data[n//2 - 1] + sorted_data[n//2]) / 2
+            else:
+                median = sorted_data[n//2]
+            prettified_data.append(['', mean, median])
+    responders = len(data)
+    prettified_data[0][0] = 'Difficulty'
+    prettified_data[1][0] = 'Enjoymnet'
+    prettified_data[2][0] = 'Workload'
+    prettified_data[3][0] = 'Hours'
+    prettified_data[4][0] = 'Teaching Quality'
+    return prettified_data
+
+def get_teachers_for_class(class_id):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    data = c.execute('SELECT subject FROM classes WHERE id = ?', (class_id,)).fetchall()
+
+    db.commit()
+    db.close()
+    data = clean_list(re.split('[^a-zA-Z]', str(data[0])))
+    print(data)
+    return data    
 
 def get_all_classes():
 
@@ -126,14 +342,20 @@ def get_all_classes():
 
     return data
 
+def class_saved_by_user(class_id, username):
+    user_classes = get_user_classes(username)
+    if user_classes:
+        return str(class_id) in user_classes
+    return False
 
 def get_searched_classes(search):
     all_classes = get_all_classes()
     searched_classes = []
+    i = 0
     while i < len(all_classes):
         if search in all_classes[i][1]: #if search matches class name
-            searched_classes.append(all_classes[i][1])
-
+            searched_classes.append(all_classes[i])
+        i += 1
     return searched_classes
 
 def clean_list(raw_output):
@@ -171,16 +393,27 @@ def get_user_classes(username):
     c = db.cursor()
 
     data = c.execute('SELECT classes FROM users WHERE username = ?', (username,)).fetchall()
-    print(data)
     db.commit()
     db.close()
 
     if data:
-        return data[0].split()
+        return data[0][0].split()  # Return list of class IDs
     else:
         return None
 
 
+def get_class_name_from_id(class_id):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    data = c.execute('SELECT name FROM classes WHERE id = ?', (class_id,)).fetchone()
+    db.commit()
+    db.close()
+
+    if data:
+        return data[0]
+    else:
+        return None
 
 def get_all_anons():
 
@@ -222,32 +455,104 @@ def auth(username, password):
 
     return True
 
+def delete_classid(class_id):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    c.execute('DELETE FROM classes WHERE id = ?', (class_id,))
+    db.commit()
+    db.close()
+
+def delete_student_classid(class_id):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    c.execute('DELETE FROM student_classes WHERE id = ?', (class_id,))
+    db.commit()
+    db.close()
+
+def approve_classid(class_id):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    class_info = c.execute('SELECT name, teachers, grades, subject FROM student_classes WHERE id = ?', (class_id,)).fetchone()
+    c.execute('INSERT INTO classes VALUES (?, ?, ?, ?, ?)', (None, class_info[0], class_info[1], class_info[2], class_info[3]))
+    c.execute('DELETE FROM student_classes WHERE id = ?', (class_id,))
+    db.commit()
+    db.close()
+
+def get_all_student_classes():
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    data = c.execute('SELECT * FROM student_classes').fetchall()
+
+    db.commit()
+    db.close()
+
+    return data
+ 
+def create_student_class(name, teachers, grade, subject):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    # use ? for unsafe/user provided variables
+    data = c.execute('INSERT INTO student_classes VALUES (?, ?, ?, ?, ?)', (None, name, teachers, str(grade), subject))
+
+    db.commit()
+    db.close()
+
+    return data
+def create_student_classes_table():
+    contents = """
+            CREATE TABLE IF NOT EXISTS student_classes (
+                id          INTEGER     PRIMARY KEY AUTOINCREMENT,
+                name        TEXT        NOT NULL UNIQUE,
+                teachers    TEXT        NOT NULL,
+                grades      INTEGER     NOT NULL,
+                subject     TEXT        NOT NULL
+            )"""
+    create_table(contents)
+
 def create_events_table():
     contents = """
         CREATE TABLE IF NOT EXISTS events (
-        id          INTEGER         NOT NULL PRIMARY KEY AUTOINCREMENT,
+        id          INTEGER         PRIMARY KEY AUTOINCREMENT,
         username    TEXT            NOT NULL,
         title       TEXT            NOT NULL,
         start       TEXT            NOT NULL,
+        end         TEXT,           
         color       TEXT,
         all_day     INTEGER
         )"""
     create_table(contents)
 
-def save_event(username, title, start, color, all_day):
+def save_event(username, title, start, end, color, all_day):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    c.execute('INSERT INTO events VALUES (NULL, ?, ?, ?, ?, ?)',
-              (username, title, start, color, int(all_day)))
+    c.execute('INSERT INTO events VALUES (NULL, ?, ?, ?, ?, ?, ?)',
+              (username, title, start, end, color, int(all_day)))
     db.commit()
     db.close()
 
 def get_events(username):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    data = c.execute('SELECT title, start, color, all_day FROM events WHERE username = ?',
+    data = c.execute('SELECT id, title, start, end, color, all_day FROM events WHERE username = ?',
                      (username,)).fetchall()
     db.commit()
     db.close()
-    return [{"title": r[0], "start": r[1], "color": r[2], "allDay": bool(r[3])} for r in data]
+    return [{"id": r[0], "title": r[1], "start": r[2], "end": r[3],
+             "color": r[4], "allDay": bool(r[5])} for r in data]
 
+def delete_event(event_id, username):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    c.execute('DELETE FROM events WHERE id = ? AND username = ?', (event_id, username))
+    db.commit()
+    db.close()
+
+def get_class_info(class_id):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    data = c.execute('SELECT name, teachers, grades, subject FROM classes WHERE id = ?', (class_id,)).fetchone()
+    db.commit()
+    db.close()
+
+    return data

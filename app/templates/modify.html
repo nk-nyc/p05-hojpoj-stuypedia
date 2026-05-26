@@ -35,7 +35,7 @@
         <h2>Your current classes:</h2>
         {% if your_classes %}
           {% for class in your_classes %}
-            <p>{{ class }}</p>
+            <p><a href='/classpage/{{class[1]}}'> {{ class[0] }}</a></p>
             <br>
           {% endfor %}
         {% else %}
@@ -58,8 +58,8 @@
         <table>
           {% for s in searched %}
             <tr>
-              <td>{{ s[1] }}<\/td>
-              <td><button type="button" onclick="addClass({{ s[0] }})">Add</button><\/td>
+              <td>{{ s[1] }}</td>
+              <td><button type="button" onclick="addClass({{ s[0] }})">Add</button></td>
             </tr>
           {% endfor %}
         </table>
@@ -71,6 +71,6 @@
 </div>
 
 <script src='../static/js/findclass.js'></script>
-			
+
 </body>
 </html>

@@ -26,6 +26,13 @@ def generate_anon():
 
     return adjective + "_" + animal
 
+def get_class_data(class_id):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    c.execute('SELECT * FROM class_data WHERE class_id = ?', (classid,))
+    db.commit()
+    db.close()
+
 def register_user(username, password):
 
     if user_exists(username):
@@ -60,7 +67,7 @@ def create_class_data_table():
     contents = """
         CREATE TABLE IF NOT EXISTS class_data (
             id          INTEGER     PRIMARY KEY AUTOINCREMENT,
-            class_id    INTEGER     NOT NULL UNIQUE,
+            class_id    INTEGER     NOT NULL ,
             user_id    INTEGER     NOT NULL,
             teacher     TEXT        NOT NULL,
             difficulty  INTEGER     NOT NULL,
@@ -68,7 +75,7 @@ def create_class_data_table():
             workload    INTEGER     NOT NULL,
             hours       INTEGER     NOT NULL,
             teaching_quality INTEGER     NOT NULL,
-            resources    TEXT     
+            resources    TEXT
         )"""
     create_table(contents)
 
@@ -139,12 +146,19 @@ def user_id_from_username(username):
         return data[0]
     else:
         return None
-    
+
+def clean_string(string):
+    clean = ""
+    for i in range(len(string)):
+        if (not string[i] == '[' and not string[i] == ']') and not string[i] == "'":
+            clean += string[i]
+    return clean
+
 def save_class_review(class_id, user_id, teacher, difficulty, enjoyment, workload, hours, teaching_quality, resources):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
     # use ? for unsafe/user provided variables
-    data = c.execute('INSERT INTO class_data VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', (None, class_id, user_id, teacher, difficulty, enjoyment, workload, hours, teaching_quality, resources))
+    data = c.execute('INSERT INTO class_data VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', (None, class_id, user_id, teacher, difficulty, enjoyment, workload, hours, teaching_quality, str(resources)))
 
     db.commit()
     db.close()
@@ -219,14 +233,14 @@ def get_from_class_data(class_id, request):
     db.commit()
     db.close()
 
-    return data    
+    return data
 
 def prettify_class_data(class_id):
     prettified_data = [] #2d array with each row being a category
-    
+
     # Get all the data for the class
     all_data = get_class_data(class_id)
-    
+
     # Calculate mean and median for each column
     for i in range(4, 9):
         column_data = [row[i] for row in all_data]
@@ -249,12 +263,12 @@ def prettify_class_data(class_id):
     #count best resources
     resource_count = {}
     for row in all_data:
-        resources = row[9]  
+        resources = row[9]
         if resources:
             for resource in resources.split(','):
                 resource = resource.strip()
-                resource_count[resource] = resource_count.get(resource, 0) + 1
-    
+                resource_count[clean_string(resource)] = resource_count.get(resource, 0) + 1
+
     #num of students who recommend each resource
 
     return (prettified_data, responders, resource_count)
@@ -290,13 +304,13 @@ def get_class_data_by_teacher(class_id, teacher):
     db.commit()
     db.close()
 
-    return data      
-        
+    return data
+
 def prettify_class_data_by_teacher(class_id, teacher):
     data = get_class_data_by_teacher(class_id, teacher)
     if not data:
         return None
-    
+
     # Process the data to calculate mean and median for each column
     prettified_data = []
     for i in range(4, 9):
@@ -328,7 +342,7 @@ def get_teachers_for_class(class_id):
     db.close()
     data = clean_list(re.split('[^a-zA-Z]', str(data[0])))
     print(data)
-    return data    
+    return data
 
 def get_all_classes():
 
@@ -473,7 +487,7 @@ def approve_classid(class_id):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
     class_info = c.execute('SELECT name, teachers, grades, subject FROM student_classes WHERE id = ?', (class_id,)).fetchone()
-    c.execute('INSERT INTO classes VALUES (?, ?, ?, ?, ?)', (None, class_info[0], class_info[1], class_info[2], class_info[3]))
+    c.execute('INSERT INTO classes VALUES (?, ?, ?, ?, ?)', (None, class_info[0], class_info[3], class_info[2], class_info[1]))
     c.execute('DELETE FROM student_classes WHERE id = ?', (class_id,))
     db.commit()
     db.close()
@@ -488,7 +502,7 @@ def get_all_student_classes():
     db.close()
 
     return data
- 
+
 def create_student_class(name, teachers, grade, subject):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
@@ -517,7 +531,7 @@ def create_events_table():
         username    TEXT            NOT NULL,
         title       TEXT            NOT NULL,
         start       TEXT            NOT NULL,
-        end         TEXT,           
+        end         TEXT,
         color       TEXT,
         all_day     INTEGER
         )"""

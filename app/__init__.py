@@ -3,6 +3,7 @@ from flask import session, request, redirect, url_for
 from data import *
 import sqlite3
 import json
+import datetime
 
 app = Flask(__name__)
 app.secret_key = 'supersecret'
@@ -167,13 +168,15 @@ def modify():
 
             if class_list:
                 for i in range(len(class_list)):
-                    class_list[i] = get_class_name_from_id(class_list[i])
+                    name = get_class_name_from_id(class_list[i])
+                    class_list[i] = [name, class_list[i]]
                 return render_template('modify.html', your_classes=class_list, searched=searched_classes)
             else:
                 return render_template('modify.html', searched=searched_classes)
         if class_list:
                 for i in range(len(class_list)):
-                    class_list[i] = get_class_name_from_id(class_list[i])
+                    class_list[i] = [get_class_name_from_id(class_list[i]), class_list[i]]
+                print(class_list)
                 return render_template('modify.html', your_classes=class_list)
         return render_template('modify.html', your_classes=class_list)
 
@@ -237,6 +240,7 @@ def classpage(class_id):
     if 'username' not in session:
         return(url_for('login'))
     saved = False
+    prettified_data = None
     if class_saved_by_user(class_id, session['username']):
         saved = True
     if review_already_made(class_id, user_id_from_username(session['username'])):
@@ -244,10 +248,10 @@ def classpage(class_id):
         #data by teacher
         teacher_data = {}
         teachers = get_teachers_for_class(class_id)
+        print(resources)
 
         for teacher in teachers:
             teacher_data[teacher[0]] = prettify_class_data_by_teacher(class_id, teacher[0])
-            print(teacher_data[teacher[0]])
         return render_template('classpage.html', teacher_data = teacher_data, class_info=get_class_info(class_id), error='already_complete', saved=saved, class_data=prettified_data, responders=responders, resources=fix_resource_names(resources))
 
     if request.method == 'POST':
@@ -257,14 +261,31 @@ def classpage(class_id):
         workload = request.form.get('workload')
         hours = request.form.get('hours')
         teaching_quality = request.form.get('teaching_quality')
-        resources = request.form.get('resources')
+        resources = request.form.getlist('resources')
         # Save the review to the database
         save_class_review(class_id, user_id_from_username(session['username']), teacher, difficulty, enjoyment, workload, hours, teaching_quality, resources)
+
     saved = class_saved_by_user(class_id, session['username'])
     class_info = get_class_info(class_id)
 
+    if get_class_data(class_id):
+        prettified_data, responders, resources = prettify_class_data(class_id)
+    else:
+        teacher_data = {}
+        teachers = get_teachers_for_class(class_id)
+        return render_template('classpage.html', teacher_data = teacher_data, class_info=get_class_info(class_id), saved=saved, class_data=None, responders=None, resources=None)
+
+    #data by teacher
+    teacher_data = {}
+    teachers = get_teachers_for_class(class_id)
+
+    if len(teachers) > 1:
+        for teacher in teachers:
+            teacher_data[teacher[0]] = prettify_class_data_by_teacher(class_id, teacher[0])
+    else:
+        teacher_data[teachers] =prettify_class_data_by_teacher(class_id, teacher)
     #gotta render class data
-    return render_template('classpage.html', class_info=class_info, saved=saved)
+    return render_template('classpage.html', teacher_data = teacher_data, class_info=get_class_info(class_id), saved=saved, class_data=prettified_data, responders=responders, resources=fix_resource_names(resources))
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080, debug=True)

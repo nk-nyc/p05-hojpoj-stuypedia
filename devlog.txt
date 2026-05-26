@@ -77,3 +77,15 @@ Natalie -- 5/22/2026 and 5/21/2026
 - Allowed for class creation, approval, and deletion by admin
 - Fixed search bars
 - Still an error with class recommendation by students, could be a db issue
+
+Natalie -- 5/25/26
+- Committed what I wrote on the plane :)
+- Finished class creation, suggestion, and feedback forms
+- Want to do:
+  - Fix __ students added
+  - Add ability to disable classes (ones that aren't currently being taught)
+  - Add "edit class" for admin
+  - MAYBE add comments/q&a
+  - CSS/styling
+  - Add events to certain classes
+  - Filter by subject/grade/teacher

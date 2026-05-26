@@ -1,0 +1,163 @@
+.nav-bar {
+  position: fixed;
+  left: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 70px;
+  border-radius: 50px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  border: none;
+  background: black;
+  z-index: 9999;
+}
+
+.nav-bar-left {
+  width: 100%;
+}
+
+.nav-bar .menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  margin: 0;
+  padding: 20px 0;
+  background: transparent;
+}
+
+.nav-bar .menu li {
+  width: 100%;
+  text-align: center;
+  list-style: none;
+  background: transparent;
+  position: relative;
+}
+
+.nav-bar .menu li a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 0;
+  font-size: 0;
+  color: white;
+  text-decoration: none;
+  position: relative;
+}
+
+.nav-bar .menu li a i {
+  font-size: 24px;
+  margin-bottom: 5px;
+  color: white;
+}
+
+.nav-bar .menu li a:hover::after {
+  content: attr(title);
+  position: absolute;
+  left: 75px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.8);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.grid-container {
+  max-width: 500px;
+  margin: 0 auto;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 40px;
+  float: none;
+}
+
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  padding-top: 40px;
+  background: #f0f0f0;
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+p {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+/* Form box - styled like register container */
+.form-box {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+label {
+  font-weight: 600;
+  color: #555;
+  display: block;
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+
+input[type="text"], select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: border 0.3s;
+}
+
+input[type="text"]:focus, select:focus {
+  border-color: #673273;
+  outline: none;
+}
+
+.checkbox-group {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin: 10px 0;
+  flex-wrap: wrap;
+}
+
+.checkbox-group input {
+  width: auto;
+  margin-right: 5px;
+}
+
+.checkbox-group label {
+  display: inline;
+  font-weight: normal;
+  margin: 0;
+  color: #555;
+}
+
+button[type="submit"] {
+  background: #673273;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 25px;
+  width: 100%;
+  transition: background 0.3s;
+}
+
+button[type="submit"]:hover {
+  background: #311438;
+}

@@ -1,60 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Stuypedia</title>
-        <link href="../static/css/modify.css" rel="stylesheet"/>
-    </head>
+<head>
+    <title>Stuypedia</title>
+    <!-- Foundation CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.8.1/dist/css/foundation.min.css">
+    <!-- Foundation Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.min.css">
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Foundation JS -->
+    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.8.1/dist/js/foundation.min.js"></script>
+    <!-- Your custom CSS -->
+    <link href="../static/css/addclass.css" rel="stylesheet"/>
+</head>
+<body>
+	
+<div class="nav-bar">
+  <div class="nav-bar-left">
+    <ul class="dropdown menu" data-dropdown-menu>
+      <li><a href='/home' title="Home"><i class="fi-home"></i> Home</a></li>
+      <li><a href='/calendar' title="Calendar"><i class="fi-calendar"></i> Calendar</a></li>
+      <li><a href='/modify' title="Modify Classes"><i class="fi-pencil"></i> Modify Classes</a></li>
+      <li><a href='/findclass' title="Find a Class"><i class="fi-magnifying-glass"></i> Find a Class</a></li>
+      <li><a href='/logout' title="Log out"><i class="fi-power"></i> Log out</a></li>
+    </ul>
+  </div>
+</div>
 
-    <body>
+<div class="grid-container">
+  <div class="grid-x grid-margin-x">
+    <div class="cell">
+      <h1>Add a class</h1>
+      
+      <p>Before doing this, make sure your class doesn't already exist!</p>
 
-      <nav id="navbar">
-        <ul id="navbar">
-        <li> <a href='/home'> Home </a> </li>
-        <li> <a href='/calendar'> Calendar </a> </li>
-        <li> <a href='/modify'> Modify Classes </a> </li>
-        <li> <a href='/findclass'> Find a class </a> </li>
-        <li> <a href='/logout'> Log out </a> </li>
-        </ul>
-      </nav>
-
-      <h1> Add a class </h1>
-
-      <p> Before doing this, make sure your class doesn't already exist! </p>
-
-      <form method="POST">
-        <label for="name"> Enter the name of the class: </label>
-        <input type="text" name="name" placeholder="Class name" required>
-        <br>
-        <label for="subject"> What subject is this class? </label>
+      <div class="form-box">
+        <form method="POST">
+          <label for="name">Enter the name of the class:</label>
+          <input type="text" name="name" placeholder="Class name" required>
+          
+          <label for="subject">What subject is this class?</label>
           <select name="subject" id="subject" required>
-            <option name="English"> English </option>
-            <option name="Languages"> Languages </option>
-            <option name="Social Studies"> Social Studies/History </option>
-            <option name="Math"> Math </option>
-            <option name="Science"> Science </option>
-            <option name="Tech"> Tech </option>
-            <option name="Art"> Art </option>
-            <option name="Other"> Other </option>
+            <option value="English">English</option>
+            <option value="Languages">Languages</option>
+            <option value="Social Studies">Social Studies/History</option>
+            <option value="Math">Math</option>
+            <option value="Science">Science</option>
+            <option value="Tech">Tech</option>
+            <option value="Art">Art</option>
+            <option value="Other">Other</option>
           </select>
-          <br>
-          <p> Which grades can take this class? </p>
-          <input type="checkbox" id="nine" name="grade" value="nine">
-          <label for="nine">9</label><br>
-          <input type="checkbox" id="ten" name="grade" value="ten">
-          <label for="ten">10</label><br>
-          <input type="checkbox" id="eleven" name="grade" value="eleven">
-          <label for="eleven">11</label><br>
-          <input type="checkbox" id="twelve" name="grade" value="twelve">
-          <label for="twelve">12</label><br>
-          <br>
+          
+          <p>Which grades can take this class?</p>
+          <div class="checkbox-group">
+            <input type="checkbox" id="nine" name="grade" value="nine">
+            <label for="nine">9</label>
+            
+            <input type="checkbox" id="ten" name="grade" value="ten">
+            <label for="ten">10</label>
+            
+            <input type="checkbox" id="eleven" name="grade" value="eleven">
+            <label for="eleven">11</label>
+            
+            <input type="checkbox" id="twelve" name="grade" value="twelve">
+            <label for="twelve">12</label>
+          </div>
 
-          <label for="teachers"> List out the teachers that teach this class. Separate each last name by commas. </label>
-          <br>
+          <label for="teachers">List out the teachers that teach this class. Separate each last name by commas.</label>
           <input type="text" name="teachers" placeholder="List teachers..." required>
-          <br>
-          <br>
-          <button type="submit"> Submit </button>
-      </form>
+          
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
-    </body>
-  </html>
+</body>
+</html>

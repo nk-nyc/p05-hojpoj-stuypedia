@@ -417,7 +417,7 @@ def get_user_classes(username):
     db.commit()
     db.close()
 
-    if data:
+    if data and data[0][0]:
         return data[0][0].split()  # Return list of class IDs
     else:
         return None
@@ -540,28 +540,28 @@ def create_events_table():
         start       TEXT            NOT NULL,
         end         TEXT,
         color       TEXT,
-        class       TEXT,
+        linked_class       TEXT,
         all_day     INTEGER
         )"""
     create_table(contents)
 
-def save_event(username, title, start, end, color, class, all_day):
+def save_event(username, title, start, end, color, linked_class, all_day):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
     c.execute('INSERT INTO events VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)',
-              (username, title, start, end, color, class, int(all_day)))
+              (username, title, start, end, color, linked_class, int(all_day)))
     db.commit()
     db.close()
 
 def get_events(username):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    data = c.execute('SELECT id, title, start, end, color, class, all_day FROM events WHERE username = ?',
+    data = c.execute('SELECT id, title, start, end, color, linked_class, all_day FROM events WHERE username = ?',
                      (username,)).fetchall()
     db.commit()
     db.close()
     return [{"id": r[0], "title": r[1], "start": r[2], "end": r[3],
-             "color": r[4], "color": r[5], "allDay": bool(r[6])} for r in data]
+             "color": r[4], "linked_class": r[5], "allDay": bool(r[6])} for r in data]
 
 def delete_event(event_id, username):
     db = sqlite3.connect(DB_FILE)

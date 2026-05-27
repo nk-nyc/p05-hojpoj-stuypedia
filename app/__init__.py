@@ -88,12 +88,14 @@ def login(): #code from p02 cerulean
 @app.route('/home', methods=['GET', 'POST'])
 def home():
     print(session['username'])
-    class_list = get_user_classes(session['username'][0])
     if session['username'] == 'stuypedia_admin':
         class_list = get_all_student_classes()
         print(class_list)
         return render_template('admin_home.html', classes=class_list)
-    all_events = get_events(session['username'])
+    
+    username = session['username']
+    class_list = get_user_classes(username)
+    all_events = get_events(username)
     today = datetime.date.today()
 
     upcoming = sorted(
@@ -101,10 +103,11 @@ def home():
         key=lambda e: e['start']
     )[:5]
     if class_list:
+        class_names = [[get_class_name_from_id(cid), cid] for cid in class_list]
         print(class_list)
-        return render_template('home.html', your_classes=class_list)
+        return render_template('home.html', your_classes=class_names, upcoming=upcoming)
     else:
-        return render_template('home.html')
+        return render_template('home.html', upcoming=upcoming)
 
 @app.route('/logout', methods=["GET", "POST"])
 def logout():
@@ -185,7 +188,11 @@ def modify():
 def calendar():
     if 'username' not in session:
         return(url_for('login'))
-    return render_template('calendar.html')
+    class_list = get_user_classes(session['username'])
+    class_name = []
+    if class_list:
+        class_names = [[get_class_name_from_id(cid), cid] for cid in class_list]
+    return render_template('calendar.html', user_classes=class_names)
 
 @app.route('/events', methods=['GET'])
 def get_calendar_events():
@@ -195,9 +202,16 @@ def get_calendar_events():
 @app.route('/events', methods=['POST'])
 def add_calendar_event():
     data = request.get_json()
-    save_event(session['username'], data['title'], data['start'],
-               data.get('end'), data['color'], data['allDay'])
-    return json.dumps({"status": "ok"})
+    new_id = save_event(
+        session['username'],
+        data['title'],
+        data['start'],
+        data.get('end'),
+        data['color'],
+        data.get('linked_class'),
+        data['allDay']
+    )
+    return json.dumps({"status": "ok", "id" = new_id})
 
 @app.route('/events/<int:event_id>', methods=['DELETE'])
 def remove_calendar_event(event_id):

@@ -11,7 +11,7 @@ function openModal() {
 function closeModal() {
   modal.classList.remove('open');
   ['modal-title','modal-start-date','modal-start-time',
-   'modal-end-date','modal-end-time'].forEach(function(id) {
+   'modal-end-date','modal-end-time', 'modal-class'].forEach(function(id) {
     document.getElementById(id).value = '';
   });
 }
@@ -24,9 +24,10 @@ function openInfoModal(event) {
     event.start ? event.start.format(fmt) : '—';
   document.getElementById('info-end').textContent =
     event.end   ? event.end.format(fmt)   : '—';
+  document.getElementById('info-class').textContent =
+    event.linked_class || 'None';
   document.getElementById('info-color-bar').style.background =
     event.color || '#3a87d3';
-  document.getElementById('info-class').textContent = event.description;
   infoModal.classList.add('open');
 }
 function closeInfoModal() {
@@ -46,11 +47,11 @@ function makeDraggable(el){
   });
 }
 
-function saveEventToServer(title, start, end, color, allDay) {
+function saveEventToServer(title, start, end, color, linkedClass, allDay) {
   return fetch('/events', {
     method: 'POST',
     headers: { "Content-Type": 'application/json'},
-    body: JSON.stringify({ title: title, start:start, end: end, color: color, class: class, allDay: allDay})
+    body: JSON.stringify({ title: title, start:start, end: end, color: color, linkedClass: linkedClass, allDay: allDay})
   }).then(function(r) { return r.json(); });
 }
 
@@ -85,7 +86,7 @@ $(document).ready(function () {
     eventReceive: function (event) {
       var start = event.start.format();
       var allDay = event.allDay;
-      saveEventToServer(event.title, start, null, '#3a87d3', allDay)
+      saveEventToServer(event.title, start, null, '#3a87d3', null, allDay)
         .then(function(data) {
           event.id = data.id;
           $('#calendar').fullCalendar('updateEvent', event);
@@ -124,7 +125,7 @@ $(document).ready(function () {
     var endDate   = document.getElementById('modal-end-date').value;
     var endTime   = document.getElementById('modal-end-time').value;
     var color = document.getElementById('modal-color').value;
-    var class = document.getElementById('modal-class').value;
+    var linked_class = document.getElementById('modal-class').value || null;
 
     if (!title) {alert('Please enter an event name.'); return; }
     if(!startDate) {alert('Please select a date.'); return; }
@@ -144,7 +145,7 @@ $(document).ready(function () {
       end: end,
       allDay: allDay,
       color: color,
-      class: class,
+      linked_class: linkedClass,
     }, true);
 
       fetch('/events', {

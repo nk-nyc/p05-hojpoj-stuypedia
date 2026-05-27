@@ -147,16 +147,6 @@ def user_id_from_username(username):
     else:
         return None
 
-<<<<<<< HEAD
-def clean_string(string):
-    clean = ""
-    for i in range(len(string)):
-        if (not string[i] == '[' and not string[i] == ']') and not string[i] == "'":
-            clean += string[i]
-    return clean
-
-=======
->>>>>>> 5c1cc4bc4a77c5af6421f6790ad0d83429373ceb
 def save_class_review(class_id, user_id, teacher, difficulty, enjoyment, workload, hours, teaching_quality, resources):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
@@ -270,11 +260,7 @@ def prettify_class_data(class_id):
         if resources:
             for resource in resources.split(','):
                 resource = resource.strip()
-<<<<<<< HEAD
-                resource_count[clean_string(resource)] = resource_count.get(resource, 0) + 1
-=======
                 resource_count[resource] = resource_count.get(resource, 0) + 1
->>>>>>> 5c1cc4bc4a77c5af6421f6790ad0d83429373ceb
 
     #num of students who recommend each resource
 
@@ -421,7 +407,6 @@ def get_user_classes(username):
         return data[0][0].split()  # Return list of class IDs
     else:
         return None
-object
 
 def get_class_name_from_id(class_id):
     db = sqlite3.connect(DB_FILE)
@@ -551,7 +536,9 @@ def save_event(username, title, start, end, color, linked_class, all_day):
     c.execute('INSERT INTO events VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)',
               (username, title, start, end, color, linked_class, int(all_day)))
     db.commit()
+    new_id = c.lastrowid
     db.close()
+    return new_id
 
 def get_events(username):
     db = sqlite3.connect(DB_FILE)

@@ -51,7 +51,7 @@ function saveEventToServer(title, start, end, color, linkedClass, allDay) {
   return fetch('/events', {
     method: 'POST',
     headers: { "Content-Type": 'application/json'},
-    body: JSON.stringify({ title: title, start:start, end: end, color: color, linkedClass: linkedClass, allDay: allDay})
+    body: JSON.stringify({ title: title, start:start, end: end, color: color, linked_class: linkedClass, allDay: allDay})
   }).then(function(r) { return r.json(); });
 }
 
@@ -125,7 +125,7 @@ $(document).ready(function () {
     var endDate   = document.getElementById('modal-end-date').value;
     var endTime   = document.getElementById('modal-end-time').value;
     var color = document.getElementById('modal-color').value;
-    var linked_class = document.getElementById('modal-class').value || null;
+    var linkedClass = document.getElementById('modal-class').value || null;
 
     if (!title) {alert('Please enter an event name.'); return; }
     if(!startDate) {alert('Please select a date.'); return; }
@@ -151,7 +151,7 @@ $(document).ready(function () {
       fetch('/events', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, start, end, color, class, allDay })
+        body: JSON.stringify({ title, start, end, color, linkedClass, allDay })
       })
       .then(function(r) {return r.json(); })
       .then(function(data) {

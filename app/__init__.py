@@ -95,6 +95,7 @@ def home():
     
     username = session['username']
     class_list = get_user_classes(username)
+    class_names = []
     all_events = get_events(username)
     today = datetime.date.today()
 
@@ -211,7 +212,7 @@ def add_calendar_event():
         data.get('linked_class'),
         data['allDay']
     )
-    return json.dumps({"status": "ok", "id" = new_id})
+    return json.dumps({"status": "ok", "id" : new_id})
 
 @app.route('/events/<int:event_id>', methods=['DELETE'])
 def remove_calendar_event(event_id):

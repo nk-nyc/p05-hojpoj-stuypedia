@@ -1,4 +1,3 @@
-
 var checkbox = document.getElementById('drop-remove');
 var modal = document.getElementById('event-modal');
 var infoModal = document.getElementById('info-modal');
@@ -16,6 +15,15 @@ function closeModal() {
   });
 }
 
+function getClassName(classId) {
+  if (!classId) return 'None';
+  var select = document.getElementById('modal-class');
+  for (var i = 0; i < select.options.length; i++) {
+    if (select.options[i].value == classId) return select.options[i].text;
+  }
+  return classId;
+}
+
 function openInfoModal(event) {
   currentEvent = event;
   var fmt = 'MMM D, YYYY h:mm A';
@@ -25,7 +33,7 @@ function openInfoModal(event) {
   document.getElementById('info-end').textContent =
     event.end   ? event.end.format(fmt)   : '—';
   document.getElementById('info-class').textContent =
-    event.linked_class || 'None';
+    getClassName(event.linked_class);
   document.getElementById('info-color-bar').style.background =
     event.color || '#3a87d3';
   infoModal.classList.add('open');
@@ -92,7 +100,7 @@ $(document).ready(function () {
           $('#calendar').fullCalendar('updateEvent', event);
         });
       if (checkbox.checked) {
-        $('#externa-events .fc-event').filter(function(){
+        $('#external-events .fc-event').filter(function(){
           return $(this).text().trim() === event.title;
         }).first().remove();
       }
@@ -148,12 +156,7 @@ $(document).ready(function () {
       linked_class: linkedClass,
     }, true);
 
-      fetch('/events', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, start, end, color, linkedClass, allDay })
-      })
-      .then(function(r) {return r.json(); })
+    saveEventToServer(title, start, end, color, linkedClass, allDay)
       .then(function(data) {
         var rendered = $('#calendar').fullCalendar('clientEvents', function(e){
           return e.title === title && e.start.isSame(start);

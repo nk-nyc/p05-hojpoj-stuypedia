@@ -233,7 +233,7 @@ def findclass():
 @app.route('/addclass/<int:class_id>', methods=['POST', 'GET'])
 def addClass(class_id):
     add_user_class(session['username'], class_id)
-    print(get_user_classes(session['username'][0]))
+    print(get_user_classes(session['username']))
     return json.dumps({"status": "ok"})
 
 @app.route('/addclass', methods=['GET', 'POST'])

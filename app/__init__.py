@@ -190,7 +190,7 @@ def calendar():
     if 'username' not in session:
         return(url_for('login'))
     class_list = get_user_classes(session['username'])
-    class_name = []
+    class_names = []
     if class_list:
         class_names = [[get_class_name_from_id(cid), cid] for cid in class_list]
     return render_template('calendar.html', user_classes=class_names)

@@ -26,13 +26,6 @@ def generate_anon():
 
     return adjective + "_" + animal
 
-def get_class_data(class_id):
-    db = sqlite3.connect(DB_FILE)
-    c = db.cursor()
-    c.execute('SELECT * FROM class_data WHERE class_id = ?', (classid,))
-    db.commit()
-    db.close()
-
 def register_user(username, password):
 
     if user_exists(username):

@@ -89,3 +89,9 @@ Natalie -- 5/25/26
   - CSS/styling
   - Add events to certain classes
   - Filter by subject/grade/teacher
+
+NEED TO FIX:
+- search bar is case sensitive
+- edit class option
+- filtering class option
+- disabling classes

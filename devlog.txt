@@ -95,6 +95,8 @@ NEED TO FIX:
 - edit class option
 - filtering class option
 - disabling classes
+- teachers being broken
+- add assessment type
 
 EVENT LOGISTICS
 - events can be public or private

@@ -274,7 +274,7 @@ def classpage(class_id):
         for teacher in teachers:
             teacher_data[teacher[0]] = prettify_class_data_by_teacher(class_id, teacher[0])
     else:
-        teacher_data[teachers] =prettify_class_data_by_teacher(class_id, teacher)
+        teacher_data[teachers[0]] =prettify_class_data_by_teacher(class_id, teachers[0])
     #gotta render class data
     return render_template('classpage.html', teacher_data = teacher_data, class_info=get_class_info(class_id), saved=saved, class_data=prettified_data, responders=responders, resources=fix_resource_names(resources))
 

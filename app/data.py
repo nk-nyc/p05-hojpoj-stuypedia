@@ -257,24 +257,24 @@ def prettify_class_data(class_id):
 
     #num of students who recommend each resource
 
-    return (prettified_data, responders, resource_count)
+    return (prettified_data, responders, fix_resource_names(resource_count))
 
 def fix_resource_names(resource_count):
     fixed_count = {}
     for resource, count in resource_count.items():
-        if resource == 'teacher_given':
+        if 'teacher_given' in resource:
             fixed_count['Teacher-provided resources'] = count
-        elif resource == 'teacher_practice_problems':
+        elif 'teacher_practice_problems' in resource:
             fixed_count['Teacher-provided practice problems'] = count
-        elif resource == 'heimler_history':
+        elif 'heimler_history' in resource:
             fixed_count['Heimler\'s History'] = count
-        elif resource == 'khan_academy':
+        elif 'khan_academy' in resource:
             fixed_count['Khan Academy'] = count
-        elif resource == 'quizlet':
+        elif'quizlet' in resource:
             fixed_count['Quizlet'] = count
-        elif resource == 'crash_course':
+        elif 'crash_course' in resource:
             fixed_count['Crash Course'] = count
-        elif resource == 'organic_chemistry':
+        elif 'organic_chemistry' in resource:
             fixed_count['Organic Chemistry Tutor'] = count
         else:
             fixed_count[resource] = count
@@ -326,7 +326,7 @@ def get_teachers_for_class(class_id):
 
     db.commit()
     db.close()
-    data = clean_list(re.split('[^a-zA-Z]', str(data[0])))
+    data = data[0][0].split(',')
     print(data)
     return data
 
@@ -353,7 +353,7 @@ def get_searched_classes(search):
     searched_classes = []
     i = 0
     while i < len(all_classes):
-        if search in all_classes[i][1]: #if search matches class name
+        if search.lower() in all_classes[i][1].lower(): #if search matches class name
             searched_classes.append(all_classes[i])
         i += 1
     return searched_classes
@@ -547,15 +547,6 @@ def delete_event(event_id, username):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
     c.execute('DELETE FROM events WHERE id = ? AND username = ?', (event_id, username))
-    db.commit()
-    db.close()
-
-
-def update_event(event_id, username, title, start, end, color, linked_class, all_day):
-    db = sqlite3.connect(DB_FILE)
-    c = db.cursor()
-    c.execute('''UPDATE events SET title=?, start=?, end=?, color=?, linked_class=?, alll_day=?
-              WHERE id=? AND username=?'''),
     db.commit()
     db.close()
 

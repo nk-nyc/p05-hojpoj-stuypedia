@@ -52,7 +52,6 @@ def register():
 
         execute_register = register_user(username, password)
         if execute_register == "success":
-            print(execute_register)
             session['username'] = username
             return redirect(url_for("home"))
         else:
@@ -87,16 +86,11 @@ def login(): #code from p02 cerulean
 
 @app.route('/home', methods=['GET', 'POST'])
 def home():
-    print(session['username'])
+    class_list = get_user_classes(session['username'][0])
     if session['username'] == 'stuypedia_admin':
         class_list = get_all_student_classes()
-        print(class_list)
         return render_template('admin_home.html', classes=class_list)
-    
-    username = session['username']
-    class_list = get_user_classes(username)
-    class_names = []
-    all_events = get_events(username)
+    all_events = get_events(session['username'])
     today = datetime.date.today()
 
     upcoming = sorted(
@@ -104,11 +98,9 @@ def home():
         key=lambda e: e['start']
     )[:5]
     if class_list:
-        class_names = [[get_class_name_from_id(cid), cid] for cid in class_list]
-        print(class_list)
-        return render_template('home.html', your_classes=class_names, upcoming=upcoming)
+        return render_template('home.html', your_classes=class_list)
     else:
-        return render_template('home.html', upcoming=upcoming)
+        return render_template('home.html')
 
 @app.route('/logout', methods=["GET", "POST"])
 def logout():
@@ -137,7 +129,6 @@ def classlist():
     classlist = get_all_classes()
     for i in range(len(classlist)):
         classlist[i] = list(classlist[i])
-        print(fix_grade_format(classlist[i][3]))
         classlist[i][3] = fix_grade_format(classlist[i][3])
     return render_template('classlist.html', classes=classlist)
 
@@ -180,7 +171,6 @@ def modify():
         if class_list:
                 for i in range(len(class_list)):
                     class_list[i] = [get_class_name_from_id(class_list[i]), class_list[i]]
-                print(class_list)
                 return render_template('modify.html', your_classes=class_list)
         return render_template('modify.html', your_classes=class_list)
 
@@ -189,11 +179,7 @@ def modify():
 def calendar():
     if 'username' not in session:
         return(url_for('login'))
-    class_list = get_user_classes(session['username'])
-    class_names = []
-    if class_list:
-        class_names = [[get_class_name_from_id(cid), cid] for cid in class_list]
-    return render_template('calendar.html', user_classes=class_names)
+    return render_template('calendar.html')
 
 @app.route('/events', methods=['GET'])
 def get_calendar_events():
@@ -203,35 +189,13 @@ def get_calendar_events():
 @app.route('/events', methods=['POST'])
 def add_calendar_event():
     data = request.get_json()
-    new_id = save_event(
-        session['username'],
-        data['title'],
-        data['start'],
-        data.get('end'),
-        data['color'],
-        data.get('linked_class'),
-        data['allDay']
-    )
-    return json.dumps({"status": "ok", "id" : new_id})
+    save_event(session['username'], data['title'], data['start'],
+               data.get('end'), data['color'], data['allDay'])
+    return json.dumps({"status": "ok"})
 
 @app.route('/events/<int:event_id>', methods=['DELETE'])
 def remove_calendar_event(event_id):
     delete_event(event_id, session['username'])
-    return json.dumps({"status": "ok"})
-
-@app.route('/event/<int:event_id>', methods=['PUT'])
-def edit_calendar_event(event_id):
-    data = request.get_json()
-    update_event(
-        event_id,
-        session['username'],
-        data['title'],
-        data['start'],
-        data.get('end'),
-        data['color'],
-        data.get('linked_class'),
-        data['allDay']
-    )
     return json.dumps({"status": "ok"})
 
 @app.route('/findclass', methods=['GET', 'POST'])
@@ -241,14 +205,12 @@ def findclass():
     if 'search' in request.form:
         # gotta write search
         searched_classes = get_searched_classes(request.form.get('search'))
-        print(searched_classes)
         return render_template('findclass.html', searched=searched_classes)
     return render_template('findclass.html')
 
 @app.route('/addclass/<int:class_id>', methods=['POST', 'GET'])
 def addClass(class_id):
     add_user_class(session['username'], class_id)
-    print(get_user_classes(session['username']))
     return json.dumps({"status": "ok"})
 
 @app.route('/addclass', methods=['GET', 'POST'])
@@ -261,8 +223,7 @@ def addclass():
         grade = request.form.getlist('grade')
         subject = request.form.get('subject')
         create_student_class(name, teachers, grade, subject)
-        print(get_all_student_classes())
-        print('e')
+
     return render_template('addclass.html')
 
 @app.route('/classpage/<int:class_id>', methods=['GET', 'POST'])
@@ -278,10 +239,9 @@ def classpage(class_id):
         #data by teacher
         teacher_data = {}
         teachers = get_teachers_for_class(class_id)
-        print(resources)
 
         for teacher in teachers:
-            teacher_data[teacher[0]] = prettify_class_data_by_teacher(class_id, teacher[0])
+            teacher_data[teacher] = prettify_class_data_by_teacher(class_id, teacher)
         return render_template('classpage.html', teacher_data = teacher_data, class_info=get_class_info(class_id), error='already_complete', saved=saved, class_data=prettified_data, responders=responders, resources=fix_resource_names(resources))
 
     if request.method == 'POST':
@@ -293,6 +253,7 @@ def classpage(class_id):
         teaching_quality = request.form.get('teaching_quality')
         resources = request.form.getlist('resources')
         # Save the review to the database
+        print("teacher" + teacher)
         save_class_review(class_id, user_id_from_username(session['username']), teacher, difficulty, enjoyment, workload, hours, teaching_quality, resources)
 
     saved = class_saved_by_user(class_id, session['username'])
@@ -313,7 +274,7 @@ def classpage(class_id):
         for teacher in teachers:
             teacher_data[teacher[0]] = prettify_class_data_by_teacher(class_id, teacher[0])
     else:
-        teacher_data[teachers] =prettify_class_data_by_teacher(class_id, teacher)
+        teacher_data[teachers[0]] =prettify_class_data_by_teacher(class_id, teachers[0])
     #gotta render class data
     return render_template('classpage.html', teacher_data = teacher_data, class_info=get_class_info(class_id), saved=saved, class_data=prettified_data, responders=responders, resources=fix_resource_names(resources))
 

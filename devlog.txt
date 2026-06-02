@@ -91,7 +91,6 @@ Natalie -- 5/25/26
   - Filter by subject/grade/teacher
 
 NEED TO FIX:
-- search bar is case sensitive
 - edit class option
 - filtering class option
 - disabling classes
@@ -102,3 +101,7 @@ EVENT LOGISTICS
 - events can be public or private
 - if public, other people in that class can choose to accept or hide the event. if accepted, they can see it, otherwise they dont
 - to prevent spam, users cant create more than 5 public events per day
+
+Natalie -- 6/2/2026
+- teachers on classpage are breaking for some reason. will fix when i can
+- search bar fixed

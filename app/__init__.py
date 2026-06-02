@@ -86,11 +86,14 @@ def login(): #code from p02 cerulean
 
 @app.route('/home', methods=['GET', 'POST'])
 def home():
-    class_list = get_user_classes(session['username'][0])
     if session['username'] == 'stuypedia_admin':
         class_list = get_all_student_classes()
         return render_template('admin_home.html', classes=class_list)
-    all_events = get_events(session['username'])
+
+    username = session['username']
+    class_list = get_user_classes(username)
+    class_names = []
+    all_events = get_events(username)
     today = datetime.date.today()
 
     upcoming = sorted(
@@ -98,9 +101,9 @@ def home():
         key=lambda e: e['start']
     )[:5]
     if class_list:
-        return render_template('home.html', your_classes=class_list)
-    else:
-        return render_template('home.html')
+        class_names = [[get_class_name_from_id(cid), cid] for cid in class_list]
+        return render_template('home.html', your_classes=class_names, upcoming=upcoming)
+    return render_template('home.html', upcoming=upcoming)
 
 @app.route('/logout', methods=["GET", "POST"])
 def logout():

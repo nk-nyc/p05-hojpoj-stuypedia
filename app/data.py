@@ -353,7 +353,7 @@ def get_searched_classes(search):
     searched_classes = []
     i = 0
     while i < len(all_classes):
-        if search in all_classes[i][1]: #if search matches class name
+        if search.lower() in all_classes[i][1].lower(): #if search matches class name
             searched_classes.append(all_classes[i])
         i += 1
     return searched_classes

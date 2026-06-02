@@ -88,15 +88,12 @@ def login(): #code from p02 cerulean
 @app.route('/home', methods=['GET', 'POST'])
 def home():
     print(session['username'])
+    class_list = get_user_classes(session['username'][0])
     if session['username'] == 'stuypedia_admin':
         class_list = get_all_student_classes()
         print(class_list)
         return render_template('admin_home.html', classes=class_list)
-    
-    username = session['username']
-    class_list = get_user_classes(username)
-    class_names = []
-    all_events = get_events(username)
+    all_events = get_events(session['username'])
     today = datetime.date.today()
 
     upcoming = sorted(
@@ -104,11 +101,10 @@ def home():
         key=lambda e: e['start']
     )[:5]
     if class_list:
-        class_names = [[get_class_name_from_id(cid), cid] for cid in class_list]
         print(class_list)
-        return render_template('home.html', your_classes=class_names, upcoming=upcoming)
+        return render_template('home.html', your_classes=class_list)
     else:
-        return render_template('home.html', upcoming=upcoming)
+        return render_template('home.html')
 
 @app.route('/logout', methods=["GET", "POST"])
 def logout():
@@ -189,11 +185,7 @@ def modify():
 def calendar():
     if 'username' not in session:
         return(url_for('login'))
-    class_list = get_user_classes(session['username'])
-    class_names = []
-    if class_list:
-        class_names = [[get_class_name_from_id(cid), cid] for cid in class_list]
-    return render_template('calendar.html', user_classes=class_names)
+    return render_template('calendar.html')
 
 @app.route('/events', methods=['GET'])
 def get_calendar_events():
@@ -203,16 +195,9 @@ def get_calendar_events():
 @app.route('/events', methods=['POST'])
 def add_calendar_event():
     data = request.get_json()
-    new_id = save_event(
-        session['username'],
-        data['title'],
-        data['start'],
-        data.get('end'),
-        data['color'],
-        data.get('linked_class'),
-        data['allDay']
-    )
-    return json.dumps({"status": "ok", "id" : new_id})
+    save_event(session['username'], data['title'], data['start'],
+               data.get('end'), data['color'], data['allDay'])
+    return json.dumps({"status": "ok"})
 
 @app.route('/events/<int:event_id>', methods=['DELETE'])
 def remove_calendar_event(event_id):
@@ -233,7 +218,7 @@ def findclass():
 @app.route('/addclass/<int:class_id>', methods=['POST', 'GET'])
 def addClass(class_id):
     add_user_class(session['username'], class_id)
-    print(get_user_classes(session['username']))
+    print(get_user_classes(session['username'][0]))
     return json.dumps({"status": "ok"})
 
 @app.route('/addclass', methods=['GET', 'POST'])
@@ -266,7 +251,7 @@ def classpage(class_id):
         print(resources)
 
         for teacher in teachers:
-            teacher_data[teacher[0]] = prettify_class_data_by_teacher(class_id, teacher[0])
+            teacher_data[teacher] = prettify_class_data_by_teacher(class_id, teacher)
         return render_template('classpage.html', teacher_data = teacher_data, class_info=get_class_info(class_id), error='already_complete', saved=saved, class_data=prettified_data, responders=responders, resources=fix_resource_names(resources))
 
     if request.method == 'POST':

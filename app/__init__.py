@@ -179,7 +179,11 @@ def modify():
 def calendar():
     if 'username' not in session:
         return(url_for('login'))
-    return render_template('calendar.html')
+    class_list = get_user_classes(session['username'])
+    class_names = []
+    if class_list:
+        class_names = [[get_class_name_from_id(cid), cid] for cid in class_list]
+    return render_template('calendar.html', user_classes=class_names)
 
 @app.route('/events', methods=['GET'])
 def get_calendar_events():
@@ -189,13 +193,35 @@ def get_calendar_events():
 @app.route('/events', methods=['POST'])
 def add_calendar_event():
     data = request.get_json()
-    save_event(session['username'], data['title'], data['start'],
-               data.get('end'), data['color'], data['allDay'])
-    return json.dumps({"status": "ok"})
+    new_id = save_event(
+        session['username'],
+        data['title'],
+        data['start'],
+        data.get('end'),
+        data['color'],
+        data.get('linked_class'),
+        data['allDay']
+    )
+    return json.dumps({"status": "ok", "id": new_id})
 
 @app.route('/events/<int:event_id>', methods=['DELETE'])
 def remove_calendar_event(event_id):
     delete_event(event_id, session['username'])
+    return json.dumps({"status": "ok"})
+
+@app.route('/events/<int:event_id>', methods=['PUT'])
+def edit_calendar_event(event_id):
+    data = request.get_json()
+    update_event(
+        event_id,
+        session['username'],
+        data['title'],
+        data['start'],
+        data.get('end'),
+        data['color'],
+        data.get('linked_class'),
+        data['allDay']
+    )
     return json.dumps({"status": "ok"})
 
 @app.route('/findclass', methods=['GET', 'POST'])

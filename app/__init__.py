@@ -204,6 +204,21 @@ def remove_calendar_event(event_id):
     delete_event(event_id, session['username'])
     return json.dumps({"status": "ok"})
 
+@app.route('/event/<int:event_id>', methods=['PUT'])
+def edit_calendar_event(event_id):
+    data = request.get_json()
+    update_event(
+        event_id,
+        session['username'],
+        data['title'],
+        data['start'],
+        data.get('end'),
+        data['color'],
+        data.get('linked_class'),
+        data['allDay']
+    )
+    return json.dumps({"status": "ok"})
+
 @app.route('/findclass', methods=['GET', 'POST'])
 def findclass():
     if 'username' not in session:

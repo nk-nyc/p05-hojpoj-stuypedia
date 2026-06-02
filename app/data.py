@@ -550,6 +550,15 @@ def delete_event(event_id, username):
     db.commit()
     db.close()
 
+
+def update_event(event_id, username, title, start, end, color, linked_class, all_day):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    c.execute('''UPDATE events SET title=?, start=?, end=?, color=?, linked_class=?, alll_day=?
+              WHERE id=? AND username=?'''),
+    db.commit()
+    db.close()
+
 def get_class_info(class_id):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()

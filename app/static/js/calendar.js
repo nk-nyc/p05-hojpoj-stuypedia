@@ -2,8 +2,24 @@ var checkbox = document.getElementById('drop-remove');
 var modal = document.getElementById('event-modal');
 var infoModal = document.getElementById('info-modal');
 var currentEvent = null;
+var editingEventId = null;
 
-function openModal() {
+function openModal(prefill) {
+  editingEventId = null;
+  document.getElementById('modal-title-heading').textContent = 'Add Event';
+  document.getElementById('modal-submit').textContent = 'Add Event';
+  if (prefill) {
+    editingEventId = prefill.id;
+    document.getElementById('modal-title').value = prefill.title || '';
+    document.getElementById('modal-start-date').value = prefill.start ? prefill.start.format('YYYY-MM-DD') : '';
+    document.getElementById('modal-start-time').value = prefill.start && !prefill.allDay ? prefill.start.format('HH:mm') : '';
+    document.getElementById('modal-end-date').value = prefill.end ? prefill.end.format('YYYY-MM-DD') : '';
+    document.getElementById('modal-end-time').value = prefill.end && !prefill.allDay ? prefill.end.format('HH:mm') : '';
+    document.getElementById('modal-color').value = prefill.color || '#3a87d3';
+    document.getElementById('modal-class').value = prefill.linked_class || '';
+    document.getElementById('modal-title-heading').textContent = 'Edit Event';
+    document.getElementById('modal-submit').textContent = 'Save Changes';
+  }
   modal.classList.add('open');
 }
 
@@ -126,6 +142,11 @@ $(document).ready(function () {
       });
     });
 
+  document.getElementById('modal-edit').addEventListener('click', function(){
+    openModal(currentEvent);
+    closeInfoModal();
+  });
+
   document.getElementById('modal-submit').addEventListener('click', function() {
     var title = document.getElementById('modal-title').value.trim();
     var startDate = document.getElementById('modal-start-date').value;
@@ -147,26 +168,45 @@ $(document).ready(function () {
       end = endMoment.format('YYYY-MM-DD');
     }
 
-    $('#calendar').fullCalendar('renderEvent', {
-      title: title,
-      start: start,
-      end: end,
-      allDay: allDay,
-      color: color,
-      linked_class: linkedClass,
-    }, true);
-
-    saveEventToServer(title, start, end, color, linkedClass, allDay)
-      .then(function(data) {
-        var rendered = $('#calendar').fullCalendar('clientEvents', function(e){
-          return e.title === title && e.start.isSame(start);
-        });
-        if(rendered.length) {
-          rendered[0].id = data.id;
-          $('#calendar').fullCalendar('updateEvent', rendered[0]);
+    if (editingEventId) {
+      fetch('/events/' + editingEventId, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: title, start: start, end: end,
+                               color: color, linked_class: linkedClass, allDay: allDay })
+      }).then(function() {
+        var existing = $('#calendar').fullCalendar('clientEvents', editingEventId);
+        if (existing.length) {
+          existing[0].title        = title;
+          existing[0].start        = moment(start);
+          existing[0].end          = end ? moment(end) : null;
+          existing[0].color        = color;
+          existing[0].linked_class = linkedClass;
+          existing[0].allDay       = allDay;
+          $('#calendar').fullCalendar('updateEvent', existing[0]);
         }
       });
+    } else {
+      $('#calendar').fullCalendar('renderEvent', {
+        title: title,
+        start: start,
+        end: end,
+        allDay: allDay,
+        color: color,
+        linked_class: linkedClass,
+      }, true);
 
+      saveEventToServer(title, start, end, color, linkedClass, allDay)
+        .then(function(data) {
+          var rendered = $('#calendar').fullCalendar('clientEvents', function(e){
+            return e.title === title && e.start.isSame(start);
+          });
+          if(rendered.length) {
+            rendered[0].id = data.id;
+            $('#calendar').fullCalendar('updateEvent', rendered[0]);
+          }
+        });
+    }
     closeModal();
 });
 

@@ -208,6 +208,7 @@ body > *:not(.nav-bar) {
 }
 
 #modal-submit { background: #3a87d3; color: #fff; }
+#modal-edit { background: #008000; color: #fff; }
 #modal-cancel  { background: #eee;    color: #333; }
 #info-close    { background: #eee;    color: #333; }
 #info-delete   { background: #e74c3c; color: #fff; }

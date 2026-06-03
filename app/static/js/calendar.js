@@ -3,6 +3,7 @@ var modal = document.getElementById('event-modal');
 var infoModal = document.getElementById('info-modal');
 var currentEvent = null;
 var editingEventId = null;
+var currentLinkedClass= null;
 
 function openModal(prefill) {
   editingEventId = null;
@@ -52,8 +53,17 @@ function openInfoModal(event) {
     getClassName(event.linked_class);
   document.getElementById('info-color-bar').style.background =
     event.color || '#3a87d3';
+
+  var visDiv = document.getElementById('info-visibility');
+  if (event.id) {
+    visDiv.style.display = 'block';
+    document.getElementById('info-public-toggle').checked = !!event.is_public;
+  } else {
+    visDiv.style.display = 'none';
+  }
   infoModal.classList.add('open');
 }
+
 function closeInfoModal() {
   infoModal.classList.remove('open');
   currentEvent = null;

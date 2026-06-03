@@ -47,6 +47,13 @@
       </div>
     </div>
 
+    <div id="shared-events">
+      <p><strong>Shared by Classmates</strong></p>
+      <div id="shared-event-list">
+        <p class="no-shared">No shared events yet.</p>
+      </div>
+    </div>
+
     <div id="calendar"></div>
   </div>
 
@@ -86,6 +93,11 @@
         </div>
         <div>
           <label for="modal-class">Link to Class<small>(optional)</small></label>
+          <div>
+            <label for="modal-public">
+              <input type="checkbox" id="modal-public">Make public to classmates
+            </label>
+          </div>
           <select id="modal-class">
             <option value="">- None -</option>
             {% for cls in user_classes %}
@@ -108,7 +120,13 @@
         <p><strong>End:</strong> <span id="info-end"></span></p>
         <div class="info-color-bar" id="info-color-bar"></div>
         <p><strong>Class: </strong><span id="info-class"></span></p>
+        <div id="info-invisibility" style="display:none">
+          <label>
+            <input type="checkbox" id="info-public-toggle"> Public to classmates
+          </label>
+        </div>
         <div class="modal-actions">
+          <button id="modal-edit">Edit</button>
           <button id="info-delete">Delete</button>
           <button id="info-close">Close</button>
         </div>

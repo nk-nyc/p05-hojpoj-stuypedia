@@ -543,6 +543,15 @@ def get_events(username):
     return [{"id": r[0], "title": r[1], "start": r[2], "end": r[3],
              "color": r[4], "linked_class": r[5], "allDay": bool(r[6])} for r in data]
 
+def update_event(event_id, username, title, start, end, color, linked_class, all_day):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    c.execute('''UPDATE events SET title=?, start=?, end=?, color=?, linked_class=?, all_day=?
+                 WHERE id=? AND username=?''',
+              (title, start, end, color, linked_class, int(all_day), event_id, username))
+    db.commit()
+    db.close()
+    
 def delete_event(event_id, username):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()

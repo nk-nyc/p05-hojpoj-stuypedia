@@ -108,7 +108,7 @@ def check_class_for_uniqueness(name):
 def fix_grade_format(grades):
     final_str = ""
     for i in range(len(grades)):
-        if (not grades[i] == '[' and not grades[i] == ']') and (not grades[i] == ',' and not grades[i] == r"'"):
+        if (grades[i].isalpha()) or grades[i] == ' ' or grades[i] == ',':
             final_str += grades[i]
     return final_str
 
@@ -241,7 +241,7 @@ def prettify_class_data(class_id):
             prettified_data.append(['', mean, median])
     responders = len(all_data)
     prettified_data[0][0] = 'Difficulty'
-    prettified_data[1][0] = 'Enjoymnet'
+    prettified_data[1][0] = 'Enjoyment'
     prettified_data[2][0] = 'Workload'
     prettified_data[3][0] = 'Hours'
     prettified_data[4][0] = 'Teaching Quality'
@@ -260,6 +260,8 @@ def prettify_class_data(class_id):
     return (prettified_data, responders, fix_resource_names(resource_count))
 
 def fix_resource_names(resource_count):
+    if not resource_count:
+        return None
     fixed_count = {}
     for resource, count in resource_count.items():
         if 'teacher_given' in resource:
@@ -543,15 +545,6 @@ def get_events(username):
     return [{"id": r[0], "title": r[1], "start": r[2], "end": r[3],
              "color": r[4], "linked_class": r[5], "allDay": bool(r[6])} for r in data]
 
-def update_event(event_id, username, title, start, end, color, linked_class, all_day):
-    db = sqlite3.connect(DB_FILE)
-    c = db.cursor()
-    c.execute('''UPDATE events SET title=?, start=?, end=?, color=?, linked_class=?, all_day=?
-                 WHERE id=? AND username=?''',
-              (title, start, end, color, linked_class, int(all_day), event_id, username))
-    db.commit()
-    db.close()
-    
 def delete_event(event_id, username):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()

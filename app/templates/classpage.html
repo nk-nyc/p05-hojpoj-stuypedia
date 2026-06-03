@@ -97,6 +97,7 @@
 
         <h2>Add a review</h2>
         {% if not error %}
+        <p> {{res_error}} </p>
         <p> All data is collected anonymously. Your feedback will help other students when they use Stuypedia!</p>
         <form method="POST">
             <label for="teacher"> Teacher you had: </label>
@@ -148,8 +149,9 @@
             <input type="checkbox" id="organic_chemistry" name="resources" value="organic_chemistry">
             <label for="organic_chemistry"> Organic Chemistry Tutor (YouTube) </label>
             <br>
-            <input type="checkbox" id="heimlers_history" name="resources" value="heimler_history">
-            <label for="heimler_history"> Heimler's History (YouTube) </label>
+            <input type="checkbox" id="Other" name="resources" value="Other">
+            <label for="Other"> Other </label>
+            <br>
             <br>
 
             <label for="recommendation"> To whom would you recommend this class? </label>
@@ -163,7 +165,7 @@
             <button type="submit" class="btn btn-primary w-100"> Submit </button>
             {% endif %}
             {% if error %}
-                <p> You have already reviewed this class. </p>
+                <p> {{error}} </p>
             {% endif %}
         </form>
     </body>

@@ -218,3 +218,9 @@ body > *:not(.nav-bar) {
   border-radius: 4px;
   margin: 4px 0 8px;
 }
+
+.shared-events {
+  display: flex;
+  gap: 5px;
+  margin-top: 10px;
+}

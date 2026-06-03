@@ -98,11 +98,21 @@ $(document).ready(function () {
       }
     },
     timezone: 'local',
-    defaultView: 'agendaWeek',
+    defaultView: 'month',
     header: {
       left: 'prev,next today addEventButton',
       center: 'title',
-      right: 'month,BasicWeek,agendaWeek,agendaDay'
+      right: 'month,agendaWeek,agendaDay,listDay,listWeek'
+    },
+    views:{
+      listDay: {
+        type: "listDay",
+        buttonText: "To-Do"
+      },
+      listWeek: {
+        type: "listWeek",
+        buttonText: "To-Do(Week)"
+      }
     },
     navLinks: true,
     editable: true,

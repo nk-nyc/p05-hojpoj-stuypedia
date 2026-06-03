@@ -258,7 +258,7 @@ def addclass():
 @app.route('/classpage/<int:class_id>', methods=['GET', 'POST'])
 def classpage(class_id):
     if 'username' not in session:
-        return(url_for('login'))
+        return(redirect('/login'))
     saved = False
     prettified_data = None
     if class_saved_by_user(class_id, session['username']):
@@ -301,7 +301,7 @@ def classpage(class_id):
 
     if len(teachers) > 1:
         for teacher in teachers:
-            teacher_data[teacher[0]] = prettify_class_data_by_teacher(class_id, teacher[0])
+            teacher_data[teacher] = prettify_class_data_by_teacher(class_id, teacher)
     else:
         teacher_data[teachers[0]] =prettify_class_data_by_teacher(class_id, teachers[0])
     #gotta render class data

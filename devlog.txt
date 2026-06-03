@@ -90,23 +90,22 @@ Natalie -- 5/25/26
   - Add events to certain classes
   - Filter by subject/grade/teacher
 
-NEED TO FIX:
-- edit class option
-- filtering class option
-- disabling classes
-- add assessment type
-
-EVENT LOGISTICS
-- events can be public or private
-- if public, other people in that class can choose to accept or hide the event. if accepted, they can see it, otherwise they dont
-- to prevent spam, users cant create more than 5 public events per day
-
 Natalie -- 6/2/2026
 - teachers on classpage are breaking for some reason. will fix when i can
 - search bar fixed
 
 Natalie -- 6/3/2026
-- ACTUALLY fixed teachers.
+- ACTUALLY fixed teachers and resources
 - still need:
   - filter by teacher/subject/grade
   - remove class from your list
+  - forgot password to email
+  - change password
+  - profile page
+  - better css
+  - edit class for admin
+
+EVENT LOGISTICS
+- events can be public or private
+- if public, other people in that class can choose to accept or hide the event. if accepted, they can see it, otherwise they dont
+- to prevent spam, users cant create more than 5 public events per day

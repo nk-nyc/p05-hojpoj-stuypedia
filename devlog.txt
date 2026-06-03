@@ -105,3 +105,9 @@ EVENT LOGISTICS
 Natalie -- 6/2/2026
 - teachers on classpage are breaking for some reason. will fix when i can
 - search bar fixed
+
+Natalie -- 6/3/2026
+- ACTUALLY fixed teachers.
+- still need:
+  - filter by teacher/subject/grade
+  - remove class from your list

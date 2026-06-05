@@ -109,3 +109,13 @@ EVENT LOGISTICS
 - events can be public or private
 - if public, other people in that class can choose to accept or hide the event. if accepted, they can see it, otherwise they dont
 - to prevent spam, users cant create more than 5 public events per day
+
+WEEKEND ASSIGNMENTS:
+Michelle: public/private events, google authentication for login/register
+Sophia: profile page, css
+Natalie: edit classes, possibly q&a, filter classes, remove class, fix grades to numbers
+
+STRETCH GOALS:
+- Google classroom API pulling
+- Notepad for notes/to-do list
+- q&a? 

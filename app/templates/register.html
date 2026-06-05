@@ -3,98 +3,101 @@
     <head>
         <title>Register</title>
         <link href="../static/css/register.css" rel="stylesheet"/>
-
     </head>
-    <body  style="
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-	background-image: url('../static/images/register.png');
-    background-size: cover;
-    background-position: center;
-    ">
+    <body>
 
-
-    <div style="
-      max-width: 400px;
-      width: 100%;
-      padding: 50px;
-      border-radius: 40px;
-      box-shadow: 0 10px 10px #d8b6bf;
-      border: hidden;
-      text-align: left;
-    	backdrop-filter: blur(10px);
-   	background: rgba(255, 255, 255, 0.35);
-
-    ">
-
-        <p style='color: red;'> {{error}} </p>
         <form method="post" action="/register">
-          <label for="username">Email (nycstudents):</label>
-          <input type="text" id="username" name="username" required>
-          <br>
-          <label for="password">Create password (8+ characters):</label>
-          <input type="password" id="password" name="password" required>
-          <br>
-          <label for="password2"> Retype same password: </label>
-          <input type="password" id="password2" name="password2" required>
+            <div class="register-box">
 
-          <p> Now a series of questions to verify that you are a Stuy student: </p>
-          <label for="q1">What floor is the cafeteria on? </label>
-          <select name="q1" id="q1">
-            <option name="one"> One </option>
-            <option name="two"> Two </option>
-            <option name="three"> Three </option>
-            <option name="four"> Four </option>
-            <option name="five"> Five </option>
-            <option name="six"> Six </option>
-          </select>
-          <br>
+                <div class="signup-left">
+                    <h1 class="title">SIGN UP</h1>
 
-          <label for="q2">What floor is the library on? </label>
-          <select name="q2" id="q2">
-            <option name="one"> One </option>
-            <option name="two"> Two </option>
-            <option name="three"> Three </option>
-            <option name="four"> Four </option>
-            <option name="five"> Five </option>
-            <option name="six"> Six </option>
-          </select>
-          <br>
+                    {% if error %}
+                    <p class="error-msg">{{ error }}</p>
+                    {% endif %}
 
-          <label for="q3">What floor is the junior atrium on? </label>
-          <select name="q3" id="q3">
-            <option name="one"> One </option>
-            <option name="two"> Two </option>
-            <option name="three"> Three </option>
-            <option name="four"> Four </option>
-            <option name="five"> Five </option>
-            <option name="six"> Six </option>
-          </select>
-          <br>
+                    <div class="credentials">
+                        <label for="username">EMAIL</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
 
-          <label for="q4">What floor is the sophomore bar on? </label>
-          <select name="q4" id="q4">
-            <option name="one"> One </option>
-            <option name="two"> Two </option>
-            <option name="three"> Three </option>
-            <option name="four"> Four </option>
-            <option name="five"> Five </option>
-            <option name="six"> Six </option>
-          </select>
-          <br>
-          <p>
-            <label>
-              <input type='checkbox' id='testimony'> I testify that I am a Stuyvesant student and understand that only Stuyvesant students may sign up.
-            </label>
-          </p>
+                    <div class="credentials">
+                        <label for="password">CREATE PASSWORD { 8+ CHARACTERS }</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
 
-          <input type="submit" value="submit">
+                    <div class="credentials">
+                        <label for="password2">CONFIRM PASSWORD</label>
+                        <input type="password" id="password2" name="password2" required>
+                    </div>
+
+                    <input type="submit" value="SUBMIT" class="submit-btn">
+                </div>
+
+            
+                <div class="authentification">
+                    <h2 class="title">AUTHENTIFICATION</h2>
+
+                    <div class="question-row">
+                        <span>WHAT FLOOR IS THE CAFETERIA ON?</span>
+                        <select name="q1" id="q1">
+                            <option value="one">One</option>
+                            <option value="two">Two</option>
+                            <option value="three">Three</option>
+                            <option value="four">Four</option>
+                            <option value="five">Five</option>
+                            <option value="six">Six</option>
+                        </select>
+                    </div>
+
+                    <div class="question-row">
+                        <span>WHAT FLOOR IS THE LIBRARY ON?</span>
+                        <select name="q2" id="q2">
+                            <option value="one">One</option>
+                            <option value="two">Two</option>
+                            <option value="three">Three</option>
+                            <option value="four">Four</option>
+                            <option value="five">Five</option>
+                            <option value="six">Six</option>
+                        </select>
+                    </div>
+
+                    <div class="question-row">
+                        <span>WHAT FLOOR IS THE JUNIOR ATRIUM ON?</span>
+                        <select name="q3" id="q3">
+                            <option value="one">One</option>
+                            <option value="two">Two</option>
+                            <option value="three">Three</option>
+                            <option value="four">Four</option>
+                            <option value="five">Five</option>
+                            <option value="six">Six</option>
+                        </select>
+                    </div>
+
+                    <div class="question-row">
+                        <span>WHAT FLOOR IS THE SOPHOMORE BAR ON?</span>
+                        <select name="q4" id="q4">
+                            <option value="one">One</option>
+                            <option value="two">Two</option>
+                            <option value="three">Three</option>
+                            <option value="four">Four</option>
+                            <option value="five">Five</option>
+                            <option value="six">Six</option>
+                        </select>
+                    </div>
+
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="testimony" name="testimony" required>
+                        <span>I TESTIFY THAT I AM A STUYVESANT STUDENT AND UNDERSTAND THAT ONLY STUYVESANT STUDENTS MAY SIGN UP.</span>
+                    </label>
+
+                    <div class="corner-logo">
+                       <img src="../static/images/stuypedia_logo.png" class="logo">
+                    </div>
+                </div>
+
+            </div>
         </form>
 
-       </div>
     </body>
-  </html>
+</html>

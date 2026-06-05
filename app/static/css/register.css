@@ -154,7 +154,6 @@ input[type="password"]:focus {
     cursor: pointer;
     outline: none;
     appearance: none;
-    -webkit-appearance: none;
     min-width: 80px;
     text-align: center;
 }
@@ -207,4 +206,20 @@ input[type="password"]:focus {
     background: rgba(255,255,255,0.5);
     border-radius: 8px;
     padding: 8px 12px;
+}
+
+.login-link {
+    text-align: center;
+    font-size: 13px;
+    color: #3a3a3a;
+}
+
+.login-link a {
+    color: #2a4d1c;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.login-link a:hover {
+    color: #3d6b2a;
 }

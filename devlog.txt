@@ -113,7 +113,7 @@ EVENT LOGISTICS
 WEEKEND ASSIGNMENTS:
 Michelle: public/private events, google authentication for login/register
 Sophia: profile page, css
-Natalie: edit classes, possibly q&a, filter classes, remove class
+Natalie: edit classes, possibly q&a, filter classes, remove class, fix grades to numbers
 
 STRETCH GOALS:
 - Google classroom API pulling

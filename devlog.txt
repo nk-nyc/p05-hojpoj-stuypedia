@@ -114,3 +114,8 @@ WEEKEND ASSIGNMENTS:
 Michelle: public/private events, google authentication for login/register
 Sophia: profile page, css
 Natalie: edit classes, possibly q&a, filter classes, remove class
+
+STRETCH GOALS:
+- Google classroom API pulling
+- Notepad for notes/to-do list
+- q&a? 

@@ -535,6 +535,14 @@ def save_event(username, title, start, end, color, linked_class, all_day):
     db.close()
     return new_id
 
+def update_class(class_id, subj, grades, teachers):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    c.execute('UPDATE classes SET teachers = ?, subject = ?, grades = ? WHERE id = ?', (subj, teachers, str(grades), class_id))
+    print(class_id, subj, grades, teachers)
+    db.commit()
+    db.close()
+
 def get_events(username):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()

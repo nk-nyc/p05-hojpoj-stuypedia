@@ -226,6 +226,26 @@ def addclass():
 
     return render_template('addclass.html')
 
+@app.route('/editclass/<int:class_id>', methods=['GET', 'POST'])
+def edit_class(class_id):
+    if 'username' not in session:
+        return redirect('/login')
+    if not session['username'] == 'stuypedia_admin':
+        return redirect('/home')
+    class_data = get_class_info(class_id)
+    new_subj = class_data[1]
+    new_grades = class_data[2]
+    new_teachers = class_data[3]
+    if request.method == 'POST':
+        if not request.form.get('subject') == '':
+            new_subj = request.form.get('subject')
+        if 'grade' in request.form:
+            new_grades = request.form.getlist('grade')
+        if 'teachers' in request.form:
+            new_teachers = request.form.get('teachers')
+        update_class(class_id, new_subj, new_grades, new_teachers)
+    return render_template('editclass.html', class_data=class_data)
+
 @app.route('/classpage/<int:class_id>', methods=['GET', 'POST'])
 def classpage(class_id):
     if 'username' not in session:

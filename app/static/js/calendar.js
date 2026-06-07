@@ -5,6 +5,7 @@ var currentEvent = null;
 var editingEventId = null;
 var currentLinkedClass= null;
 
+
 function openModal(prefill) {
   editingEventId = null;
   document.getElementById('modal-title-heading').textContent = 'Add Event';
@@ -81,11 +82,11 @@ function makeDraggable(el){
   });
 }
 
-function saveEventToServer(title, start, end, color, linkedClass, allDay) {
+function saveEventToServer(title, start, end, color, linkedClass, allDay, isPublic) {
   return fetch('/events', {
     method: 'POST',
     headers: { "Content-Type": 'application/json'},
-    body: JSON.stringify({ title: title, start:start, end: end, color: color, linked_class: linkedClass, allDay: allDay})
+    body: JSON.stringify({ title: title, start:start, end: end, color: color, linked_class: linkedClass, allDay: allDay, is_public: isPublic ? 1 : 0})
   }).then(function(r) { return r.json(); });
 }
 
@@ -130,7 +131,7 @@ $(document).ready(function () {
     eventReceive: function (event) {
       var start = event.start.format();
       var allDay = event.allDay;
-      saveEventToServer(event.title, start, null, '#3a87d3', null, allDay)
+      saveEventToServer(event.title, start, null, '#3a87d3', null, allDay, false)
         .then(function(data) {
           event.id = data.id;
           $('#calendar').fullCalendar('updateEvent', event);
@@ -161,8 +162,40 @@ $(document).ready(function () {
         $('#calendar').fullCalendar('renderEvent', e, true);
       });
     });
+  
+   fetch('/shared-events')
+    .then(function(r) { return r.json(); })
+    .then(function(events) {
+      var list = document.getElementById('shared-event-list');
+      if (!events.length) return; 
+      list.innerHTML = '';
+      events.forEach(function(e) {
+        var div = document.createElement('div');
+        div.className = 'shared-event-item';
+        div.innerHTML =
+          '<strong>' + e.title + '</strong><br>' +
+          '<small>' + e.start + '</small><br>' +
+          '<button class="accept-btn">Add to my calendar</button>';
+        div.querySelector('.accept-btn').addEventListener('click', function() {
+          saveEventToServer(e.title, e.start, e.end, e.color, e.linked_class, e.allDay, false)
+            .then(function(data) {
+              $('#calendar').fullCalendar('renderEvent', {
+                id: data.id,
+                title: e.title,
+                start: e.start,
+                end: e.end,
+                color: e.color,
+                allDay: e.allDay
+              }, true);
+              div.querySelector('.accept-btn').textContent = '✓ Added';
+              div.querySelector('.accept-btn').disabled = true;
+            });
+        });
+        list.appendChild(div);
+      });
+    });
 
-  document.getElementById('modal-edit').addEventListener('click', function(){
+  document.getElementById('modal-edit').addEventListener('click', function() {
     openModal(currentEvent);
     closeInfoModal();
   });
@@ -175,6 +208,7 @@ $(document).ready(function () {
     var endTime   = document.getElementById('modal-end-time').value;
     var color = document.getElementById('modal-color').value;
     var linkedClass = document.getElementById('modal-class').value || null;
+    var isPublic = document.getElementById('modal-public').checked;
 
     if (!title) {alert('Please enter an event name.'); return; }
     if(!startDate) {alert('Please select a date.'); return; }
@@ -193,7 +227,7 @@ $(document).ready(function () {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title: title, start: start, end: end,
-                               color: color, linked_class: linkedClass, allDay: allDay })
+                               color: color, linked_class: linkedClass, allDay: allDay, is_public: isPublic ? 1 : 0 })
       }).then(function() {
         var existing = $('#calendar').fullCalendar('clientEvents', editingEventId);
         if (existing.length) {
@@ -203,6 +237,7 @@ $(document).ready(function () {
           existing[0].color        = color;
           existing[0].linked_class = linkedClass;
           existing[0].allDay       = allDay;
+          existing[0].is_public    = isPublic;
           $('#calendar').fullCalendar('updateEvent', existing[0]);
         }
       });
@@ -214,9 +249,10 @@ $(document).ready(function () {
         allDay: allDay,
         color: color,
         linked_class: linkedClass,
+        is_public: isPublic
       }, true);
 
-      saveEventToServer(title, start, end, color, linkedClass, allDay)
+      saveEventToServer(title, start, end, color, linkedClass, allDay, isPublic)
         .then(function(data) {
           var rendered = $('#calendar').fullCalendar('clientEvents', function(e){
             return e.title === title && e.start.isSame(start);

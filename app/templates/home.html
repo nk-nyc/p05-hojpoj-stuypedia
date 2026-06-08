@@ -1,71 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
-	
-    <head>
+<head>
     <title>Stuypedia</title>
-    <!-- Foundation CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.8.1/dist/css/foundation.min.css">
-    <!-- Foundation Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.min.css">
 
+	<!-- FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-
-    <link href="https://fonts.googleapis.com/css2
-family=Outfit:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link href="../static/css/home.css" rel="stylesheet"/>
+</head>
+<body>
 
-	</head>
-        
-    <body>
-		 
-<div class="nav-bar">
-  <div class="nav-bar-left">
-    <ul class="dropdown menu" data-dropdown-menu>
-      <li><a href='/home' title="Home"><i class="fi-home"></i> Home</a></li>
-      <li><a href='/calendar' title="Calendar"><i class="fi-calendar"></i> Calendar</a></li>
-      <li><a href='/modify' title="Modify Classes"><i class="fi-pencil"></i> Modify Classes</a></li>
-      <li><a href='/findclass' title="Find a Class"><i class="fi-magnifying-glass"></i> Find a Class</a></li>
-      <li><a href='/logout' title="Log out"><i class="fi-power"></i> Log out</a></li>
-    </ul>
-  </div>
-</div>
-      
-<div class="grid-x grid-margin-x">
-  <div class="cell medium-6">
-	 <h1> STUYPEDIA</h1>
-    <p> ·•—–٠✤٠—–•· </p>
-    <p>Welcome to Stuypedia!</p>
-    <p>To save your classes, navigate to "Modify Classes", search for a class, and click the "Add" button next to the class you want to save. Saved classes will have a ⭐ next to their name on their class page.</p>
-    <p>Data collected from students like you will be displayed on each class page. There, you can see what others students thought of the class and different teachers, as well as recommended resources.</p>
-  </div>
-
-  <div class="cell medium-6">
-    <div id="upcoming-events">
-      <h2>Upcoming Events</h2>
-      {% if upcoming %}
-        <div class="event-list">
-          {% for event in upcoming %}
-          <div class="event-card" style="border-left: 4px solid {{ event.color or '#3a87d3' }}">
-            <div class="event-card-date">
-              <span class="event-month">{{ event.start[:7] | replace('-', '/') }}</span>
-              <span class="event-day">{{ event.start[8:10] }}</span>
-            </div>
-            <div class="event-card-info">
-              <span class="event-card-title">{{ event.title }}</span>
-              <span class="event-card-time">{{ event.start[11:16] if 'T' in event.start else 'All day' }}</span>
-            </div>
-          </div>
-          {% endfor %}
-        </div>
-      {% else %}
-        <p class="no-events">No upcoming events. <a href="/calendar">Add one →</a></p>
-      {% endif %}
+<nav class="top-nav">
+    <div class="top-nav-logo">
+        <img src="../static/images/stuypedia_logo.png" class="logo">
     </div>
-  </div>
+    <div class="top-nav-links">
+        <a href="/home">HOME</a>
+        <a href="/calendar">CALENDAR</a>
+        <a href="/modify">MODIFY CLASSES</a>
+        <a href="/findclass">FIND A CLASS</a>
+    </div>
+    <div class="top-nav-right">
+        <div class="profile-icon">
+            <i class="fi-torso"></i>
+        </div>
+    </div>
+</nav>
+
+<div class="float-nav" id="floatNav">
+    <div class="float-nav-toggle" id="floatNavToggle">
+        <i class="fi-widget"></i>
+    </div>
+    <div class="float-nav-menu" id="floatNavMenu">
+        <a href="/home" title="Home"><i class="fi-home"></i></a>
+        <a href="/calendar" title="Calendar"><i class="fi-calendar"></i></a>
+        <a href="/modify" title="Modify Classes"><i class="fi-pencil"></i></a>
+        <a href="/findclass" title="Find a Class"><i class="fi-magnifying-glass"></i></a>
+        <a href="/logout" title="Log out"><i class="fi-power"></i></a>
+    </div>
 </div>
-      
-    </body>
+
+<div class="main">
+    <div class="grid-x grid-margin-x">
+        <div class="cell medium-6">
+            <h1>STUYPEDIA</h1>
+            <p class="divider-text">·•—–٠✤٠—–•·</p>
+            <p>Welcome to Stuypedia!</p>
+            <p>To save your classes, navigate to "Modify Classes", search for a class, and click the "Add" button next to the class you want to save. Saved classes will have a ⭐ next to their name on their class page.</p>
+            <p>Data collected from students like you will be displayed on each class page. There, you can see what other students thought of the class and different teachers, as well as recommended resources.</p>
+        </div>
+
+        <div class="cell medium-6">
+            <div id="upcoming-events">
+                <h2>Upcoming Events</h2>
+                {% if upcoming %}
+                    <div class="event-list">
+                        {% for event in upcoming %}
+                        <div class="event-card" style="border-left: 4px solid {{ event.color or '#3a87d3' }}">
+                            <div class="event-card-date">
+                                <span class="event-month">{{ event.start[:7] | replace('-', '/') }}</span>
+                                <span class="event-day">{{ event.start[8:10] }}</span>
+                            </div>
+                            <div class="event-card-info">
+                                <span class="event-card-title">{{ event.title }}</span>
+                                <span class="event-card-time">{{ event.start[11:16] if 'T' in event.start else 'All day' }}</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="no-events">No upcoming events. <a href="/calendar">Add one →</a></p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('floatNavToggle').addEventListener('click', () => {
+    document.getElementById('floatNav').classList.toggle('expanded');
+});
+</script>
+
+</body>
 </html>

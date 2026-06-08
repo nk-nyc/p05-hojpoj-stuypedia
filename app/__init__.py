@@ -107,6 +107,13 @@ def logout():
     session.clear()
     return redirect(url_for('login'))
 
+@app.route('/profile')
+def profile():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    return render_template('profile.html')
+
 @app.route('/delete_class/<int:class_id>', methods=['DELETE'])
 def delete_class(class_id):
     delete_classid(class_id)

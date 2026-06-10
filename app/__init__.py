@@ -5,6 +5,7 @@ import sqlite3
 import json
 import datetime
 import os
+import secrets
 from dotenv import load_dotenv
 from authlib.integrations.flask_client import OAuth
 
@@ -31,7 +32,7 @@ create_class_data_table()
 @app.route('/auth/login')
 def google_login():
     redirect_uri = os.getenv('GOOGLE_REDIRECT_URI')
-    return google.authorize_redirect(redirect_uri)
+    return google.authorize_redirect(redirect_uri, prompt='select_account')
 
 @app.route('/auth/callback')
 def google_callback():

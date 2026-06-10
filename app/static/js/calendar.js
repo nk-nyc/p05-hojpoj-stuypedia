@@ -187,7 +187,7 @@ $(document).ready(function () {
     var color = document.getElementById('modal-color').value;
     var linkedClass = document.getElementById('modal-class').value || null;
     var isPublic = document.getElementById('modal-public').checked ? 1 : 0;
-    
+
     if (!title) {alert('Please enter an event name.'); return; }
     if(!startDate) {alert('Please select a date.'); return; }
 
@@ -205,7 +205,8 @@ $(document).ready(function () {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title: title, start: start, end: end,
-                               color: color, linked_class: linkedClass, allDay: allDay })
+                           color: color, linked_class: linkedClass, 
+                           allDay: allDay, is_public: isPublic })  // add is_public here
       }).then(function() {
         var existing = $('#calendar').fullCalendar('clientEvents', editingEventId);
         if (existing.length) {
@@ -215,6 +216,7 @@ $(document).ready(function () {
           existing[0].color        = color;
           existing[0].linked_class = linkedClass;
           existing[0].allDay       = allDay;
+          existing[0].is_public    = isPublic;  // add this too
           $('#calendar').fullCalendar('updateEvent', existing[0]);
         }
       });

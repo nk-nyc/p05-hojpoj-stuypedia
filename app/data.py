@@ -541,10 +541,10 @@ def update_event(event_id, username, title, start, end, color, linked_class, all
     c = db.cursor()
     c.execute('''UPDATE events SET title=?, start=?, end=?, color=?, linked_class=?, all_day=?, is_public=?
                  WHERE id=? AND username=?''',
-                 (title, start, end, color, linked_class, int(all_day), event_id, username))
+                 (title, start, end, color, linked_class, int(all_day), int(is_public), event_id, username))
     db.commit()
     db.close()
-
+    
 def get_shared_events_for_user(username):
     user_class_ids = get_user_classes(username)
     if not user_class_ids:

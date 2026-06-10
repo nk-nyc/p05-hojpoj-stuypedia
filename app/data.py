@@ -536,10 +536,10 @@ def save_event(username, title, start, end, color, linked_class, all_day, is_pub
     db.close()
     return new_id
 
-def update_event(event_id, username, title, start, end, color, linked_class, all_day):
+def update_event(event_id, username, title, start, end, color, linked_class, all_day, is_public=0):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    c.execute('''UPDATE events SET title=?, start=?, end=?, color=?, linked_class=?, all_day=?
+    c.execute('''UPDATE events SET title=?, start=?, end=?, color=?, linked_class=?, all_day=?, is_public=?
                  WHERE id=? AND username=?''',
                  (title, start, end, color, linked_class, int(all_day), event_id, username))
     db.commit()
@@ -563,6 +563,14 @@ def get_shared_events_for_user(username):
     return [{"id": r[0], "author": r[1], "title": r[2], "start": r[3],
              "end": r[4], "color": r[5], "linked_class": r[6], "allDay": bool(r[7])} for r in data]
 
+def update_event_visibility_db(event_id, username, is_public):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    c.execute('UPDATE events SET is_public = ? WHERE id = ? AND username = ?',
+              (int(is_public), event_id, username))
+    db.commit()
+    db.close()
+    
 def update_class(class_id, subj, grades, teachers):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()

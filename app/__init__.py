@@ -62,10 +62,10 @@ def google_verify():
             not (request.form.get('q4').strip().lower() == 'six')):
             return render_template('google_verify.html', error='One or more answer is incorrect!')
         
-    email = session.pop('pending_google_email')
-    register_user(email, secrets.token_hex(16))
-    session['username'] = email
-    return redirect(url_for('home'))
+        email = session.pop('pending_google_email')
+        register_user(email, secrets.token_hex(16))
+        session['username'] = email
+        return redirect(url_for('home'))
     
     return render_template('google_verify.html')
 
@@ -140,7 +140,7 @@ def login(): #code from p02 cerulean
 
 @app.route('/home', methods=['GET', 'POST'])
 def home():
-    class_list = get_user_classes(session['username'][0])
+    class_list = get_user_classes(session['username'])
     if session['username'] == 'stuypedia_admin':
         class_list = get_all_student_classes()
         return render_template('admin_home.html', classes=class_list)
@@ -152,9 +152,9 @@ def home():
         key=lambda e: e['start']
     )[:5]
     if class_list:
-        return render_template('home.html', your_classes=class_list)
+        return render_template('home.html', your_classes=class_list, upcoming=upcoming)
     else:
-        return render_template('home.html')
+        return render_template('home.html', upcoming=upcoming)
 
 @app.route('/logout', methods=["GET", "POST"])
 def logout():
@@ -271,7 +271,8 @@ def update_calendar_event(event_id):
     data = request.get_json()
     update_event(event_id, session['username'],
                  data['title'], data['start'], data.get('end'),
-                 data['color'], data.get('linked_class'), data['allDay'])
+                 data['color'], data.get('linked_class'), data['allDay'],
+                 data.get('is_public', 0))
     return json.dumps({"status": "ok"})
 
 @app.route('/shared-events', methods=['GET'])
@@ -326,6 +327,12 @@ def edit_class(class_id):
             new_teachers = request.form.get('teachers')
         update_class(class_id, new_subj, new_grades, new_teachers)
     return render_template('editclass.html', class_data=class_data)
+
+@app.route('/events/<int:event_id>/visibility', methods=['PUT'])
+def update_event_visibility(event_id):
+    data = request.get_json()
+    update_event_visibility_db(event_id, session['username'], data['is_public'])
+    return json.dumps({"status": "ok"})
 
 @app.route('/classpage/<int:class_id>', methods=['GET', 'POST'])
 def classpage(class_id):
@@ -388,6 +395,7 @@ def classpage(class_id):
         teacher_data[teachers[0]] =prettify_class_data_by_teacher(class_id, teachers[0])
     #gotta render class data
     return render_template('classpage.html', teacher_data = teacher_data, class_info=get_class_info(class_id), saved=saved, class_data=prettified_data, responders=responders, resources=fix_resource_names(resources))
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080, debug=True)

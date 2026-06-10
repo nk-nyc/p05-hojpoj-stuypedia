@@ -124,3 +124,8 @@ STRETCH GOALS:
 - Google classroom API pulling
 - Notepad for notes/to-do list
 - q&a? 
+
+Natalie -- 6/10/26
+- added filtering
+- delete classes works
+- dont wanna deal with grades

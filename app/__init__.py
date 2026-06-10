@@ -4,16 +4,50 @@ from data import *
 import sqlite3
 import json
 import datetime
+import os
+from dotenv import load_dotenv
+from authlib.integrations.flask_client import OAuth
+
+load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = 'supersecret'
+app.secret_key = os.getenv('SECRET_KEY')
+oauth = OAuth(app)
 
+google = oauth.register(
+    name='google',
+    client_id=os.getenv('GOOGLE_CLIENT_ID'),
+    client_secret=os.getenv('GOOGLE_CLIENT_SECRET'),
+    server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
+    client_kwargs={'scope': 'openid email profile'}
+)
 create_users_table()
 create_classes_table()
 create_teachers_table()
 create_events_table()
 create_student_classes_table()
 create_class_data_table()
+
+@app.route('/auth/login')
+def google_login():
+    redirect_uri = os.getenv('GOOGLE_REDIRECT_URI')
+    return google.authorize_redirect(redirect_uri)
+
+@app.route('/auth/callback')
+def google_callback():
+    token = google.authorize_access_token()
+    user_info = token['userinfo']
+    email = user_info['email']
+    
+    if not email.endswith('@nycstudents.net'):
+        return redirect(url_for('login') + '?error=Must use nycstudents email')
+    
+    # Auto-register if needed
+    if not user_exists(email):
+        register_user(email, secrets.token_hex(16))  # random password since they use Google
+    
+    session['username'] = email
+    return redirect(url_for('home'))
 
 @app.route("/")
 def prep():

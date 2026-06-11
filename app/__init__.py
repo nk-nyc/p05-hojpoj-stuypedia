@@ -313,6 +313,20 @@ def remove_calendar_event(event_id):
     delete_event(event_id, session['username'])
     return json.dumps({"status": "ok"})
 
+@app.route('/events/<int:event_id>', methods=['PUT'])
+def update_calendar_event(event_id):
+    data = request.get_json()
+    db = sqlite3.connect('data.db')
+    c = db.cursor()
+    c.execute('''UPDATE events SET title=?, start=?, end=?, color=?, linked_class=?, all_day=?, is_public=?
+                 WHERE id=? AND username=?''',
+              (data['title'], data['start'], data.get('end'), data['color'],
+               data.get('linked_class'), int(data['allDay']), data.get('is_public', 0),
+               event_id, session['username']))
+    db.commit()
+    db.close()
+    return json.dumps({"status": "ok"})
+
 @app.route('/findclass', methods=['GET', 'POST'])
 def findclass():
     if 'username' not in session:

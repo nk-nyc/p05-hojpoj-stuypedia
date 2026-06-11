@@ -532,8 +532,9 @@ def create_events_table():
         start       TEXT            NOT NULL,
         end         TEXT,
         color       TEXT,
-        linked_class       TEXT,
-        all_day     INTEGER
+        linked_class TEXT,
+        all_day     INTEGER,
+        is_public   INTEGER DEFAULT 0
         )"""
     create_table(contents)
 

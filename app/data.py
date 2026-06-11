@@ -16,6 +16,23 @@ def create_table(contents):
     db.commit()
     db.close()
 
+def get_filtered_classes(search, subject=None, grade=None):
+    all_classes = get_searched_classes(search)
+    filtered_classes = []
+    if grade == 'None' and subject == 'None':
+        all_classes.sort(key=lambda x: x[1]) 
+        return all_classes
+    for cls in all_classes:
+        print(cls[2], subject, cls[3], grade)
+        if subject != 'None' and subject.lower() != cls[2].lower():
+            continue
+        if grade != 'None' and grade not in cls[3]:
+            continue
+        filtered_classes.append(cls)
+    filtered_classes.sort(key=lambda x: x[1]) 
+    return filtered_classes
+
+
 def generate_anon():
     animal_list = ["aardvark","albatross","alligator","alpaca","anaconda","angelfish","ant","anteater","antelope","ape","armadillo","auk","axolotl","baboon","badger","barracuda","bat","bear","beaver","bee","bison","blackbird","boar","bobcat","buffalo","butterfly","camel","capybara","caracal","caribou","cassowary","cat","caterpillar","catfish","cattle","chameleon","cheetah","chickadee","chicken","chimpanzee","chinchilla","chipmunk","cicada","clam","cobra","cod","coyote","crab","crane","crocodile","crow","cuckoo","deer","dingo","dog","dolphin","donkey","dormouse","dove","dragonfly","duck","dugong","eagle","earthworm","echidna","eel","elephant","elk","emu","falcon","ferret","finch","fish","flamingo","flea","fly","fox","frog","gaur","gazelle","gecko","gerbil","giraffe","gnat","gnu","goat","goldfish","goose","gorilla","grasshopper","guinea pig","gull","hamster","hare","hawk","hedgehog","heron","herring","hippopotamus","hornet","horse","hummingbird","hyena","ibex","iguana","impala","jackal","jaguar","jellyfish","kangaroo","kingfisher","koala","komodo dragon","kookaburra","kouprey","krill","ladybug","lemur","leopard","lion","llama","lobster","locust","lynx","macaw","magpie","mallard","manatee","mandrill","mantis","marlin","marmoset","marmot","mayfly","meerkat","mink","mole","mongoose","monkey","moose","mosquito","mouse","mule","narwhal","newt","nightingale","ocelot","octopus","opossum","orangutan","oryx","ostrich","otter","owl","ox","oyster","panther","parrot","partridge","peacock","pelican","penguin","pheasant","pig","pigeon","pony","porcupine","porpoise","quail","rabbit","raccoon","rat","raven","reindeer","rhinoceros","rook","salamander","salmon","sandpiper","sardine","scorpion","seahorse","seal","shark","sheep","shrew","shrimp","skunk","sloth","slug","snail","snake","sparrow","spider","squid","squirrel","starfish","stingray","stork","swallow","swan","tapir","tarsier","termite","tiger","toad","trout","tuna","turkey","turtle","viper","vulture","wallaby","walrus","wasp","weasel","whale","wolf","wombat","woodpecker","worm","wren","yak","zebra"]
 

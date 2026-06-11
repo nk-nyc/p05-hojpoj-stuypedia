@@ -4,6 +4,13 @@ from data import *
 import sqlite3
 import json
 import datetime
+import os
+import secrets
+from dotenv import load_dotenv
+from authlib.integrations.flask_client import OAuth
+
+load_dotenv()
+
 
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY')
@@ -151,7 +158,6 @@ def logout():
     session.clear()
     return redirect(url_for('login'))
 
-<<<<<<< HEAD
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
     if 'username' not in session:
@@ -216,9 +222,6 @@ def change_password(username, new_password):
 	db.commit()
 	db.close()
 
-
-=======
->>>>>>> 163bff0aeda8b27e0bc81a33483bf12361e2a9c2
 @app.route('/delete_class/<int:class_id>', methods=['DELETE'])
 def delete_class(class_id):
     delete_classid(class_id)

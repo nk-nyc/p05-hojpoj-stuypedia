@@ -13,9 +13,6 @@ load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY')
-if not app.secret_key:
-    raise RuntimeError("SECRET_KEY not found")
-
 oauth = OAuth(app)
 
 google = oauth.register(
@@ -164,12 +161,70 @@ def logout():
     session.clear()
     return redirect(url_for('login'))
 
-@app.route('/profile')
+@app.route('/profile', methods=['GET', 'POST'])
 def profile():
     if 'username' not in session:
         return redirect(url_for('login'))
 
-    return render_template('profile.html')
+    if request.method == 'POST':
+        current_password = request.form.get('current_password')
+        new_password = request.form.get('new_password')
+        confirm_password = request.form.get('confirm_password')
+
+        username = session['username']
+
+        # Current password
+        if not auth(username, current_password):
+            return render_template(
+                'profile.html',
+                username=username,
+                error='Current password is incorrect.'
+            )
+
+        # Passwords match
+        if new_password != confirm_password:
+            return render_template(
+                'profile.html',
+                username=username,
+                error='New passwords do not match.'
+            )
+
+        # Check length
+        if len(new_password) < 8:
+            return render_template(
+                'profile.html',
+                username=username,
+                error='Password must be at least 8 characters.'
+            )
+
+        change_password(username, new_password)
+
+        return render_template(
+            'profile.html',
+            username=username,
+            success='Password updated successfully.'
+        )
+
+    return render_template(
+        'profile.html',
+        username=session['username']
+    )
+
+def change_password(username, new_password):
+	db = sqlite3.connect(DB_FILE)
+	c = db.cursor()
+	
+	hashed_password = hashlib.sha256(
+		new_password.encode('utf-8')
+	).hexdigest()
+	
+	c.execute(
+		'UPDATE users SET password = ? WHERE username = ?',
+		(hashed_password, username)
+	)
+	db.commit()
+	db.close()
+
 
 @app.route('/delete_class/<int:class_id>', methods=['DELETE'])
 def delete_class(class_id):

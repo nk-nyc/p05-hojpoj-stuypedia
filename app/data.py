@@ -56,6 +56,26 @@ def register_user(username, password):
 
 #data collected: difficulty, enjoyment, workload, hours per night, teaching quality, resources
 
+def change_password(username, new_password):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
+    hashed_password = str(
+        hashlib.sha256(
+            new_password.encode('utf-8')
+        ).hexdigest()
+    )
+
+    c.execute(
+        "UPDATE users SET password = ? WHERE username = ?",
+        (hashed_password, username)
+    )
+
+    db.commit()
+    db.close()
+
+
+
 def create_class_data_table():
     contents = """
         CREATE TABLE IF NOT EXISTS class_data (

@@ -380,6 +380,20 @@ def get_searched_classes(search):
         i += 1
     return searched_classes
 
+def get_filtered_classes(search, subject=None, grade=None):
+    all_classes = get_searched_classes(search)
+    filtered_classes = []
+    if grade == 'None' and subject == 'None':
+        return all_classes
+    for cls in all_classes:
+        print(cls[2], subject, cls[3], grade)
+        if subject != 'None' and subject.lower() != cls[2].lower():
+            continue
+        if grade != 'None' and grade not in cls[3]:
+            continue
+        filtered_classes.append(cls)
+    return filtered_classes
+
 def clean_list(raw_output):
 
     clean_output = []

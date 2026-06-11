@@ -35,7 +35,29 @@
       <div class="search-box">
         <form method="POST">
           <div class="search-wrapper">
-            <input type="text" name="search" placeholder="Search for a class...">
+            <input style="width: 300px;"type="text" name="search" placeholder="Search for a class...">
+            <label for="subject">Subject:</label>
+            <select name="subject">
+              <option name="all" value="None"> all </option>
+              <option name="English"> English </option>
+              <option name="Languages"> Languages </option>
+              <option name="Social Studies"> Social Studies/History </option>
+              <option name="Math"> Math </option>
+              <option name="Science"> Science </option>
+              <option name="Tech"> Tech </option>
+              <option name="Art"> Art </option>
+              <option name="Other"> Other </option>
+            </select>
+
+            <label for="grade">Grade:</label>
+            <select name="grade">
+              <option name="all" value="None"> all </option>
+              <option name="nine" value="nine"> 9 </option>
+              <option name="ten" value="ten"> 10 </option>
+              <option name="eleven" value="eleven"> 11 </option>
+              <option name="twelve" value="twelve"> 12 </option> 
+            </select>
+
             <button type="submit">Search</button>
           </div>
         </form>

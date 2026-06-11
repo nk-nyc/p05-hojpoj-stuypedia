@@ -136,3 +136,6 @@ sophiaC -- 2026-05-11 2:35
 - add profile page and css
 - get changing passwords to work
 
+Natalie -- 6/11/26
+- fixed grade format at last
+- merge conflicts! half of our stuff disappeared

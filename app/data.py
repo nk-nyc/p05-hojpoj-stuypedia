@@ -28,6 +28,7 @@ def get_filtered_classes(search, subject=None, grade=None):
         if grade != 'None' and grade not in cls[3]:
             continue
         filtered_classes.append(cls)
+    filtered_classes.sort(key=lambda x: x[1]) 
     return filtered_classes
 
 

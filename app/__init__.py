@@ -137,7 +137,7 @@ def login(): #code from p02 cerulean
 
 @app.route('/home', methods=['GET', 'POST'])
 def home():
-    class_list = get_user_classes(session['username'][0])
+    class_list = get_user_classes(session['username'])
     if session['username'] == 'stuypedia_admin':
         class_list = get_all_student_classes()
         return render_template('admin_home.html', classes=class_list)

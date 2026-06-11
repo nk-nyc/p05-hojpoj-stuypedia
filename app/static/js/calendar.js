@@ -225,6 +225,7 @@ $(document).ready(function () {
 
     if (!title) {alert('Please enter an event name.'); return; }
     if(!startDate) {alert('Please select a date.'); return; }
+    if (isPublic && !linkedClass) {alert('Please link a class to share this event publicly.'); return; }
 
     var start  = startTime ? startDate + 'T' + startTime : startDate;
     var end    = endDate   ? (endTime  ? endDate + 'T' + endTime : endDate) : null;

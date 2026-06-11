@@ -299,7 +299,6 @@ def modify():
 
 
 @app.route('/calendar', methods=['GET', 'POST'])
-@app.route('/calendar', methods=['GET', 'POST'])
 def calendar():
     if 'username' not in session:
         return redirect(url_for('login'))
@@ -312,7 +311,6 @@ def get_calendar_events():
     events = get_events(session['username'])
     return json.dumps(events)
 
-@app.route('/events', methods=['POST'])
 @app.route('/events', methods=['POST'])
 def add_calendar_event():
     data = request.get_json()

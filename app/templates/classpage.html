@@ -55,7 +55,7 @@
         <h1> {{class_info[0]}}
             {% if saved %}⭐{% endif %}
         </h1>
-        <p> Grades: {{class_info[2][2:-2]}} </p>
+        <p> Grades: {{grade}} </p>
         <p> Subject: {{class_info[1]}} </p>
         <p> Teachers: {{class_info[3]}} </p>
 
@@ -68,14 +68,12 @@
             <tr>
                 <th>Category </th>
                 <th>Mean</th>
-                <th>Median</th>
             </tr>
             {% if class_data %}
               {% for data in class_data %}
               <tr>
                   <td>{{data[0]}}</td>
                   <td>{{data[1]}}</td>
-                  <td>{{data[2]}}</td>
               </tr>
               {% endfor %}
             {% endif %}

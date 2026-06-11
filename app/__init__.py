@@ -345,16 +345,19 @@ def get_shared_events():
     user_classes = get_user_classes(session['username'])
     if not user_classes:
         return json.dumps([])
+    responded = get_responded_event_ids(session['username'])
     db = sqlite3.connect('data.db')
     c = db.cursor()
     placeholders = ','.join('?' for _ in user_classes)
-    data = c.execute(f'''SELECT id, title, start, end, color, linked_class, all_day
+    rows = c.execute(f'''SELECT id, title, start, end, color, linked_class, all_day
                          FROM events WHERE is_public=1 AND username != ?
                          AND linked_class IN ({placeholders})''',
                      [session['username']] + user_classes).fetchall()
     db.close()
-    return json.dumps([{"id": r[0], "title": r[1], "start": r[2], "end": r[3],
-                        "color": r[4], "linked_class": r[5], "allDay": bool(r[6])} for r in data])
+    events = [{"id": r[0], "title": r[1], "start": r[2], "end": r[3],
+               "color": r[4], "linked_class": r[5], "allDay": bool(r[6])}
+              for r in rows if r[0] not in responded]
+    return json.dumps(events)
 
 @app.route('/events/<int:event_id>/visibility', methods=['PUT'])
 def update_event_visibility(event_id):
@@ -365,6 +368,15 @@ def update_event_visibility(event_id):
               (data['is_public'], event_id, session['username']))
     db.commit()
     db.close()
+    return json.dumps({"status": "ok"})
+
+@app.route('/events/<int:event_id>/respond', methods=['POST'])
+def respond_to_event(event_id):
+    if 'username' not in session:
+        return json.dumps({"status": "error"}), 401
+    data = request.get_json()
+    response = data['response']  # 'accept' or 'decline'
+    set_event_response(event_id, session['username'], response)
     return json.dumps({"status": "ok"})
 
 @app.route('/findclass', methods=['GET', 'POST'])

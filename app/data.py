@@ -555,6 +555,35 @@ def create_events_table():
         )"""
     create_table(contents)
 
+def create_event_responses_table():
+    contents = """
+        CREATE TABLE IF NOT EXISTS event_responses (
+            id          INTEGER PRIMARY KEY AUTOINCREMENT,
+            event_id    INTEGER NOT NULL,
+            username    TEXT    NOT NULL,
+            response    TEXT    NOT NULL,
+            UNIQUE(event_id, username)
+        )"""
+    create_table(contents)
+
+def set_event_response(event_id, username, response):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    c.execute('''INSERT INTO event_responses (event_id, username, response)
+                 VALUES (?, ?, ?)
+                 ON CONFLICT(event_id, username) DO UPDATE SET response=?''',
+              (event_id, username, response, response))
+    db.commit()
+    db.close()
+
+def get_responded_event_ids(username):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    rows = c.execute('SELECT event_id FROM event_responses WHERE username = ?',
+                     (username,)).fetchall()
+    db.close()
+    return [r[0] for r in rows]
+
 def save_event(username, title, start, end, color, linked_class, all_day, is_public=0):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()

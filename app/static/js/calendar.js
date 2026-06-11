@@ -180,7 +180,10 @@ $(document).ready(function () {
     .then(function(r) { return r.json(); })
     .then(function(events) {
       var list = document.getElementById('shared-event-list');
-      if (!events.length) return; 
+      if (!events.length) {
+        list.innerHTML = '<p class="no-shared">No shared events yet.</p>';
+        return;
+      }
       list.innerHTML = '';
       events.forEach(function(e) {
         var div = document.createElement('div');
@@ -188,22 +191,36 @@ $(document).ready(function () {
         div.innerHTML =
           '<strong>' + e.title + '</strong><br>' +
           '<small>' + e.start + '</small><br>' +
-          '<button class="accept-btn">Add to my calendar</button>';
+          '<button class="accept-btn">Accept</button> ' +
+          '<button class="decline-btn">Decline</button>';
+
         div.querySelector('.accept-btn').addEventListener('click', function() {
-          saveEventToServer(e.title, e.start, e.end, e.color, e.linked_class, e.allDay, false)
-            .then(function(data) {
-              $('#calendar').fullCalendar('renderEvent', {
-                id: data.id,
-                title: e.title,
-                start: e.start,
-                end: e.end,
-                color: e.color,
-                allDay: e.allDay
-              }, true);
-              div.querySelector('.accept-btn').textContent = '✓ Added';
-              div.querySelector('.accept-btn').disabled = true;
-            });
+          fetch('/events/' + e.id + '/respond', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ response: 'accept' })
+          }).then(function() {
+            saveEventToServer(e.title, e.start, e.end, e.color, e.linked_class, e.allDay, false)
+              .then(function(data) {
+                $('#calendar').fullCalendar('renderEvent', {
+                  id: data.id, title: e.title, start: e.start,
+                  end: e.end, color: e.color, allDay: e.allDay
+                }, true);
+              });
+            div.remove();
+          });
         });
+
+        div.querySelector('.decline-btn').addEventListener('click', function() {
+          fetch('/events/' + e.id + '/respond', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ response: 'decline' })
+          }).then(function() {
+            div.remove();
+          });
+        });
+
         list.appendChild(div);
       });
     });

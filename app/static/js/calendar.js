@@ -65,6 +65,17 @@ function openInfoModal(event) {
   infoModal.classList.add('open');
 }
 
+document.getElementById('info-public-toggle').addEventListener('change', function() {
+  if (!currentEvent || !currentEvent.id) return;
+  fetch('/events/' + currentEvent.id + '/visibility', {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ is_public: this.checked ? 1 : 0 })
+  }).then(function() {
+    currentEvent.is_public = document.getElementById('info-public-toggle').checked ? 1 : 0;
+  });
+});
+
 function closeInfoModal() {
   infoModal.classList.remove('open');
   currentEvent = null;
@@ -208,7 +219,7 @@ $(document).ready(function () {
     var endTime   = document.getElementById('modal-end-time').value;
     var color = document.getElementById('modal-color').value;
     var linkedClass = document.getElementById('modal-class').value || null;
-    var isPublic = document.getElementById('modal-public').checked;
+    var isPublic = document.getElementById('modal-public').checked ? 1 : 0;
 
     if (!title) {alert('Please enter an event name.'); return; }
     if(!startDate) {alert('Please select a date.'); return; }
@@ -227,7 +238,8 @@ $(document).ready(function () {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title: title, start: start, end: end,
-                               color: color, linked_class: linkedClass, allDay: allDay, is_public: isPublic ? 1 : 0 })
+                           color: color, linked_class: linkedClass, 
+                           allDay: allDay, is_public: isPublic })  
       }).then(function() {
         var existing = $('#calendar').fullCalendar('clientEvents', editingEventId);
         if (existing.length) {
@@ -237,7 +249,7 @@ $(document).ready(function () {
           existing[0].color        = color;
           existing[0].linked_class = linkedClass;
           existing[0].allDay       = allDay;
-          existing[0].is_public    = isPublic;
+          existing[0].is_public    = isPublic;  
           $('#calendar').fullCalendar('updateEvent', existing[0]);
         }
       });

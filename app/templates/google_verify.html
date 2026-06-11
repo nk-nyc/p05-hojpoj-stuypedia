@@ -1,51 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Register</title>
+        <title>Verify - Stuypedia</title>
         <link href="../static/css/register.css" rel="stylesheet"/>
     </head>
     <body>
-
-        <form method="post" action="/register">
+        <form method="post" action="/google-verify">
             <div class="register-box">
-
-                <div class="signup-left">
-                    <h1 class="title">SIGN UP</h1>
+                <div class="authentification">
+                    <h2 class="title">AUTHENTICATION</h2>
+                    <p>Almost there! Verify you're a Stuyvesant student.</p>
 
                     {% if error %}
                     <p class="error-msg">{{ error }}</p>
                     {% endif %}
-
-                    <div class="credentials">
-                        <label for="username">EMAIL</label>
-                        <input type="text" id="username" name="username" required>
-                    </div>
-
-                    <div class="credentials">
-                        <label for="password">CREATE PASSWORD { 8+ CHARACTERS }</label>
-                        <input type="password" id="password" name="password" required>
-                    </div>
-
-                    <div class="credentials">
-                        <label for="password2">CONFIRM PASSWORD</label>
-                        <input type="password" id="password2" name="password2" required>
-                    </div>
-
-                    <input type="submit" value="SUBMIT" class="submit-btn">
-                    <div class="divider">
-                        <span>THEN SIGN IN</span>
-                    </div>
-                    <a href="/auth/login" class="google-btn">
-                    <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google">
-                        Sign up with Google
-                    </a>
-
-                  <p class="login-link"> Already have an account? <a href="/login"> Log in</a></p>
-                </div>
-
-
-                <div class="authentification">
-                    <h2 class="title">AUTHENTICATION</h2>
 
                     <div class="question-row">
                         <span>WHAT FLOOR IS THE CAFETERIA ON?</span>
@@ -96,17 +64,13 @@
                     </div>
 
                     <label class="checkbox-label">
-                        <input type="checkbox" id="testimony" name="testimony" required>
-                        <span>I TESTIFY THAT I AM A STUYVESANT STUDENT AND UNDERSTAND THAT ONLY STUYVESANT STUDENTS MAY SIGN UP.</span>
+                        <input type="checkbox" name="testimony" required>
+                        <span>I TESTIFY THAT I AM A STUYVESANT STUDENT.</span>
                     </label>
 
-                    <div class="corner-logo">
-                       <img src="../static/images/stuypedia_logo.png" class="logo">
-                    </div>
+                    <input type="submit" value="VERIFY" class="submit-btn">
                 </div>
-
             </div>
         </form>
-
     </body>
 </html>

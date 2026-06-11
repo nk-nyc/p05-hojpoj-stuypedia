@@ -5,83 +5,128 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css"/>
-        <link href="../static/css/calendar.css" rel="stylesheet"/>
 
-		 <!-- Foundation CSS -->
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.8.1/dist/css/foundation.min.css">
-		<!-- Foundation Icons -->
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.min.css">
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.8.1/dist/js/foundation.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+		  <!-- Foundation CSS -->
+		  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.8.1/dist/css/foundation.min.css">
+		  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.min.css">
+	
+		  <!-- Calender -->
+		  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	     <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.8.1/dist/js/foundation.min.js"></script>
+	     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+	     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+	     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+    
+            <link href="../static/css/home.css" rel="stylesheet"/>
+		   <link href="../static/css/calendar.css" rel="stylesheet"/>
+		 
   </head>
     <body>
-		 <h1 style="margin-top: 50px;">Stuypedia</h1>
 
-	<div class="nav-bar">
-	  <div class="nav-bar-left">
-	    <ul class="dropdown menu" data-dropdown-menu>
-	      <li><a href='/home' title="Home"><i class="fi-home"></i> Home</a></li>
-	      <li><a href='/calendar' title="Calendar"><i class="fi-calendar"></i> Calendar</a></li>
-	      <li><a href='/modify' title="Modify Classes"><i class="fi-pencil"></i> Modify Classes</a></li>
-	      <li><a href='/findclass' title="Find a Class"><i class="fi-magnifying-glass"></i> Find a Class</a></li>
-	      <li><a href='/logout' title="Log out"><i class="fi-power"></i> Log out</a></li>
-	    </ul>
-	  </div>
+		<nav class="top-nav">
+		    <div class="top-nav-logo">
+		        <img src="../static/images/stuypedia_logo.png" class="logo">
+		    </div>
+		    <div class="top-nav-links">
+		        <a href="/home">HOME</a>
+		        <a href="/calendar">CALENDAR</a>
+		        <a href="/modify">MODIFY CLASSES</a>
+		        <a href="/findclass">FIND A CLASS</a>
+		    </div>
+		    <div class="top-nav-right">
+		        <div class="profile-dropdown">
+		            <div class="profile-icon" id="profileBtn">
+		                <i class="fi-torso"></i>
+		            </div>
+		
+		            <div class="profile-menu" id="profileMenu">
+		                <a href="/profile">MY PROFILE</a>
+		                <a href="/logout">LOGOUT</a>
+		            </div>
+		        </div>
+		    </div>
+		</nav>
+		 
+		<div class="float-nav" id="floatNav">
+		    <div class="float-nav-toggle" id="floatNavToggle">
+		        <i class="fi-widget"></i>
+		    </div>
+		    <div class="float-nav-menu" id="floatNavMenu">
+		        <a href="/home" title="Home"><i class="fi-home"></i></a>
+		        <a href="/calendar" title="Calendar"><i class="fi-calendar"></i></a>
+		        <a href="/modify" title="Modify Classes"><i class="fi-pencil"></i></a>
+		        <a href="/findclass" title="Find a Class"><i class="fi-magnifying-glass"></i></a>
+		        <a href="/logout" title="Log out"><i class="fi-power"></i></a>
+		    </div>
+		</div>
+		 
+
+		 <div class="main">
+			 <div class="page-title">
+				 <h1 style="margin-top: 10px" > CALENDER </h1>
+				 <p class="divider-text">·•—–٠✤٠—–•·</p>
+			 </div>
+			 
+			  <div id ="page-body">
+
+				  <div class = "sidebar">
+			    		<div class = "sidebar-box">
+							<h3>Draggable Events</h3>
+
+							 <div id="external-events">
+							
+						
+							<label>
+							 <input type='checkbox' id='drop-remove'> Remove on drop
+                    </label>
+						
+							
+			      <div class="add-draggable">
+			        <input type="text" id="draggable-input" placeholder="Event name…">
+			        <button id="add-draggable-btn">+</button>
+			      </div>
+				  </div>
+			    </div>
+
+				<div class="sidebar-box">
+				    <h3> Shared Events</h3>
+				    <div id="shared-event-list">
+				        <p class="no-shared">No shared events yet.</p>
+				    </div>
+				</div>
+			 </div>
+							
+	        <div class="calendar-container">
+	            <div id="calendar"></div>
+	        </div>
+	    </div>
 	</div>
-        <br><br>
-        <p>Task Manager & Calendar </p>
-
-
-  <div id ="page-body">
-    <div id='external-events'>
-      <p><strong>Draggable Events</strong></p>
-      <label>
-        <input type='checkbox' id='drop-remove'> Remove on drop
-      </label>
-      <div class="add-draggable">
-        <input type="text" id="draggable-input" placeholder="Event name…">
-        <button id="add-draggable-btn">+</button>
-      </div>
-    </div>
-
-    <div id="shared-events">
-      <p><strong>Shared by Classmates</strong></p>
-      <div id="shared-event-list">
-        <p class="no-shared">No shared events yet.</p>
-      </div>
-    </div>
-
-    <div id="calendar"></div>
-  </div>
 
 
     <div id="event-modal">
       <div class="modal-box">
         <h2 id="modal-title-heading">Add Event</h2>
-        <div>
+        <div class = "modal-field">
           <label for="modal-title">Event Name</label>
           <input type="text" id="modal-title" placeholder="e.g. Team Meeting">
         </div>
-        <div>
+        <div class = "modal-field">
           <label for="modal-start-date">Start Date</label>
           <input type="date" id="modal-start-date">
         </div>
-        <div>
+        <div class = "modal-field" >
           <label for="modal-start-time">Start Time <small>(optional)</small></label>
           <input type="time" id="modal-start-time">
         </div>
-        <div>
+        <div class = "modal-field" >
           <label for="modal-end-date">End Date <small>(optional)</small></label>
           <input type="date" id="modal-end-date">
         </div>
-        <div>
+        <div class = "modal-field">
           <label for="modal-end-time">End Time <small>(optional)</small></label>
           <input type="time" id="modal-end-time">
         </div>
-        <div>
+        <div class = "modal-field" >
           <label for="modal-color">Color</label>
           <select id="modal-color">
             <option value="#3a87d3">Blue</option>
@@ -91,22 +136,23 @@
             <option value="#9b59b6">Purple</option>
           </select>
         </div>
-        <div>
-          <label for="modal-class">Link to Class<small>(optional)</small></label>
-          <div>
-            <label for="modal-public">
-              <input type="checkbox" id="modal-public">Make public to classmates
-            </label>
-          </div>
-          <select id="modal-class">
+        <div class = "modal-field">
+          <label for="modal-class">Link to Class <small>(optional)</small></label>
+            <select id="modal-class">
             <option value="">- None -</option>
             {% for cls in user_classes %}
-            <option value="{{ cls[1]}}">{{ cls[0] }}</option>
+            <option value="{{ cls[1] }}">{{ cls[0] }}</option>
             {% endfor %}
-          </select>
-        </div>
+        		</select>
+         </div>
+			
+			<div class = "modal-field checkbox-field">
+			  <label>
+			    <input type="checkbox" id="modal-public"> Make public to classmates
+			  </label>
+			</div>
+			
         <div class="modal-actions">
-          <button id="modal-edit">Edit</button>
           <button id="modal-cancel">Cancel</button>
           <button id="modal-submit">Add Event</button>
         </div>
@@ -116,22 +162,58 @@
     <div id="info-modal">
       <div class="modal-box">
         <h2 id="info-title"></h2>
-        <p><strong>Start:</strong> <span id="info-start"></span></p>
-        <p><strong>End:</strong> <span id="info-end"></span></p>
+
+		 <div class="info-detail">
+            <span class="info-label"> Start:</span>
+            <span id="info-start"></span>
+       </div>
+		 
+		 <div class="info-detail">
+            <span class="info-label"> End:</span>
+            <span id="info-end"></span>
+       </div>
+			
         <div class="info-color-bar" id="info-color-bar"></div>
         <p><strong>Class: </strong><span id="info-class"></span></p>
-        <div id="info-visibility" style="display:none">
-          <label>
-            <input type="checkbox" id="info-public-toggle"> Public to classmates
-          </label>
+			
+		<div id="info-visibility" class="info-detail">
+            <label>
+                <input type="checkbox" id="info-public-toggle"> Share with classmates
+            </label>
         </div>
+			
         <div class="modal-actions">
-          <button id="modal-edit">Edit</button>
-          <button id="info-delete">Delete</button>
-          <button id="info-close">Close</button>
+            <button id="modal-edit" class="edit-btn">Edit</button>
+            <button id="info-delete" class="delete-btn">Delete</button>
+            <button id="info-close" class="secondary-btn">Close</button>
         </div>
       </div>
     </div>
     <script src='../static/js/calendar.js'></script>
+
+	<script src='../static/js/calendar.js'></script>
+
+	<script>
+	document.getElementById('floatNavToggle').addEventListener('click', () => {
+	    document.getElementById('floatNav').classList.toggle('expanded');
+	});
+	
+	const profileBtn = document.getElementById("profileBtn");
+	const profileMenu = document.getElementById("profileMenu");
+	
+	if (profileBtn && profileMenu) {
+	    profileBtn.addEventListener("click", () => {
+	        profileMenu.classList.toggle("show");
+	    });
+	
+	    document.addEventListener("click", (event) => {
+	        if (!profileBtn.contains(event.target) && !profileMenu.contains(event.target)) {
+	            profileMenu.classList.remove("show");
+	        }
+	    });
+	}
+	</script>
+
+		 
   </body>
 </html>

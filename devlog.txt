@@ -105,6 +105,11 @@ Natalie -- 6/3/2026
   - better css
   - edit class for admin
 
+sophiaC -- 2026-05-06 11:40
+- redid CSS for login, register
+- redo CSS for home page
+- add profile nav bar
+
 EVENT LOGISTICS
 - events can be public or private
 - if public, other people in that class can choose to accept or hide the event. if accepted, they can see it, otherwise they dont
@@ -119,3 +124,18 @@ STRETCH GOALS:
 - Google classroom API pulling
 - Notepad for notes/to-do list
 - q&a? 
+
+Natalie -- 6/10/26
+- added filtering
+- delete classes works
+- dont wanna deal with grades
+
+sophiaC -- 2026-05-11 2:35 
+- redid CSS for calender
+- NEED TO FIX adding events on calendar!!
+- add profile page and css
+- get changing passwords to work
+
+Natalie -- 6/11/26
+- fixed grade format at last
+- merge conflicts! half of our stuff disappeared

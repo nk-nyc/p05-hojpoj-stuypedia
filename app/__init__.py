@@ -153,7 +153,7 @@ def create_class():
 def modify():
     # need to get class list here from user
     if 'username' not in session:
-        return(url_for('login'))
+        return(redirect(url_for('login')))
     else:
         class_list = get_user_classes(session['username'])
         # get searched classes
@@ -178,7 +178,7 @@ def modify():
 @app.route('/calendar', methods=['GET', 'POST'])
 def calendar():
     if 'username' not in session:
-        return(url_for('login'))
+        return(redirect(url_for('login')))
     return render_template('calendar.html')
 
 @app.route('/events', methods=['GET'])
@@ -201,7 +201,7 @@ def remove_calendar_event(event_id):
 @app.route('/findclass', methods=['GET', 'POST'])
 def findclass():
     if 'username' not in session:
-        return(url_for('login'))
+        return(redirect(url_for('login')))
     if 'search' in request.form:
         # gotta write search
         searched_classes = get_searched_classes(request.form.get('search'))
@@ -216,7 +216,7 @@ def addClass(class_id):
 @app.route('/addclass', methods=['GET', 'POST'])
 def addclass():
     if 'username' not in session:
-        return(url_for('login'))
+        return(redirect(url_for('login')))
     if 'name' in request.form:
         name = request.form.get('name')
         teachers = request.form.get('teachers')

@@ -15,7 +15,7 @@ app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY')
 if not app.secret_key:
     raise RuntimeError("SECRET_KEY not found")
-	
+
 oauth = OAuth(app)
 
 google = oauth.register(
@@ -42,15 +42,15 @@ def google_callback():
     token = google.authorize_access_token()
     user_info = token['userinfo']
     email = user_info['email']
-    
-    #if not email.endswith('@nycstudents.net'):
-    #    return redirect(url_for('login') + '?error=Must use nycstudents email')
-    
+
+    if not email.endswith('@nycstudents.net'):
+        return redirect(url_for('login') + '?error=Must use nycstudents email')
+
     # Auto-register if needed
     if user_exists(email):
         session['username'] = email
         return redirect(url_for('home'))
-    
+
     session['pending_google_email'] = email
     return redirect(url_for('google_verify'))
 
@@ -59,17 +59,17 @@ def google_verify():
     if 'pending_google_email' not in session:
         return redirect(url_for('login'))
     if request.method == 'POST':
-        if (not (request.form.get('q1').strip().lower() == 'five') or 
+        if (not (request.form.get('q1').strip().lower() == 'five') or
             not (request.form.get('q2').strip().lower() == 'six')) or \
-           (not (request.form.get('q3').strip().lower() == 'three') or 
+           (not (request.form.get('q3').strip().lower() == 'three') or
             not (request.form.get('q4').strip().lower() == 'six')):
             return render_template('google_verify.html', error='One or more answer is incorrect!')
-        
+
         email = session.pop('pending_google_email')
         register_user(email, secrets.token_hex(16))
         session['username'] = email
         return redirect(url_for('home'))
-    
+
     return render_template('google_verify.html')
 
 @app.route("/")
@@ -216,11 +216,11 @@ def profile():
 def change_password(username, new_password):
 	db = sqlite3.connect(DB_FILE)
 	c = db.cursor()
-	
+
 	hashed_password = hashlib.sha256(
 		new_password.encode('utf-8')
 	).hexdigest()
-	
+
 	c.execute(
 		'UPDATE users SET password = ? WHERE username = ?',
 		(hashed_password, username)

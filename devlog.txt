@@ -129,3 +129,10 @@ Natalie -- 6/10/26
 - added filtering
 - delete classes works
 - dont wanna deal with grades
+
+sophiaC -- 2026-05-11 2:35 
+- redid CSS for calender
+- NEED TO FIX adding events on calendar!!
+- add profile page and css
+- get changing passwords to work
+

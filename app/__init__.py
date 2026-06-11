@@ -45,8 +45,8 @@ def google_callback():
     user_info = token['userinfo']
     email = user_info['email']
 
-    if not email.endswith('@nycstudents.net'):
-        return redirect(url_for('login') + '?error=Must use nycstudents email')
+    ##if not email.endswith('@nycstudents.net'):
+     ##   return redirect(url_for('login') + '?error=Must use nycstudents email')
 
     # Auto-register if needed
     if user_exists(email):

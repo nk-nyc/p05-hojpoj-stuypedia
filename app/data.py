@@ -538,11 +538,11 @@ def create_events_table():
         )"""
     create_table(contents)
 
-def save_event(username, title, start, end, color, linked_class, all_day):
+def save_event(username, title, start, end, color, linked_class, all_day, is_public=0):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    c.execute('INSERT INTO events VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)',
-              (username, title, start, end, color, linked_class, int(all_day)))
+    c.execute('INSERT INTO events VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)',
+              (username, title, start, end, color, linked_class, int(all_day), int(is_public)))
     db.commit()
     new_id = c.lastrowid
     db.close()

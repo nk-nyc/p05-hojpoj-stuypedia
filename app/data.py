@@ -20,7 +20,7 @@ def get_filtered_classes(search, subject=None, grade=None):
     all_classes = get_searched_classes(search)
     filtered_classes = []
     if grade == 'None' and subject == 'None':
-        return all_classes
+        return all_classes.sort(key=lambda x: x[1]) 
     for cls in all_classes:
         print(cls[2], subject, cls[3], grade)
         if subject != 'None' and subject.lower() != cls[2].lower():

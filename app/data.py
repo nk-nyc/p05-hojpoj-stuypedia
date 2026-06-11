@@ -559,12 +559,13 @@ def update_class(class_id, subj, grades, teachers):
 def get_events(username):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    data = c.execute('SELECT id, title, start, end, color, linked_class, all_day FROM events WHERE username = ?',
+    data = c.execute('SELECT id, title, start, end, color, linked_class, all_day, is_public FROM events WHERE username = ?',
                      (username,)).fetchall()
     db.commit()
     db.close()
     return [{"id": r[0], "title": r[1], "start": r[2], "end": r[3],
-             "color": r[4], "linked_class": r[5], "allDay": bool(r[6])} for r in data]
+             "color": r[4], "linked_class": r[5], "allDay": bool(r[6]),
+             "is_public": r[7]} for r in data]
 
 def delete_event(event_id, username):
     db = sqlite3.connect(DB_FILE)

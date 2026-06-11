@@ -149,9 +149,9 @@ def home():
         key=lambda e: e['start']
     )[:5]
     if class_list:
-        return render_template('home.html', your_classes=class_list)
+        return render_template('home.html', your_classes=class_list, upcoming=upcoming)
     else:
-        return render_template('home.html')
+        return render_template('home.html', upcoming=upcoming)
 
 @app.route('/logout', methods=["GET", "POST"])
 def logout():

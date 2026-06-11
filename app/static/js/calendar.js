@@ -19,6 +19,7 @@ function openModal(prefill) {
     document.getElementById('modal-end-time').value = prefill.end && !prefill.allDay ? prefill.end.format('HH:mm') : '';
     document.getElementById('modal-color').value = prefill.color || '#3a87d3';
     document.getElementById('modal-class').value = prefill.linked_class || '';
+    document.getElementById('modal-public').checked = !!prefill.is_public;
     document.getElementById('modal-title-heading').textContent = 'Edit Event';
     document.getElementById('modal-submit').textContent = 'Save Changes';
   }
@@ -31,6 +32,7 @@ function closeModal() {
    'modal-end-date','modal-end-time', 'modal-class'].forEach(function(id) {
     document.getElementById(id).value = '';
   });
+  document.getElementById('modal-public').checked = false;
 }
 
 function getClassName(classId) {
@@ -309,7 +311,7 @@ function addDraggableEvent(){
   if (!name) return;
 
   var $el = $('<div class="fc-event"></div>').text(name);
-  $el.insertBefore('#external-events label');
+  $('#external-events').append($el); 
   makeDraggable($el[0]);
 
   input.value = '';

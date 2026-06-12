@@ -151,4 +151,4 @@ Michelle -- 6/12/26
 -Debugged public events
 
 sophiaC -- 2026-05-12 3:50 PM
-- Updated CSS for student accounts
+- Updated CSS and html for student accounts

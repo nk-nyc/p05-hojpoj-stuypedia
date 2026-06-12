@@ -33,6 +33,7 @@ create_teachers_table()
 create_events_table()
 create_student_classes_table()
 create_class_data_table()
+create_event_responses_table()
 
 @app.route('/auth/login')
 def google_login():

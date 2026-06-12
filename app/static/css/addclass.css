@@ -1,6 +1,12 @@
-.main{
-	margin-top: 50px;
-	
+.main-box{
+	 margin-top: 50px;
+	 max-width: 1000px;
+    width: 550px;
+	 height: 700px;
+    background: #d6ffd4;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
 }
 
 .grid-container {
@@ -13,10 +19,13 @@
 }
 
 body {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  padding-top: 40px;
-  background: #a8d48a;
+    min-height: 100vh;
+    background-color: #a8d48a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    padding: 40px 20px;
 }
 
 h1 {

@@ -35,7 +35,7 @@
         </div>
     </div>
 </nav>
-<div class = "main">
+<div class="main-box">
 <div class="float-nav" id="floatNav">
     <div class="float-nav-toggle" id="floatNavToggle">
         <i class="fi-list"></i>
@@ -98,6 +98,24 @@
   </div>
 </div>
 </div>
-	
+<script>
+document.getElementById('floatNavToggle').addEventListener('click', () => {
+    document.getElementById('floatNav').classList.toggle('expanded');
+});
+
+const profileBtn = document.getElementById("profileBtn");
+const profileMenu = document.getElementById("profileMenu");
+
+profileBtn.addEventListener("click", () => {
+    profileMenu.classList.toggle("show");
+});
+
+document.addEventListener("click", (profile) => {
+    if (!profileBtn.contains(profile.target) &&
+        !profileMenu.contains(profile.target)) {
+        profileMenu.classList.remove("show");
+    }
+});
+</script>
 </body>
 </html>

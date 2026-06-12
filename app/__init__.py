@@ -281,6 +281,9 @@ def modify():
     else:
         class_list = get_user_classes(session['username'])
         # get searched classes
+
+        print(class_list)
+
         if 'search' in request.form:
             # gotta write search
             searched_classes = get_searched_classes(request.form.get('search'))
@@ -298,6 +301,15 @@ def modify():
                 return render_template('modify.html', your_classes=class_list)
         return render_template('modify.html', your_classes=class_list)
 
+@app.route('/removeclass/<int:class_id>', methods=['GET', 'POST'])
+def removeclass(class_id):
+    if 'username' not in session:
+        return(redirect(url_for('login')))
+    class_list = get_user_classes(session['username'])
+    if str(class_id) in class_list:
+        remove_class_from_user(class_id, session['username'])
+        return redirect(url_for('modify'))
+    return redirect(url_for('modify'))
 
 @app.route('/calendar', methods=['GET', 'POST'])
 def calendar():
@@ -386,11 +398,7 @@ def findclass():
         return(redirect(url_for('login')))
     if 'search' in request.form:
         # gotta write search
-<<<<<<< HEAD
         searched_classes = get_filtered_classes(request.form.get('search'), request.form.get('subject'), request.form.get('grade'))
-=======
-        searched_classes = get_filtered_classes(request.form.get('search'), request.form.get('subject'), request.form.get('grade'))        
->>>>>>> bb36a390bcd59df00b33b4a478bca20178c03993
         return render_template('findclass.html', searched=searched_classes)
     return render_template('findclass.html')
 

@@ -20,7 +20,7 @@ def get_filtered_classes(search, subject=None, grade=None):
     all_classes = get_searched_classes(search)
     filtered_classes = []
     if grade == 'None' and subject == 'None':
-        all_classes.sort(key=lambda x: x[1]) 
+        all_classes.sort(key=lambda x: x[1])
         return all_classes
     for cls in all_classes:
         print(cls[2], subject, cls[3], grade)
@@ -29,7 +29,7 @@ def get_filtered_classes(search, subject=None, grade=None):
         if grade != 'None' and grade not in cls[3]:
             continue
         filtered_classes.append(cls)
-    filtered_classes.sort(key=lambda x: x[1]) 
+    filtered_classes.sort(key=lambda x: x[1])
     return filtered_classes
 
 
@@ -507,25 +507,6 @@ def get_all_student_classes():
 
     return data
 
-def change_password(username, new_password):
-    db = sqlite3.connect(DB_FILE)
-    c = db.cursor()
-
-    hashed_password = str(
-        hashlib.sha256(
-            new_password.encode('utf-8')
-        ).hexdigest()
-    )
-
-    c.execute(
-        "UPDATE users SET password = ? WHERE username = ?",
-        (hashed_password, username)
-    )
-
-    db.commit()
-    db.close()
-
-
 def fix_grades_i_made_them_weird(grades):
     finalized_str = ""
     if "nine" in grades:
@@ -568,18 +549,6 @@ def create_events_table():
         start       TEXT            NOT NULL,
         end         TEXT,
         color       TEXT,
-<<<<<<< HEAD
-        linked_class       TEXT,
-        all_day     INTEGER,
-        is_public INTEGER DEFAULT 0
-        )"""
-    create_table(contents)
-
-def save_event(username, title, start, end, color, linked_class, all_day, is_public=0):
-    db = sqlite3.connect(DB_FILE)
-    c = db.cursor()
-    c.execute('INSERT INTO events VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)',
-=======
         linked_class TEXT,
         all_day     INTEGER,
         is_public   INTEGER DEFAULT 0
@@ -619,48 +588,11 @@ def save_event(username, title, start, end, color, linked_class, all_day, is_pub
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
     c.execute('INSERT INTO events VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)',
->>>>>>> bb36a390bcd59df00b33b4a478bca20178c03993
               (username, title, start, end, color, linked_class, int(all_day), int(is_public)))
     db.commit()
     new_id = c.lastrowid
     db.close()
     return new_id
-
-def update_event(event_id, username, title, start, end, color, linked_class, all_day, is_public=0):
-    db = sqlite3.connect(DB_FILE)
-    c = db.cursor()
-    c.execute('''UPDATE events SET title=?, start=?, end=?, color=?, linked_class=?, all_day=?, is_public=?
-                 WHERE id=? AND username=?''',
-                 (title, start, end, color, linked_class, int(all_day), int(is_public), event_id, username))
-    db.commit()
-    db.close()
-
-def get_shared_events_for_user(username):
-    user_class_ids = get_user_classes(username)
-    if not user_class_ids:
-        return []
-    db = sqlite3.connect(DB_FILE)
-    c = db.cursor()
-    placeholders = ','.join('?' for _ in user_class_ids)
-    data = c.execute(f'''
-                     SELECT id, username, title, start, end, color, linked_class, all_day
-                     FROM events
-                     WHERE is_public = 1
-                        AND linked_class IN ({placeholders})
-                        AND username != ?
-                    ''', (*user_class_ids, username)).fetchall()
-    db.close()
-    return [{"id": r[0], "author": r[1], "title": r[2], "start": r[3],
-             "end": r[4], "color": r[5], "linked_class": r[6], "allDay": bool(r[7])} for r in data]
-
-def update_event_visibility_db(event_id, username, is_public):
-    db = sqlite3.connect(DB_FILE)
-    c = db.cursor()
-    c.execute('UPDATE events SET is_public = ? WHERE id = ? AND username = ?',
-              (int(is_public), event_id, username))
-    db.commit()
-    db.close()
-
 
 def update_class(class_id, subj, grades, teachers):
     db = sqlite3.connect(DB_FILE)
@@ -678,12 +610,22 @@ def get_events(username):
     db.commit()
     db.close()
     return [{"id": r[0], "title": r[1], "start": r[2], "end": r[3],
-<<<<<<< HEAD
-             "color": r[4], "linked_class": r[5], "allDay": bool(r[6]), "is_public": bool(r[7])} for r in data]
-=======
              "color": r[4], "linked_class": r[5], "allDay": bool(r[6]),
              "is_public": r[7]} for r in data]
->>>>>>> bb36a390bcd59df00b33b4a478bca20178c03993
+
+def remove_class_from_user(classe, user):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    print(classe, user)
+    current_classes = get_user_classes(user)
+    current_classes.remove(str(classe))
+    final_classes = ""
+    for i in range(len(current_classes)):
+        final_classes += current_classes[i] + ' '
+
+    c.execute('UPDATE users SET classes = ? WHERE username = ?', (final_classes, user))
+    db.commit()
+    db.close()
 
 def delete_event(event_id, username):
     db = sqlite3.connect(DB_FILE)

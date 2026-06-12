@@ -63,6 +63,7 @@
         {% if your_classes %}
           {% for class in your_classes %}
             <p><a href='/classpage/{{class[1]}}'> {{ class[0] }}</a></p>
+            <a href='/removeclass/{{class[1]}}'> Remove </a>
             <br>
           {% endfor %}
         {% else %}
@@ -117,6 +118,6 @@ document.addEventListener("click", (profile) => {
     }
 });
 </script>
-	
+
 </body>
 </html>

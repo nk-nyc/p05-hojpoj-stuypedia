@@ -12,4 +12,4 @@ Stuypedia is a handy tool for Stuyvesant Students used to gauge coursework and t
 Students will also be able to access our calender tool, specifically Stuyvesant tailored, with the ability to set A and B days, create events, and assignment deadlines for a specific class. All students will be able to view the collective calendar and is filtered for the classes they are taking. Students of the same class can use calender to view upcoming test and assignments, with the ability to edit and report inaccurate data. 
 
 ## Accessing the Site
-Head to https://stuypedia.me and create an account under your NYC students email!
+Head to https://stuypedia.me and create an account under your email. NYCStudents email doesn't worked because of administration reason.

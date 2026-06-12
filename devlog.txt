@@ -125,10 +125,16 @@ STRETCH GOALS:
 - Notepad for notes/to-do list
 - q&a? 
 
+Michelle -- 6/7/26
+- Added Google OAuth to website
+
 Natalie -- 6/10/26
 - added filtering
 - delete classes works
 - dont wanna deal with grades
+
+Michelle -- 6/10/26
+-Started public events 
 
 sophiaC -- 2026-05-11 2:35 
 - redid CSS for calender
@@ -139,3 +145,7 @@ sophiaC -- 2026-05-11 2:35
 Natalie -- 6/11/26
 - fixed grade format at last
 - merge conflicts! half of our stuff disappeared
+
+Michelle -- 6/12/26
+-Debugged GOogle OAuth on droplet
+-Debugged public events

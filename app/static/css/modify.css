@@ -132,7 +132,6 @@ body {
     text-decoration: underline;
 }
 
-/* Remove button */
 .remove-btn {
     background-color: #ffebee;
     color: #c0392b;
@@ -245,7 +244,6 @@ button[type="submit"]:active,
     transform: scale(0.98);
 }
 
-/* Search results table */
 .search-box table {
     width: 100%;
     border-collapse: collapse;
@@ -276,7 +274,6 @@ button[type="submit"]:active,
     text-align: right;
 }
 
-/* Suggest link */
 .suggest-link {
     text-align: center;
     font-size: 12px;
@@ -296,7 +293,6 @@ button[type="submit"]:active,
     text-decoration: underline;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     body {
         padding: 20px;

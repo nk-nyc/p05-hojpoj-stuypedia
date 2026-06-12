@@ -51,19 +51,42 @@
         </div>
     </div>
 
-<div class="main">
-        <h1> {{class_info[0]}}
-            {% if saved %}⭐{% endif %}
-        </h1>
-        <p> Grades: {{grade}} </p>
-        <p> Subject: {{class_info[1]}} </p>
-        <p> Teachers: {{class_info[3]}} </p>
+	<div class="main">
+	
+	    <div class="info-card">
+	        <h1>
+	            {{class_info[0]}}
+	            {% if saved %}⭐{% endif %}
+	        </h1>
+	
+	        <div class="info-grid">
+	            <div class="info-item">
+	                <span class="info-label">Grades</span>
+	                <span>{{grade}}</span>
+	            </div>
+	
+	            <div class="info-item">
+	                <span class="info-label">Subject</span>
+	                <span>{{class_info[1]}}</span>
+	            </div>
+	
+	            <div class="info-item">
+	                <span class="info-label">Teachers</span>
+	                <span>{{class_info[3]}}</span>
+	            </div>
+	        </div>
+	    </div>
+	
+	   <div class="data-row">
+		<div class = "analytics-layout">
+  	  <div class="card overall-card">
+  	      <h2>Overall Class Data</h2>
 
-        <h2>Overall Class Data</h2>
         {% if responders %}
-        <p>Here's the data collected from other students on {{class_info[0]}}.</p>
+            <p class="subtitle">
+                {{responders}} students have submitted reviews.
+            </p>
 
-        <p>{{responders}} students responded.</p>
         <table>
             <tr>
                 <th>Category </th>
@@ -79,121 +102,199 @@
             {% endif %}
 
         </table>
+
         {% else %}
-        <p>No students have responded yet. </p>
+            <p>No students have responded yet.</p>
         {% endif %}
-
-
-        {% if resources %}
-          {% for resource in resources %}
-          <p> {{resource}} is recommended by {{resources[resource]}} students. </p>
-          {% endfor %}
-        {% endif %}
-
-        {% if teacher_data %}
-          <h2> Class Data by Teacher</h2>
-
-          {% for teacher in teacher_data %}
-              <details>
-                  <summary> {{teacher}} </summary>
-                  <table>
-                      <tr>
-                          <th>Category </th>
-                          <th>Mean</th>
-                          <th>Median</th>
-                      </tr>
-                      {% if teacher_data[teacher] %}
-                      {% for t in teacher_data[teacher] %}
-                          <tr>
-                              <td>{{t[0]}}</td>
-                              <td>{{t[1]}}</td>
-                              <td>{{t[2]}}</td>
-                          </tr>
-                      {% endfor %}
-                      {% else %}
-                      <tr>
-                          <td colspan="3">No data available for this teacher.</td>
-                      </tr>
-                      {% endif %}
-                  </table>
-              </details>
-              <br>
-          {% endfor %}
-        {% endif %}
-
-        <h2>Add a review</h2>
-        {% if not error %}
-        <p> {{res_error}} </p>
-        <p> All data is collected anonymously. Your feedback will help other students when they use Stuypedia!</p>
-        <form method="POST">
-            <label for="teacher"> Teacher you had: </label>
-            <select name="teacher">
-                {% for teacher in class_info[3].split(',') %}
-                    <option value="{{teacher}}">{{teacher}}</option>
-                {% endfor %}
-            </select>
-            <br>
-            <label for="difficulty"> Average difficulty of this class: </label>
-            <input type="range" min="1" value="3"max="5" name="difficulty" oninput="this.nextElementSibling.value = this.value">
-            <output for="difficulty">3</output>
-            <br>
-            <label for="enjoyment"> Your enjoyment of this class: </label>
-            <input type="range" min="1" value="3"max="5" name="enjoyment" oninput="this.nextElementSibling.value = this.value">
-            <output for="enjoyment">3</output>
-            <br>
-            <label for="workload"> Average workload from this class: </label>
-            <input type="range" min="1" value="3"max="5" name="workload" oninput="this.nextElementSibling.value = this.value">
-            <output for="workload">3</output>
-            <br>
-            <label for="hours"> Hours spent on this class per night: </label>
-            <input type="range" min="0" value="3"max="5" name="hours" oninput="this.nextElementSibling.value = this.value">
-            <output for="hours">3</output>
-            <br>
-            <label for="teaching_quality"> Teaching quality of your teacher: </label>
-            <input type="range" min="1" value="3"max="5" name="teaching_quality" oninput="this.nextElementSibling.value = this.value">
-            <output for="teaching_quality">3</output>
-            <br>
-            <p>Resources you found helpful for this class:</p>
-            <input type="checkbox" id="teacher_given" name="resources" value="teacher_given">
-            <label for="teacher_given">Teacher-provided online resources (ex. Google Classroom, syllabus, website)</label>
-            <br>
-            <input type="checkbox" id="teacher_practice_problems" name="resources" value="teacher_practice_problems">
-            <label for="teacher_practice_problems">Teacher-provided practice problems</label>
-            <br>
-            <input type="checkbox" id="heimler_history" name="resources" value="heimler_history">
-            <label for="heimler_history"> Heimler's History (YouTube) </label>
-            <br>
-            <input type="checkbox" id="khan_academy" name="resources" value="khan_academy">
-            <label for="khan_academy"> Khan Academy </label>
-            <br>
-            <input type="checkbox" id="quizlet" name="resources" value="quizlet">
-            <label for="quizlet"> Quizlet </label>
-            <br>
-            <input type="checkbox" id="crash_course" name="resources" value="crash_course">
-            <label for="crash_course"> Crash Course (YouTube) </label>
-            <br>
-            <input type="checkbox" id="organic_chemistry" name="resources" value="organic_chemistry">
-            <label for="organic_chemistry"> Organic Chemistry Tutor (YouTube) </label>
-            <br>
-            <input type="checkbox" id="Other" name="resources" value="Other">
-            <label for="Other"> Other </label>
-            <br>
-            <br>
-
-            <label for="recommendation"> To whom would you recommend this class? </label>
-            <select name="recommendation">
-                <option value="everyone">Everyone</option>
-                <option value="most">Most students</option>
-                <option value="subject">Only students who enjoy this subject</option>
-                <option value="noone">No one</option>
-            </select>
-            <br>
-            <button type="submit" class="btn btn-primary w-100"> Submit </button>
-            {% endif %}
-            {% if error %}
-                <p> {{error}} </p>
-            {% endif %}
-        </form> 
     </div>
+	 	<div class="analytics-sidebar">
+	    {% if resources %}
+	    <div class="card">
+	
+	        <h2>Recommended Resources</h2>
+	
+	        <ul class="resource-list">
+	            {% for resource in resources %}
+	            <li>
+	                <strong>{{resource}}</strong>
+	                <span>{{resources[resource]}} students</span>
+	            </li>
+	            {% endfor %}
+	        </ul>
+	
+	    </div>
+	    {% endif %}
+	
+	    {% if teacher_data %}
+    <div class="card teacher-card">
+        <h2>Teacher-Specific Data</h2>
+
+        {% for teacher in teacher_data %}
+	        <details>
+	            <summary>{{teacher}}</summary>
+	
+	            <table>
+	                <tr>
+	                    <th>Category</th>
+	                    <th>Mean</th>
+	                    <th>Median</th>
+	                </tr>
+	
+	                {% if teacher_data[teacher] %}
+	                    {% for t in teacher_data[teacher] %}
+	                    <tr>
+	                        <td>{{t[0]}}</td>
+	                        <td>{{t[1]}}</td>
+	                        <td>{{t[2]}}</td>
+	                    </tr>
+	                    {% endfor %}
+	                {% else %}
+	                    <tr>
+	                        <td colspan="3">
+	                            No data available for this teacher.
+	                        </td>
+	                    </tr>
+	                {% endif %}
+	            </table>
+	
+	        </details>
+	        {% endfor %}
+	
+	    </div>
+	    {% endif %}
+		</div>
+	</div>
+			</div>
+			
+	    <div class="card review-card">
+	
+	        <h2>Add Your Review</h2>
+	
+	        {% if error %}
+	            <p class="error">{{error}}</p>
+	        {% endif %}
+	
+	        {% if not error %}
+	
+	            <p class="subtitle">
+	                All responses are anonymous and help future students choose classes.
+	            </p>
+	
+	            <p>{{res_error}}</p>
+	
+	            <form method="POST">
+	
+	                <label for="teacher">Teacher you had</label>
+	                <select name="teacher">
+	                    {% for teacher in class_info[3].split(',') %}
+	                        <option value="{{teacher}}">
+	                            {{teacher}}
+	                        </option>
+	                    {% endfor %}
+	                </select>
+	
+	                <label for="difficulty">
+	                    Average difficulty of this class
+	                </label>
+	                <input type="range" min="1" max="5" value="3"
+	                       name="difficulty"
+	                       oninput="this.nextElementSibling.value=this.value">
+	                <output>3</output>
+	
+	                <label for="enjoyment">
+	                    Your enjoyment of this class
+	                </label>
+	                <input type="range" min="1" max="5" value="3"
+	                       name="enjoyment"
+	                       oninput="this.nextElementSibling.value=this.value">
+	                <output>3</output>
+	
+	                <label for="workload">
+	                    Average workload from this class
+	                </label>
+	                <input type="range" min="1" max="5" value="3"
+	                       name="workload"
+	                       oninput="this.nextElementSibling.value=this.value">
+	                <output>3</output>
+	
+	                <label for="hours">
+	                    Hours spent on this class per night
+	                </label>
+	                <input type="range" min="0" max="5" value="3"
+	                       name="hours"
+	                       oninput="this.nextElementSibling.value=this.value">
+	                <output>3</output>
+	
+	                <label for="teaching_quality">
+	                    Teaching quality of your teacher
+	                </label>
+	                <input type="range" min="1" max="5" value="3"
+	                       name="teaching_quality"
+	                       oninput="this.nextElementSibling.value=this.value">
+	                <output>3</output>
+	
+	                <p>Helpful Resources</p>
+	
+	                <label><input type="checkbox" name="resources" value="teacher_given"> Teacher-provided online resources</label>
+	
+	                <label><input type="checkbox" name="resources" value="teacher_practice_problems"> Teacher-provided practice problems</label>
+	
+	                <label><input type="checkbox" name="resources" value="heimler_history"> Heimler's History</label>
+	
+	                <label><input type="checkbox" name="resources" value="khan_academy"> Khan Academy</label>
+	
+	                <label><input type="checkbox" name="resources" value="quizlet"> Quizlet</label>
+	
+	                <label><input type="checkbox" name="resources" value="crash_course"> Crash Course</label>
+	
+	                <label><input type="checkbox" name="resources" value="organic_chemistry"> Organic Chemistry Tutor</label>
+	
+	                <label><input type="checkbox" name="resources" value="Other"> Other</label>
+	
+	                <label for="recommendation">
+	                    Who would you recommend this class to?
+	                </label>
+	
+	                <select name="recommendation">
+	                    <option value="everyone">Everyone</option>
+	                    <option value="most">Most students</option>
+	                    <option value="subject">
+	                        Only students who enjoy this subject
+	                    </option>
+	                    <option value="noone">No one</option>
+	                </select>
+	
+	                <button type="submit">
+	                    Submit Review
+	                </button>
+	
+	            </form>
+	
+	        {% endif %}
+	
+	    </div>
+	
+	</div>
+		 
+		<script>
+	document.getElementById('floatNavToggle').addEventListener('click', () => {
+	    document.getElementById('floatNav').classList.toggle('expanded');
+	});
+	
+	const profileBtn = document.getElementById("profileBtn");
+	const profileMenu = document.getElementById("profileMenu");
+	
+	profileBtn.addEventListener("click", () => {
+	    profileMenu.classList.toggle("show");
+	});
+	
+	document.addEventListener("click", (profile) => {
+	    if (!profileBtn.contains(profile.target) &&
+	        !profileMenu.contains(profile.target)) {
+	        profileMenu.classList.remove("show");
+	    }
+	});
+	</script>
+		 
     </body>
 </html>

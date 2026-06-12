@@ -7,7 +7,19 @@ body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 16px;
   padding-top: 100px;
-  padding-left: 30px;
+  padding-right: 150px;
+  padding-left: 50px;
+}
+
+.page-title {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.page-title h1 {
+    font-family: "Outfit", sans-serif;
+    font-size: 2.2rem;
+    color: #2d4a1e;
 }
 
 h2 {
@@ -20,37 +32,64 @@ p {
   line-height: 1.5;
 }
 
+.classes-section,
 .search-box {
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  padding: 20px;
-  background: #f9f9f9;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  margin-left: 20px;
+    background: #f9f9f9;
+    border: 1px dashed #ccc;
+    border-radius: 20px;
+    padding: 24px;
+    min-height: 250px;
 }
 
+.classes-section h2,
 .search-box h2 {
-  margin-top: 0;
-  margin-bottom: 15px;
+    font-family: "Poppins", sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #2d4a1e;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e5f0d8;
 }
 
 input[name="search"] {
-  width: 250px;
-  float: left;
-  margin-right: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 25px;
+    flex: 1;
+    padding: 12px 12px;
+    border: 1px solid #d9d9d9;
+    border-radius: 12px;
+    font-family: "Poppins", sans-serif;
+    font-size: 0.9rem;
+    outline: none;
 }
 
+input[name="search"]:focus {
+    box-shadow: 0 0 0 2px #5a8c3f;
+    border-color: transparent;
+}
+
+button,
 button[type="submit"] {
-  float: left;
-  background: black;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
+    background: #3d6b2a;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 5px 20px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+button:hover,
+button[type="submit"]:hover {
+    background: #2a4d1c;
+}
+
+form {
+    display: flex;
+    gap: 10px;
 }
 
 form::after {
@@ -91,12 +130,12 @@ button:hover {
   background: #333;
 }
 
-a {
-  color: #673273;
-  text-decoration: none;
+.classes-section a {
+    color: #2d4a1e;
+    font-weight: 500;
+    text-decoration: none;
 }
 
-a:hover {
-  text-decoration: underline;
+.classes-section a:hover {
+    text-decoration: underline;
 }
-

@@ -28,7 +28,7 @@ This project is important because students already have a hard life so we want t
 -Ability to create account and login, view data and submit data, and add and delete tasks.
 
 ## CORE FEATURES
-1. Register & Login
+1. Register & Login(Google OAuth login)
 2. Calendar & Task Manager
 3. Event & Test Adding
 4. View Teacher Ratings
@@ -58,7 +58,7 @@ Our team is familiar with these tools and they are sufficient enough to get the 
 |---|---|---|---|
 |Natalie |  Back-end development | Data management | teacher profiles and classes, collection of data |
 |Sophia | Front-end development | Data management | aesthetically pleasing pages, login & register |
-|Michelle | Back-end development | Front-end development | task adding/removal, working calendar  |
+|Michelle | Back-end development | Front-end development | task adding/removal, working calendar, Google OAuth, Making events public/private  |
 
 ---
 # COMPONENT MAP
@@ -157,14 +157,18 @@ We will test the register and login component by crating an account and logging 
 - Complete the core features and debug (5/22)
 ## Week 3 Goals: 
 - Polish the website and fix and bugs (5/29)
+## Week 4 Goals:
+- Add Google OAuth and any other stretch features (6/5)
+## Week 5 Goals:
+- Polish everything(css) and fix any bugs
 ## Internal Deadlines: 
--Record video demoing the product on May 29
+-Record video demoing the product on June 12
 
 
 # Completion Criteria (_a.k.a._ "Definition of 'Done'")
 Project is considered complete when all of the following are true:
-1. User can create accounts and login
-1. User can create, delete, and move tasks on their calendar
+1. User can create accounts and login with their Google accounts
+1. User can create, delete, and move tasks on their calendar. Users can edit and make tasks public with linked classes
 1. User can view the gallery of teachers and their profiles with all the class information on them
 
 # Open Questions
@@ -195,4 +199,4 @@ These data will be displayed to students when they view each class section. Addi
 
 ## CALENDAR
 
-The calendar will be student-managed. Students can select whether the day is an A or B day and which type as well as what time schedule the day has. In addition to that, students can create **events** in categories such as test, project due date, AP, and celebration. Students will be able to verify other users' events or report them if they are innacurate. All students will be able to view the collective calendar and filter it for which classes they want to view. Calendars are created with FullCalendar v3, a Javascript calendar library.
+The calendar will be student-managed. Students can link classes they are in to events and make those events public to everyone in those classes. Other users can accept or decline events. In addition to that, students can create **events** in categories such as test, project due date, AP, and celebration. Students will be able to verify other users' events or report them if they are innacurate. All students will be able to view the collective calendar and filter it for which classes they want to view. Calendars are created with FullCalendar v3, a Javascript calendar library.

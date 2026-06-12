@@ -2,16 +2,15 @@
 <html lang="en">
 <head>
     <title>Stuypedia</title>
-    <!-- Foundation CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.8.1/dist/css/foundation.min.css">
     <!-- Foundation Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.min.css">
-    <!-- jQuery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <!-- Foundation JS -->
-    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.8.1/dist/js/foundation.min.js"></script>
-
-	 <link href="../static/css/home.css" rel="stylesheet"/>
+    
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    
+    <link href="../static/css/home.css" rel="stylesheet"/>
     <link href="../static/css/modify.css" rel="stylesheet"/>
 </head>
 <body>
@@ -53,55 +52,56 @@
     </div>
 </div>
 
-<div class="page-title">
-    <h1> CLASSES</h1>
-    <p class="divider-text">·•—–٠✤٠—–•·</p>
-</div>
-
-<div class="grid-container">
-  <div class="grid-x grid-margin-x">
-    <!-- Left column: Current classes -->
-    <div class="cell medium-6">
-      <div class="classes-section">
-        <h2>Your current classes:</h2>
-        {% if your_classes %}
-          {% for class in your_classes %}
-            <p><a href='/classpage/{{class[1]}}'> {{ class[0] }}</a></p>
-            <a href='/removeclass/{{class[1]}}'> Remove </a>
-            <br>
-          {% endfor %}
-        {% else %}
-          <p>No classes to display.</p>
-        {% endif %}
-      </div>
+<div class="main-box">
+    <div class="page-title">
+        <h1>CLASSES</h1>
+        <p class="divider-text">·•—–٠✤٠—–•·</p>
     </div>
 
-    <!-- Right column: Search section -->
-    <div class="cell medium-6">
-      <div class="search-box">
-        <h2>Search for a new class to add:</h2>
-        <form method="POST">
-          <input type="text" name="search" placeholder="Search for a class...">
-          <button type="submit">Search</button>
-        </form>
-      </div>
+    <div class="two-column-layout">
+        <!-- Left column: Current classes -->
+        <div class="column">
+            <div class="classes-section">
+                <h2>Your current classes:</h2>
+                {% if your_classes %}
+                    {% for class in your_classes %}
+                        <p>
+                            <a href='/classpage/{{class[1]}}'>{{ class[0] }}</a>
+                            <a href='/removeclass/{{class[1]}}' class="remove-btn">Remove</a>
+                        </p>
+                    {% endfor %}
+                {% else %}
+                    <p class="empty-message">No classes to display.</p>
+                {% endif %}
+            </div>
+        </div>
 
-      {% if searched %}
-        <table>
-          {% for s in searched %}
-            <tr>
-              <td>{{ s[1] }}</td>
-              <td><button type="button" onclick="addClass({{ s[0] }})">Add</button></td>
+        <!-- Right column: Search section -->
+        <div class="column">
+            <div class="search-box">
+                <h2>Search for a new class to add:</h2>
+                <form method="POST">
+                    <input type="text" name="search" placeholder="Search for a class...">
+                    <button type="submit">Search</button>
+                </form>
+
+                {% if searched %}
+                    <table>
+                        {% for s in searched %}
+                            <tr>
+                                <td>{{ s[1] }}</td>
+                                 <td><button type="button" class="add-btn" onclick="addClass({{ s[0] }})">Add</button></td>
             </tr>
-          {% endfor %}
-        </table>
-      {% endif %}
+                        {% endfor %}
+                    </table>
+                {% endif %}
 
-      <p style="margin-top: 30px; margin-left: 20px;" >Can't find a class? Click <a href='/addclass'>here</a> to suggest one.</p>
+                <p class="suggest-link">Can't find a class? Click <a href='/addclass'>here</a> to suggest one.</p>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
-
+	
 <script src='../static/js/findclass.js'></script>
 <script>
 document.getElementById('floatNavToggle').addEventListener('click', () => {

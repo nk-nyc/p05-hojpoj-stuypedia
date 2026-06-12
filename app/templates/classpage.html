@@ -77,31 +77,30 @@
 	        </div>
 	    </div>
 	
-	   <div class="data-row">
 		<div class = "analytics-layout">
-  	  <div class="card overall-card">
-  	      <h2>Overall Class Data</h2>
+  	  		<div class="info-card overall-card">
+  	    	  <h2>OVERALL CLASS DATA</h2>
 
-        {% if responders %}
-            <p class="subtitle">
-                {{responders}} students have submitted reviews.
-            </p>
-
-        <table>
-            <tr>
-                <th>Category </th>
-                <th>Mean</th>
-            </tr>
-            {% if class_data %}
-              {% for data in class_data %}
-              <tr>
-                  <td>{{data[0]}}</td>
-                  <td>{{data[1]}}</td>
-              </tr>
-              {% endfor %}
-            {% endif %}
-
-        </table>
+	        {% if responders %}
+	            <p class="subtitle">
+	                {{responders}} students have submitted reviews.
+	            </p>
+	
+	        <table>
+	            <tr>
+	                <th>Category </th>
+	                <th>Mean</th>
+	            </tr>
+	            {% if class_data %}
+	              {% for data in class_data %}
+	              <tr>
+	                  <td>{{data[0]}}</td>
+	                  <td>{{data[1]}}</td>
+	              </tr>
+	              {% endfor %}
+	            {% endif %}
+	
+	        </table>
 
         {% else %}
             <p>No students have responded yet.</p>
@@ -109,9 +108,9 @@
     </div>
 	 	<div class="analytics-sidebar">
 	    {% if resources %}
-	    <div class="card">
+	    <div class="info-card">
 	
-	        <h2>Recommended Resources</h2>
+	        <h2> RECOMMENDED RESOURCES </h2>
 	
 	        <ul class="resource-list">
 	            {% for resource in resources %}
@@ -126,8 +125,8 @@
 	    {% endif %}
 	
 	    {% if teacher_data %}
-    <div class="card teacher-card">
-        <h2>Teacher-Specific Data</h2>
+    <div class="info-card teacher-card">
+        <h2>TEACHER DATA</h2>
 
         {% for teacher in teacher_data %}
 	        <details>
@@ -164,9 +163,8 @@
 	    {% endif %}
 		</div>
 	</div>
-			</div>
 			
-	    <div class="card review-card">
+	    <div class="info-card review-card">
 	
 	        <h2>Add Your Review</h2>
 	

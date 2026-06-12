@@ -7,6 +7,7 @@
 body {
     background-color: #a8d48a;
     font-family: "Poppins", sans-serif;
+    font-weight: 400;
     padding-top: 90px;
     min-height: 100vh;
 }
@@ -21,6 +22,7 @@ body {
 .main h1:first-of-type {
     font-family: "Outfit", sans-serif;
     font-size: 2.5rem;
+	 font-weight: 700;
     color: #2d4a1e;
     margin-bottom: 12px;
 }
@@ -28,7 +30,7 @@ body {
 
 .main > p:nth-of-type(-n+3) {
     background: white;
-    padding: 14px 20px;
+    padding: 14px 14px;
     margin-bottom: 10px;
     border-radius: 16px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
@@ -37,16 +39,17 @@ body {
 
 h2 {
     font-family: "Outfit", sans-serif;
+	 font-weight: 500;
     color: #2d4a1e;
     margin-top: 0px;
     margin-bottom: 18px;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
 	 text-align: center;
 }
 
 
 table {
-    width: 90%;
+    width: 100%;
     border-collapse: collapse;
     background: white;
     border-radius: 10px;
@@ -54,7 +57,6 @@ table {
     box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     margin-top: 16px;
     margin-bottom: 24px;
-	 margin-left: 25px;
 }
 
 th {
@@ -65,7 +67,7 @@ th {
 }
 
 td {
-    padding: 40px 14px;
+    padding: 12px 14px;
     border-bottom: 1px solid #eeeeee;
 }
 
@@ -79,6 +81,15 @@ details {
     margin-bottom: 16px;
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+details table {
+    width: calc(100% - 32px);
+    margin: 16px 16px 16px 16px;  
+}
+
+details p {
+    margin: 16px;
 }
 
 summary {
@@ -134,42 +145,79 @@ input[type="checkbox"] {
     margin-right: 8px;
 }
 
-.data-row {
-    display: flex;
-    gap: 24px;
-    margin-bottom: 24px;
-}
-
 .analytics-layout {
+    width: 100%;
     display: flex;
     gap: 24px;
     margin-bottom: 24px;
+    align-items: flex-start;
 }
 
 .overall-card {
-    flex: 1.4;
-    height: 650px;
+	 flex: 1;
+    max-height: 500px;
     overflow-y: auto;
+	 min-width: 0;
+	 width: 100%
 }
 
 .analytics-sidebar {
-    flex: 1;
+    width: 100%
     display: flex;
     flex-direction: column;
     gap: 24px;
 }
 
+.info-card {
+    background: white;
+    border-radius: 20px;
+    padding: 28px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    text-align: center;
+    width: 100%; 
+    box-sizing: border-box;  
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.info-item {
+    background: #f7f9f4;
+    border-radius: 14px;
+    padding: 16px;
+}
+
+.info-label {
+    display: block;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: #777;
+    margin-bottom: 6px;
+}
+
+.review-card {
+    width: 100%;
+    margin-top: 24px;
+    box-sizing: border-box;
+}
+
 .resources-card {
-    max-height: 220px;
+    width: 100%;
+    max-height: 180px;
     overflow-y: auto;
-	width: 100%
 }
 
 .teacher-card {
-    flex: 1;
-    min-height: 0;
+    max-height: 260px;
     overflow-y: auto;
 }
+
 
 /*resource*/
 
@@ -203,37 +251,7 @@ button[type="submit"]:hover {
     margin-top: 10px;
 }
 
-.card,
-.info-card {
-    background: white;
-    border-radius: 20px;
-    padding: 28px;
-    margin-bottom: 24px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-	 text-align: center;
-}
 
-.info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 16px;
-    margin-top: 20px;
-}
-
-.info-item {
-    background: #f7f9f4;
-    border-radius: 14px;
-    padding: 16px;
-}
-
-.info-label {
-    display: block;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: .08em;
-    color: #777;
-    margin-bottom: 6px;
-}
 
 .subtitle {
     color: #666;
@@ -251,6 +269,19 @@ button[type="submit"]:hover {
     justify-content: space-between;
     padding: 12px 0;
     border-bottom: 1px solid #eee;
+}
+
+@media (max-width: 900px) {
+    .analytics-layout {
+        flex-direction: column;
+    }
+
+    .overall-card,
+    .resources-card,
+    .teacher-card {
+        width: 100%;
+        max-height: 400px;
+    }
 }
 
 @media (max-width: 768px) {

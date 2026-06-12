@@ -146,6 +146,11 @@ input[type="checkbox"] {
     margin-bottom: 24px;
 }
 
+.overall-card {
+    flex: 1.4;
+    height: 650px;
+    overflow-y: auto;
+}
 
 .analytics-sidebar {
     flex: 1;

@@ -20,7 +20,7 @@ def get_filtered_classes(search, subject=None, grade=None):
     all_classes = get_searched_classes(search)
     filtered_classes = []
     if grade == 'None' and subject == 'None':
-        all_classes.sort(key=lambda x: x[1]) 
+        all_classes.sort(key=lambda x: x[1])
         return all_classes
     for cls in all_classes:
         print(cls[2], subject, cls[3], grade)
@@ -29,7 +29,7 @@ def get_filtered_classes(search, subject=None, grade=None):
         if grade != 'None' and grade not in cls[3]:
             continue
         filtered_classes.append(cls)
-    filtered_classes.sort(key=lambda x: x[1]) 
+    filtered_classes.sort(key=lambda x: x[1])
     return filtered_classes
 
 
@@ -612,6 +612,20 @@ def get_events(username):
     return [{"id": r[0], "title": r[1], "start": r[2], "end": r[3],
              "color": r[4], "linked_class": r[5], "allDay": bool(r[6]),
              "is_public": r[7]} for r in data]
+
+def remove_class_from_user(classe, user):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    print(classe, user)
+    current_classes = get_user_classes(user)
+    current_classes.remove(str(classe))
+    final_classes = ""
+    for i in range(len(current_classes)):
+        final_classes += current_classes[i] + ' '
+
+    c.execute('UPDATE users SET classes = ? WHERE username = ?', (final_classes, user))
+    db.commit()
+    db.close()
 
 def delete_event(event_id, username):
     db = sqlite3.connect(DB_FILE)

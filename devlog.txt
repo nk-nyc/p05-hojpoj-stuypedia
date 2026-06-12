@@ -149,3 +149,6 @@ Natalie -- 6/11/26
 Michelle -- 6/12/26
 -Debugged GOogle OAuth on droplet
 -Debugged public events
+
+sophiaC -- 2026-05-12 3:50 PM
+- Updated CSS for student accounts

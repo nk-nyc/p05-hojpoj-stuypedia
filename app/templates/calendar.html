@@ -73,20 +73,18 @@
 			    		<div class = "sidebar-box">
 							<h3>Draggable Events</h3>
 
-							 <div id="external-events">
-							
-						
-							<label>
-							 <input type='checkbox' id='drop-remove'> Remove on drop
-                    </label>
-						
+							 <div id="external-events"></div>
 							
 			      <div class="add-draggable">
 			        <input type="text" id="draggable-input" placeholder="Event name…">
 			        <button id="add-draggable-btn">+</button>
 			      </div>
-				  </div>
-			    </div>
+							
+				  <label>
+						<input type='checkbox' id='drop-remove'> 
+					  	Remove on drop
+				  </label>
+			   </div>
 
 				<div class="sidebar-box">
 				    <h3> Shared Events</h3>
@@ -190,8 +188,6 @@
       </div>
     </div>
     <script src='../static/js/calendar.js'></script>
-
-	<script src='../static/js/calendar.js'></script>
 
 	<script>
 	document.getElementById('floatNavToggle').addEventListener('click', () => {

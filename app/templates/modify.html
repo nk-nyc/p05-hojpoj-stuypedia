@@ -10,22 +10,49 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <!-- Foundation JS -->
     <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.8.1/dist/js/foundation.min.js"></script>
-    <!-- Your custom CSS -->
+
+	 <link href="../static/css/home.css" rel="stylesheet"/>
     <link href="../static/css/modify.css" rel="stylesheet"/>
 </head>
 <body>
 
-<div class="nav-bar">
-  <div class="nav-bar-left">
-    <ul class="dropdown menu" data-dropdown-menu>
-      <li><a href='/home' title="Home"><i class="fi-home"></i> Home</a></li>
-      <li><a href='/calendar' title="Calendar"><i class="fi-calendar"></i> Calendar</a></li>
-      <li><a href='/modify' title="Modify Classes"><i class="fi-pencil"></i> Modify Classes</a></li>
-      <li><a href='/findclass' title="Find a Class"><i class="fi-magnifying-glass"></i> Find a Class</a></li>
-      <li><a href='/logout' title="Log out"><i class="fi-power"></i> Log out</a></li>
-    </ul>
-  </div>
+<nav class="top-nav">
+    <div class="top-nav-logo">
+        <img src="../static/images/stuypedia_logo.png" class="logo">
+    </div>
+    <div class="top-nav-links">
+        <a href="/home">HOME</a>
+        <a href="/calendar">CALENDAR</a>
+        <a href="/modify">MODIFY CLASSES</a>
+        <a href="/findclass">FIND A CLASS</a>
+    </div>
+    <div class="top-nav-right">
+        <div class="profile-dropdown">
+            <div class="profile-icon" id="profileBtn">
+                <i class="fi-torso"></i>
+            </div>
+
+            <div class="profile-menu" id="profileMenu">
+                <a href="/profile">MY PROFILE</a>
+                <a href="/logout">LOGOUT</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="float-nav" id="floatNav">
+    <div class="float-nav-toggle" id="floatNavToggle">
+        <i class="fi-list"></i>
+    </div>
+    <div class="float-nav-menu" id="floatNavMenu">
+        <a href="/home" title="Home"><i class="fi-home"></i></a>
+        <a href="/calendar" title="Calendar"><i class="fi-calendar"></i></a>
+        <a href="/modify" title="Modify Classes"><i class="fi-pencil"></i></a>
+        <a href="/findclass" title="Find a Class"><i class="fi-magnifying-glass"></i></a>
+        <a href="/logout" title="Log out"><i class="fi-power"></i></a>
+    </div>
 </div>
+
 
 <div class="grid-container">
   <div class="grid-x grid-margin-x">
@@ -71,6 +98,25 @@
 </div>
 
 <script src='../static/js/findclass.js'></script>
+<script>
+document.getElementById('floatNavToggle').addEventListener('click', () => {
+    document.getElementById('floatNav').classList.toggle('expanded');
+});
 
+const profileBtn = document.getElementById("profileBtn");
+const profileMenu = document.getElementById("profileMenu");
+
+profileBtn.addEventListener("click", () => {
+    profileMenu.classList.toggle("show");
+});
+
+document.addEventListener("click", (profile) => {
+    if (!profileBtn.contains(profile.target) &&
+        !profileMenu.contains(profile.target)) {
+        profileMenu.classList.remove("show");
+    }
+});
+</script>
+	
 </body>
 </html>

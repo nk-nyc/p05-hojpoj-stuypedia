@@ -5,6 +5,7 @@ var currentEvent = null;
 var editingEventId = null;
 var currentLinkedClass= null;
 
+
 function openModal(prefill) {
   editingEventId = null;
   document.getElementById('modal-title-heading').textContent = 'Add Event';
@@ -18,6 +19,7 @@ function openModal(prefill) {
     document.getElementById('modal-end-time').value = prefill.end && !prefill.allDay ? prefill.end.format('HH:mm') : '';
     document.getElementById('modal-color').value = prefill.color || '#3a87d3';
     document.getElementById('modal-class').value = prefill.linked_class || '';
+    document.getElementById('modal-public').checked = !!prefill.is_public;
     document.getElementById('modal-title-heading').textContent = 'Edit Event';
     document.getElementById('modal-submit').textContent = 'Save Changes';
   }
@@ -30,6 +32,7 @@ function closeModal() {
    'modal-end-date','modal-end-time', 'modal-class'].forEach(function(id) {
     document.getElementById(id).value = '';
   });
+  document.getElementById('modal-public').checked = false;
 }
 
 function getClassName(classId) {
@@ -55,7 +58,7 @@ function openInfoModal(event) {
     event.color || '#3a87d3';
 
   var visDiv = document.getElementById('info-visibility');
-  if (event.id) {
+  if (event.id && event.linked_class) {
     visDiv.style.display = 'block';
     document.getElementById('info-public-toggle').checked = !!event.is_public;
   } else {
@@ -96,7 +99,7 @@ function saveEventToServer(title, start, end, color, linkedClass, allDay, isPubl
   return fetch('/events', {
     method: 'POST',
     headers: { "Content-Type": 'application/json'},
-    body: JSON.stringify({ title: title, start:start, end: end, color: color, linked_class: linkedClass, allDay: allDay, is_public: isPublic})
+    body: JSON.stringify({ title: title, start:start, end: end, color: color, linked_class: linkedClass, allDay: allDay, is_public: isPublic ? 1 : 0})
   }).then(function(r) { return r.json(); });
 }
 
@@ -138,10 +141,40 @@ $(document).ready(function () {
     eventClick: function (event) {
       openInfoModal(event);
     },
+    eventDrop: function(event) {
+      fetch('/events/' + event.id, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: event.title,
+          start: event.start.format(),
+          end: event.end ? event.end.format() : null,
+          color: event.color,
+          linked_class: event.linked_class || null,
+          allDay: event.allDay,
+          is_public: event.is_public || 0
+        })
+      });
+    },
+    eventResize: function(event) {
+      fetch('/events/' + event.id, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: event.title,
+          start: event.start.format(),
+          end: event.end ? event.end.format() : null,
+          color: event.color,
+          linked_class: event.linked_class || null,
+          allDay: event.allDay,
+          is_public: event.is_public || 0
+        })
+      });
+    },
     eventReceive: function (event) {
       var start = event.start.format();
       var allDay = event.allDay;
-      saveEventToServer(event.title, start, null, '#3a87d3', null, allDay, null)
+      saveEventToServer(event.title, start, null, '#3a87d3', null, allDay, false)
         .then(function(data) {
           event.id = data.id;
           $('#calendar').fullCalendar('updateEvent', event);
@@ -172,8 +205,63 @@ $(document).ready(function () {
         $('#calendar').fullCalendar('renderEvent', e, true);
       });
     });
+  
+   fetch('/shared-events')
+    .then(function(r) { return r.json(); })
+    .then(function(events) {
+      var list = document.getElementById('shared-event-list');
+      if (!events.length) {
+        list.innerHTML = '<p class="no-shared">No shared events yet.</p>';
+        return;
+      }
+      list.innerHTML = '';
+      events.forEach(function(e) {
+        var div = document.createElement('div');
+        div.className = 'shared-event-item';
+        div.innerHTML =
+          '<strong>' + e.title + '</strong><br>' +
+          '<small>' + e.start + '</small><br>' +
+          '<button class="accept-btn">Accept</button> ' +
+          '<button class="decline-btn">Decline</button>';
 
-  document.getElementById('modal-edit').addEventListener('click', function(){
+        div.querySelector('.accept-btn').addEventListener('click', function() {
+          saveEventToServer(e.title, e.start, e.end, e.color, e.linked_class, e.allDay, false)
+            .then(function(data) {
+              $('#calendar').fullCalendar('renderEvent', {
+                id: data.id,
+                title: e.title,
+                start: e.start,
+                end: e.end,
+                color: e.color,
+                linked_class: e.linked_class,
+                allDay: e.allDay
+              }, true);
+              return fetch('/events/' + e.id + '/respond', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ response: 'accept' })
+               });
+              })
+            .then(function() {
+              div.remove();
+            });
+        });
+
+        div.querySelector('.decline-btn').addEventListener('click', function() {
+          fetch('/events/' + e.id + '/respond', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ response: 'decline' })
+          }).then(function() {
+            div.remove();
+          });
+        });
+
+        list.appendChild(div);
+      });
+    });
+
+  document.getElementById('modal-edit').addEventListener('click', function() {
     openModal(currentEvent);
     closeInfoModal();
   });
@@ -190,6 +278,7 @@ $(document).ready(function () {
 
     if (!title) {alert('Please enter an event name.'); return; }
     if(!startDate) {alert('Please select a date.'); return; }
+    if (isPublic && !linkedClass) {alert('Please link a class to share this event publicly.'); return; }
 
     var start  = startTime ? startDate + 'T' + startTime : startDate;
     var end    = endDate   ? (endTime  ? endDate + 'T' + endTime : endDate) : null;
@@ -205,20 +294,20 @@ $(document).ready(function () {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title: title, start: start, end: end,
-                           color: color, linked_class: linkedClass, 
-                           allDay: allDay, is_public: isPublic })  // add is_public here
+                       color: color, linked_class: linkedClass, 
+                       allDay: allDay, is_public: isPublic })  
       }).then(function() {
-        var existing = $('#calendar').fullCalendar('clientEvents', editingEventId);
-        if (existing.length) {
-          existing[0].title        = title;
-          existing[0].start        = moment(start);
-          existing[0].end          = end ? moment(end) : null;
-          existing[0].color        = color;
-          existing[0].linked_class = linkedClass;
-          existing[0].allDay       = allDay;
-          existing[0].is_public    = isPublic;  // add this too
-          $('#calendar').fullCalendar('updateEvent', existing[0]);
-        }
+        $('#calendar').fullCalendar('removeEvents', String(editingEventId));
+        $('#calendar').fullCalendar('renderEvent', {
+          id: String(editingEventId),
+          title: title,
+          start: start,
+          end: end,
+          allDay: allDay,
+          color: color,
+          linked_class: linkedClass,
+          is_public: isPublic
+        }, true);
       });
     } else {
       $('#calendar').fullCalendar('renderEvent', {
@@ -228,6 +317,7 @@ $(document).ready(function () {
         allDay: allDay,
         color: color,
         linked_class: linkedClass,
+        is_public: isPublic
       }, true);
 
       saveEventToServer(title, start, end, color, linkedClass, allDay, isPublic)
@@ -275,7 +365,7 @@ function addDraggableEvent(){
   if (!name) return;
 
   var $el = $('<div class="fc-event"></div>').text(name);
-  $el.insertBefore('#external-events label');
+  $('#external-events').append($el); 
   makeDraggable($el[0]);
 
   input.value = '';

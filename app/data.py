@@ -16,6 +16,23 @@ def create_table(contents):
     db.commit()
     db.close()
 
+def get_filtered_classes(search, subject=None, grade=None):
+    all_classes = get_searched_classes(search)
+    filtered_classes = []
+    if grade == 'None' and subject == 'None':
+        all_classes.sort(key=lambda x: x[1]) 
+        return all_classes
+    for cls in all_classes:
+        print(cls[2], subject, cls[3], grade)
+        if subject != 'None' and subject.lower() != cls[2].lower():
+            continue
+        if grade != 'None' and grade not in cls[3]:
+            continue
+        filtered_classes.append(cls)
+    filtered_classes.sort(key=lambda x: x[1]) 
+    return filtered_classes
+
+
 def generate_anon():
     animal_list = ["aardvark","albatross","alligator","alpaca","anaconda","angelfish","ant","anteater","antelope","ape","armadillo","auk","axolotl","baboon","badger","barracuda","bat","bear","beaver","bee","bison","blackbird","boar","bobcat","buffalo","butterfly","camel","capybara","caracal","caribou","cassowary","cat","caterpillar","catfish","cattle","chameleon","cheetah","chickadee","chicken","chimpanzee","chinchilla","chipmunk","cicada","clam","cobra","cod","coyote","crab","crane","crocodile","crow","cuckoo","deer","dingo","dog","dolphin","donkey","dormouse","dove","dragonfly","duck","dugong","eagle","earthworm","echidna","eel","elephant","elk","emu","falcon","ferret","finch","fish","flamingo","flea","fly","fox","frog","gaur","gazelle","gecko","gerbil","giraffe","gnat","gnu","goat","goldfish","goose","gorilla","grasshopper","guinea pig","gull","hamster","hare","hawk","hedgehog","heron","herring","hippopotamus","hornet","horse","hummingbird","hyena","ibex","iguana","impala","jackal","jaguar","jellyfish","kangaroo","kingfisher","koala","komodo dragon","kookaburra","kouprey","krill","ladybug","lemur","leopard","lion","llama","lobster","locust","lynx","macaw","magpie","mallard","manatee","mandrill","mantis","marlin","marmoset","marmot","mayfly","meerkat","mink","mole","mongoose","monkey","moose","mosquito","mouse","mule","narwhal","newt","nightingale","ocelot","octopus","opossum","orangutan","oryx","ostrich","otter","owl","ox","oyster","panther","parrot","partridge","peacock","pelican","penguin","pheasant","pig","pigeon","pony","porcupine","porpoise","quail","rabbit","raccoon","rat","raven","reindeer","rhinoceros","rook","salamander","salmon","sandpiper","sardine","scorpion","seahorse","seal","shark","sheep","shrew","shrimp","skunk","sloth","slug","snail","snake","sparrow","spider","squid","squirrel","starfish","stingray","stork","swallow","swan","tapir","tarsier","termite","tiger","toad","trout","tuna","turkey","turtle","viper","vulture","wallaby","walrus","wasp","weasel","whale","wolf","wombat","woodpecker","worm","wren","yak","zebra"]
 
@@ -551,6 +568,7 @@ def create_events_table():
         start       TEXT            NOT NULL,
         end         TEXT,
         color       TEXT,
+<<<<<<< HEAD
         linked_class       TEXT,
         all_day     INTEGER,
         is_public INTEGER DEFAULT 0
@@ -561,6 +579,47 @@ def save_event(username, title, start, end, color, linked_class, all_day, is_pub
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
     c.execute('INSERT INTO events VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)',
+=======
+        linked_class TEXT,
+        all_day     INTEGER,
+        is_public   INTEGER DEFAULT 0
+        )"""
+    create_table(contents)
+
+def create_event_responses_table():
+    contents = """
+        CREATE TABLE IF NOT EXISTS event_responses (
+            id          INTEGER PRIMARY KEY AUTOINCREMENT,
+            event_id    INTEGER NOT NULL,
+            username    TEXT    NOT NULL,
+            response    TEXT    NOT NULL,
+            UNIQUE(event_id, username)
+        )"""
+    create_table(contents)
+
+def set_event_response(event_id, username, response):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    c.execute('''INSERT INTO event_responses (event_id, username, response)
+                 VALUES (?, ?, ?)
+                 ON CONFLICT(event_id, username) DO UPDATE SET response=?''',
+              (event_id, username, response, response))
+    db.commit()
+    db.close()
+
+def get_responded_event_ids(username):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    rows = c.execute('SELECT event_id FROM event_responses WHERE username = ?',
+                     (username,)).fetchall()
+    db.close()
+    return [r[0] for r in rows]
+
+def save_event(username, title, start, end, color, linked_class, all_day, is_public=0):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    c.execute('INSERT INTO events VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)',
+>>>>>>> bb36a390bcd59df00b33b4a478bca20178c03993
               (username, title, start, end, color, linked_class, int(all_day), int(is_public)))
     db.commit()
     new_id = c.lastrowid
@@ -619,7 +678,12 @@ def get_events(username):
     db.commit()
     db.close()
     return [{"id": r[0], "title": r[1], "start": r[2], "end": r[3],
+<<<<<<< HEAD
              "color": r[4], "linked_class": r[5], "allDay": bool(r[6]), "is_public": bool(r[7])} for r in data]
+=======
+             "color": r[4], "linked_class": r[5], "allDay": bool(r[6]),
+             "is_public": r[7]} for r in data]
+>>>>>>> bb36a390bcd59df00b33b4a478bca20178c03993
 
 def delete_event(event_id, username):
     db = sqlite3.connect(DB_FILE)

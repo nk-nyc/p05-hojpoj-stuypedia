@@ -386,7 +386,11 @@ def findclass():
         return(redirect(url_for('login')))
     if 'search' in request.form:
         # gotta write search
+<<<<<<< HEAD
         searched_classes = get_filtered_classes(request.form.get('search'), request.form.get('subject'), request.form.get('grade'))
+=======
+        searched_classes = get_filtered_classes(request.form.get('search'), request.form.get('subject'), request.form.get('grade'))        
+>>>>>>> bb36a390bcd59df00b33b4a478bca20178c03993
         return render_template('findclass.html', searched=searched_classes)
     return render_template('findclass.html')
 

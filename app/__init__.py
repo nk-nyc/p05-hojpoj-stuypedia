@@ -10,6 +10,8 @@ from dotenv import load_dotenv
 from authlib.integrations.flask_client import OAuth
 
 load_dotenv()
+
+
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY')
 if not app.secret_key:
@@ -24,7 +26,6 @@ google = oauth.register(
     server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
     client_kwargs={'scope': 'openid email profile'}
 )
-app.secret_key = 'supersecret'
 
 create_users_table()
 create_classes_table()
@@ -32,6 +33,7 @@ create_teachers_table()
 create_events_table()
 create_student_classes_table()
 create_class_data_table()
+create_event_responses_table()
 
 @app.route('/auth/login')
 def google_login():
@@ -44,8 +46,8 @@ def google_callback():
     user_info = token['userinfo']
     email = user_info['email']
 
-    #if not email.endswith('@nycstudents.net'):
-    #    return redirect(url_for('login') + '?error=Must use nycstudents email')
+    ##if not email.endswith('@nycstudents.net'):
+     ##   return redirect(url_for('login') + '?error=Must use nycstudents email')
 
     # Auto-register if needed
     if user_exists(email):
@@ -144,7 +146,7 @@ def login(): #code from p02 cerulean
 
 @app.route('/home', methods=['GET', 'POST'])
 def home():
-    class_list = get_user_classes(session['username'][0])
+    class_list = get_user_classes(session['username'])
     if session['username'] == 'stuypedia_admin':
         class_list = get_all_student_classes()
         return render_template('admin_home.html', classes=class_list)
@@ -229,7 +231,6 @@ def change_password(username, new_password):
 	db.commit()
 	db.close()
 
-
 @app.route('/delete_class/<int:class_id>', methods=['DELETE'])
 def delete_class(class_id):
     delete_classid(class_id)
@@ -302,10 +303,9 @@ def modify():
 def calendar():
     if 'username' not in session:
         return redirect(url_for('login'))
-    class_ids = get_user_classes(session['username']) or []
-    user_classes = [(get_class_name_from_id(cid), cid) for cid in class_ids]
+    user_class_ids = get_user_classes(session['username']) or []
+    user_classes = [(get_class_name_from_id(cid), cid) for cid in user_class_ids]
     return render_template('calendar.html', user_classes=user_classes)
-    return render_template('calendar.html')
 
 @app.route('/events', methods=['GET'])
 def get_calendar_events():
@@ -315,16 +315,10 @@ def get_calendar_events():
 @app.route('/events', methods=['POST'])
 def add_calendar_event():
     data = request.get_json()
-    new_id = save_event(
-        session['username'],
-        data['title'], data['start'],
-        data.get('end'), data['color'],
-        data.get('linked_class'), data['allDay'],
-        is_public=int(data.get('is_public', 0))
-    )
+    new_id = save_event(session['username'], data['title'], data['start'],
+               data.get('end'), data['color'], data.get('linked_class'),
+               data['allDay'], data.get('is_public', 0))
     return json.dumps({"status": "ok", "id": new_id})
-    save_event(session['username'], data['title'], data['start'],
-               data.get('end'), data['color'], data['allDay'])
 
 @app.route('/events/<int:event_id>', methods=['DELETE'])
 def remove_calendar_event(event_id):
@@ -334,17 +328,57 @@ def remove_calendar_event(event_id):
 @app.route('/events/<int:event_id>', methods=['PUT'])
 def update_calendar_event(event_id):
     data = request.get_json()
-    update_event(event_id, session['username'],
-                 data['title'], data['start'], data.get('end'),
-                 data['color'], data.get('linked_class'), data['allDay'],
-                 data.get('is_public', 0))
+    db = sqlite3.connect('data.db')
+    c = db.cursor()
+    c.execute('''UPDATE events SET title=?, start=?, end=?, color=?, linked_class=?, all_day=?, is_public=?
+                 WHERE id=? AND username=?''',
+              (data['title'], data['start'], data.get('end'), data['color'],
+               data.get('linked_class'), int(data['allDay']), data.get('is_public', 0),
+               event_id, session['username']))
+    db.commit()
+    db.close()
     return json.dumps({"status": "ok"})
 
 @app.route('/shared-events', methods=['GET'])
 def get_shared_events():
-    events = get_shared_events_for_user(session['username'])
+    if 'username' not in session:
+        return json.dumps([])
+    user_classes = get_user_classes(session['username'])
+    if not user_classes:
+        return json.dumps([])
+    responded = get_responded_event_ids(session['username'])
+    db = sqlite3.connect('data.db')
+    c = db.cursor()
+    placeholders = ','.join('?' for _ in user_classes)
+    rows = c.execute(f'''SELECT id, title, start, end, color, linked_class, all_day
+                         FROM events WHERE is_public=1 AND username != ?
+                         AND linked_class IN ({placeholders})''',
+                     [session['username']] + user_classes).fetchall()
+    db.close()
+    events = [{"id": r[0], "title": r[1], "start": r[2], "end": r[3],
+               "color": r[4], "linked_class": r[5], "allDay": bool(r[6])}
+              for r in rows if r[0] not in responded]
     return json.dumps(events)
 
+@app.route('/events/<int:event_id>/visibility', methods=['PUT'])
+def update_event_visibility(event_id):
+    data = request.get_json()
+    db = sqlite3.connect('data.db')
+    c = db.cursor()
+    c.execute('UPDATE events SET is_public=? WHERE id=? AND username=?',
+              (data['is_public'], event_id, session['username']))
+    db.commit()
+    db.close()
+    return json.dumps({"status": "ok"})
+
+@app.route('/events/<int:event_id>/respond', methods=['POST'])
+def respond_to_event(event_id):
+    if 'username' not in session:
+        return json.dumps({"status": "error"}), 401
+    data = request.get_json()
+    response = data['response']  # 'accept' or 'decline'
+    set_event_response(event_id, session['username'], response)
+    return json.dumps({"status": "ok"})
 
 @app.route('/findclass', methods=['GET', 'POST'])
 def findclass():
@@ -393,12 +427,6 @@ def edit_class(class_id):
             new_teachers = request.form.get('teachers')
         update_class(class_id, new_subj, new_grades, new_teachers)
     return render_template('editclass.html', class_data=class_data)
-
-@app.route('/events/<int:event_id>/visibility', methods=['PUT'])
-def update_event_visibility(event_id):
-    data = request.get_json()
-    update_event_visibility_db(event_id, session['username'], data['is_public'])
-    return json.dumps({"status": "ok"})
 
 @app.route('/classpage/<int:class_id>', methods=['GET', 'POST'])
 def classpage(class_id):

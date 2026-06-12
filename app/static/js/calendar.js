@@ -141,6 +141,36 @@ $(document).ready(function () {
     eventClick: function (event) {
       openInfoModal(event);
     },
+    eventDrop: function(event) {
+      fetch('/events/' + event.id, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: event.title,
+          start: event.start.format(),
+          end: event.end ? event.end.format() : null,
+          color: event.color,
+          linked_class: event.linked_class || null,
+          allDay: event.allDay,
+          is_public: event.is_public || 0
+        })
+      });
+    },
+    eventResize: function(event) {
+      fetch('/events/' + event.id, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: event.title,
+          start: event.start.format(),
+          end: event.end ? event.end.format() : null,
+          color: event.color,
+          linked_class: event.linked_class || null,
+          allDay: event.allDay,
+          is_public: event.is_public || 0
+        })
+      });
+    },
     eventReceive: function (event) {
       var start = event.start.format();
       var allDay = event.allDay;
@@ -195,20 +225,26 @@ $(document).ready(function () {
           '<button class="decline-btn">Decline</button>';
 
         div.querySelector('.accept-btn').addEventListener('click', function() {
-          fetch('/events/' + e.id + '/respond', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ response: 'accept' })
-          }).then(function() {
-            saveEventToServer(e.title, e.start, e.end, e.color, e.linked_class, e.allDay, false)
-              .then(function(data) {
-                $('#calendar').fullCalendar('renderEvent', {
-                  id: data.id, title: e.title, start: e.start,
-                  end: e.end, color: e.color, allDay: e.allDay
-                }, true);
-              });
-            div.remove();
-          });
+          saveEventToServer(e.title, e.start, e.end, e.color, e.linked_class, e.allDay, false)
+            .then(function(data) {
+              $('#calendar').fullCalendar('renderEvent', {
+                id: data.id,
+                title: e.title,
+                start: e.start,
+                end: e.end,
+                color: e.color,
+                linked_class: e.linked_class,
+                allDay: e.allDay
+              }, true);
+              return fetch('/events/' + e.id + '/respond', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ response: 'accept' })
+               });
+              })
+            .then(function() {
+              div.remove();
+            });
         });
 
         div.querySelector('.decline-btn').addEventListener('click', function() {

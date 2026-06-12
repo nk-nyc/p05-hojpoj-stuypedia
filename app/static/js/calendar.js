@@ -58,7 +58,7 @@ function openInfoModal(event) {
     event.color || '#3a87d3';
 
   var visDiv = document.getElementById('info-visibility');
-  if (event.id) {
+  if (event.id && event.linked_class) {
     visDiv.style.display = 'block';
     document.getElementById('info-public-toggle').checked = !!event.is_public;
   } else {

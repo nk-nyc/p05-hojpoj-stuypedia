@@ -1,0 +1,211 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #a8d48a 0%, #8bbf6a 100%);
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    padding: 100px 20px 40px;
+}
+
+.admin-container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    background: white;
+    border-radius: 32px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    padding: 48px;
+}
+
+.admin-container h1 {
+    font-family: "Outfit", sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2d4a1e;
+    margin-bottom: 8px;
+    letter-spacing: 0.02em;
+}
+
+.admin-container h2 {
+    font-family: "Outfit", sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2d4a1e;
+    margin: 32px 0 16px 0;
+    letter-spacing: 0.02em;
+}
+
+.admin-container p {
+    font-size: 1rem;
+    color: #444;
+    margin-bottom: 8px;
+}
+
+.admin-container a {
+    color: #3d6b2a;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.admin-container a:hover {
+    color: #2a4d1c;
+    text-decoration: underline;
+}
+
+.admin-container table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #f9faf8;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    margin-top: 12px;
+}
+
+.admin-container th {
+    background: #3d6b2a;
+    color: white;
+    font-family: "Poppins", sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 14px 16px;
+    text-align: left;
+}
+
+.admin-container td {
+    padding: 12px 16px;
+    font-size: 13px;
+    color: #2d4a1e;
+    border-bottom: 1px solid #e5f0d8;
+}
+
+.admin-container tr:last-child td {
+    border-bottom: none;
+}
+
+.admin-container tr:hover {
+    background: #e5f0d8;
+}
+
+.admin-container td button {
+    background: #3d6b2a;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 5px 16px;
+    font-family: "Poppins", sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.admin-container td button:hover {
+    background: #2a4d1c;
+    transform: scale(1.02);
+}
+
+.admin-container td button:active {
+    transform: scale(0.98);
+}
+
+.admin-container td button:first-of-type {
+    background: #c0392b;
+}
+
+.admin-container td button:first-of-type:hover {
+    background: #a93226;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 80px 16px 24px;
+    }
+
+    .admin-container {
+        padding: 28px;
+    }
+
+    .admin-container h1 {
+        font-size: 2rem;
+    }
+
+    .admin-container h2 {
+        font-size: 1.2rem;
+    }
+
+    .admin-container table {
+        font-size: 12px;
+    }
+
+    .admin-container th,
+    .admin-container td {
+        padding: 10px 12px;
+    }
+
+    .admin-container td button {
+        font-size: 9px;
+        padding: 4px 12px;
+    }
+}
+
+@media (max-width: 600px) {
+    .admin-container table,
+    .admin-container thead,
+    .admin-container tbody,
+    .admin-container th,
+    .admin-container td,
+    .admin-container tr {
+        display: block;
+    }
+
+    .admin-container thead tr {
+        display: none;
+    }
+
+    .admin-container tr {
+        margin-bottom: 16px;
+        border: 1px solid #e5f0d8;
+        border-radius: 12px;
+        padding: 12px;
+        background: white;
+    }
+
+    .admin-container td {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .admin-container td:last-child {
+        border-bottom: none;
+    }
+
+    .admin-container td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: #2d4a1e;
+        text-transform: uppercase;
+        font-size: 10px;
+        letter-spacing: 0.05em;
+    }
+
+    .admin-container td button {
+        margin-left: auto;
+    }
+}
